@@ -9,7 +9,7 @@ Los contenidos que se presentan a continuación constituyen un desarrollo que, i
     1. [Instalación](./021_instalacion.md)
     2. [Funcionamiento básico](./022_funcionamientoBasico.md)
         1. [Estructura de carpetas](./022_funcionamientoBasico.md#estructura-de-un-proyecto)
-    3. Rutas
+    3. [Rutas](./023_rutas.md)
     4. Artisan
     5. Vistas
     6. Plantillas mediante Blade

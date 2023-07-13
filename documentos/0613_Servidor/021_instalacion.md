@@ -81,6 +81,10 @@ _Si estás utilizando la máquina virtual que se ofrece en esta documentación, 
 
     - Seleccionar la versión de PHP: `PHP_VERSION=8.2`
     - Modificar el driver de base de datos de phpMyAdmin: `PMA_DB_ENGINE=mariadb`
+    - Añadir XDEBUG a WORKSPACE y PHP-FPM para poder depurar: `WORKSPACE_INSTALL_XDEBUG=true` y `PHP_FPM_INSTALL_XDEBUG=true`
+    - Modificar los archivos `php-fpm/xdebug.ini` y `workspace/xdebug.ini` para modificar las siguientes variables:
+        - `xdebug.remote_host="dockerhost"`
+        - `xdebug.idekey=VSCODE`
 
 4. Editar el fichero `mariadb/my.cnf` para asignarle únicamente _256M_ a la variable `innodb_log_file_size`, en lugar de las _4048M_ con las que está configurada inicialmente.
 
@@ -101,20 +105,6 @@ docker run -it --rm --name php-cli \
 ```
 
 **atención** _Si quisiéramos generar más aplicaciones Laravel, únicamente deberíamos cambiar el nombre del proyecto, que se encuentra al final de la orden, después de `laravel/laravel`._
-
-### (Re)arrancar los contenedores
-
-Los comandos de `docker-compose` se lanzan desde la carpeta `laradock`.
-
-### Arrancar los contenedores necesarios:
-
-    `docker compose up -d nginx mariadb phpmyadmin workspace`
-
-La primera vez que arrancamos los contenedores tarda mucho tiempo, ya que _Docker_ debe descargar las imágenes que le son necesarias.
-
-Y para reiniciar un contenedor concreto:
-
-    `docker compose restart nginx`
 
 ### Crear la base de datos
 
@@ -166,10 +156,24 @@ Para cada aplicación, generaremos un servidor virtual. En este caso, nuestro se
 
     `docker-compose restart nginx`
 
+### (Re)arrancar los contenedores
+
+Los comandos de `docker-compose` se lanzan desde la carpeta `laradock`.
+
+### Arrancar los contenedores necesarios:
+
+    `docker compose up -d nginx mariadb php-fpm phpmyadmin workspace`
+
+La primera vez que arrancamos los contenedores tarda mucho tiempo, ya que _Docker_ debe descargar las imágenes que le son necesarias.
+
+Y para reiniciar un contenedor concreto:
+
+    `docker compose restart nginx`
+
 #### Acceder al sitio web
 
-Página principal: [http://localhost](http://localhost)
+Página principal: [http://marcapersonalfp.test](http://marcapersonalfp.test)
 
 ![Captura de pantalla MarcaPersonalFP recién instalado](./images/marcaPersonalFP_LaravelInstalacion.png)
 
-* Los pasos anteriores se pueden repetir para cualquier otra aplicación, cambiando cada aparición de _marcapersonalfp_ por el nombre que le queramos asignar a la nueva aplicación.1
+* Los pasos anteriores se pueden repetir para cualquier otra aplicación, cambiando cada aparición de _marcapersonalfp_ por el nombre que le queramos asignar a la nueva aplicación.
