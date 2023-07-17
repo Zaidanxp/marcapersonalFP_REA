@@ -7,13 +7,13 @@ Los contenidos que se presentan a continuación constituyen un desarrollo que, i
 1. [Introducción](./01_introduccion.md)
 2. Primeros pasos
     1. [Instalación](./021_instalacion.md)
+        1. [Desarrollo colaborativo con GitHub](./0211_desarrolloColaborativoGitHub.md)
     2. [Funcionamiento básico](./022_funcionamientoBasico.md)
         1. [Estructura de carpetas](./022_funcionamientoBasico.md#estructura-de-un-proyecto)
     3. [Rutas](./023_rutas.md)
-    4. Artisan
-    5. Vistas
-    6. Plantillas mediante Blade
-    7. Ejercicios
+    4. [Artisan](./024_artisan.md)
+    5. [Vistas](./025_vistas.md)
+        1. [Plantillas mediante Blade](./0251_vistasBlade.md)
 3. Controladores, filtros y formularios
     1. Controladores
     2. Middleware o filtros

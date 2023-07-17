@@ -15,7 +15,10 @@ cd laravel/
 ```
 
 Y nos aseguraremos de tener actualizado Composer:
-    `sudo composer self-update --2`
+
+```
+sudo composer self-update --2
+```
 
 ## Utilizando Composer
 
@@ -27,27 +30,39 @@ Antes de poder utilizar Laravel, debemos asegurarnos de cumplir sus requisitos:
 
 A continuación, instalaremos Laravel installer utilizando composer, el cual ya tenemos instalado en la máquina virtual.
 
-    `composer global require "laravel/installer"`
+```
+composer global require "laravel/installer"
+```
 
 Nos debemos asegurar de que el ejecutable de laravel sea accesible desde terminal de comandos. Para ello, editaremos el archivo ~/.bashrc e incluiremos, al final del mismo, la siguiente línea:
 
-    `alias laravel='~/.config/composer/vendor/bin/laravel'`
+```
+alias laravel='~/.config/composer/vendor/bin/laravel'
+```
 
 Como ya hemos hecho en anteriores ocasiones, podemos cerrar el terminal y volver a abrirlo, para que tenga efecto la línea anterior o, simplemente, ejecutar el siguiente comando:
 
-    `source ~/.bashrc` 
+```
+source ~/.bashrc
+```
 
 En este momento, ya podremos utilizar laravel para crear nuestra primera aplicación web:
 
-    `laravel new prueba`
+```
+laravel new prueba
+```
 
 La aplicación web creada con Laravel se encontrará en el directorio `prueba`.
 
-    `cd prueba`
+```
+cd prueba
+```
 
 En el entorno de desarrollo, podemos usar el servidor web que nos proporciona el propio Laravel a través de su _CLI_ `artisan`.
 
-    `php artisan serve`
+```
+php artisan serve
+```
 
 El resultado lo podremos comprobar si accedemos a la dirección https://localhost:8000, a través de un navegador.
 
@@ -69,13 +84,16 @@ _Si estás utilizando la máquina virtual que se ofrece en esta documentación, 
 
 1. Clonar el repositorio:
 
-    `git clone https://github.com/Laradock/laradock.git`
-
+```
+git clone https://github.com/Laradock/laradock.git
+```
     Para que funcione, tiene que estar instalado el [cliente de línea de comandos de Git](https://git-scm.com/downloads).
 
 2. Copiar el fichero `.env.example` a `.env`:
 
-    `cd laradock && cp .env.example .env && cd ..`
+```
+cd laradock && cp .env.example .env && cd ..
+```
 
 3. Editar el fichero `.env` de la carpeta laradock:
 
@@ -94,7 +112,9 @@ _Si estás utilizando la máquina virtual que se ofrece en esta documentación, 
 
 - Accedemos a la carpeta en la que vayamos a almacenar nuestros proyectos Laravel. En nuestro caso:
 
-    `cd Documentos/laravel/`
+```
+cd Documentos/laravel/
+```
 
 - Generamos el proyecto _marcapersonalfp_ con el siguiente comando:
 
@@ -150,11 +170,15 @@ Para cada aplicación, generaremos un servidor virtual. En este caso, nuestro se
 
 3. Añadiremos el archivo `/etc/hosts` (con `sudo`) una línea para que traduzca convenientemente la url `marcapersonalfp.test`.
 
-    `127.0.0.1  marcapersonalfp.test`
+    ```
+    127.0.0.1  marcapersonalfp.test
+    ```
 
 4. Reiniciaremos el contenedor de NGINX desde el directorio `laradock`
 
-    `docker-compose restart nginx`
+    ```
+    docker-compose restart nginx
+    ```
 
 ### (Re)arrancar los contenedores
 
@@ -162,13 +186,17 @@ Los comandos de `docker-compose` se lanzan desde la carpeta `laradock`.
 
 ### Arrancar los contenedores necesarios:
 
-    `docker compose up -d nginx mariadb php-fpm phpmyadmin workspace`
+```
+docker compose up -d nginx mariadb php-fpm phpmyadmin workspace
+```
 
 La primera vez que arrancamos los contenedores tarda mucho tiempo, ya que _Docker_ debe descargar las imágenes que le son necesarias.
 
 Y para reiniciar un contenedor concreto:
 
-    `docker compose restart nginx`
+```
+docker compose restart nginx
+```
 
 #### Acceder al sitio web
 
@@ -177,3 +205,4 @@ Página principal: [http://marcapersonalfp.test](http://marcapersonalfp.test)
 ![Captura de pantalla MarcaPersonalFP recién instalado](./images/marcaPersonalFP_LaravelInstalacion.png)
 
 * Los pasos anteriores se pueden repetir para cualquier otra aplicación, cambiando cada aparición de _marcapersonalfp_ por el nombre que le queramos asignar a la nueva aplicación.
+
