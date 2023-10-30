@@ -74,7 +74,7 @@ Una vez completados todos los pasos, la estructura quedará así:
 
 ```.
 └── laravel
-    ├── app
+    ├── marcapersonalfp
     └── laradock
 ```
 
@@ -113,7 +113,7 @@ cd laradock && cp .env.example .env && cd ..
 - Accedemos a la carpeta en la que vayamos a almacenar nuestros proyectos Laravel. En nuestro caso:
 
 ```
-cd Documentos/laravel/
+cd ~/Documentos/laravel/
 ```
 
 - Generamos el proyecto _marcapersonalfp_ con el siguiente comando:
@@ -177,12 +177,12 @@ Para cada aplicación, generaremos un servidor virtual. En este caso, nuestro se
 4. Reiniciaremos el contenedor de NGINX desde el directorio `laradock`
 
     ```
-    docker-compose restart nginx
+    docker compose restart nginx
     ```
 
 ### (Re)arrancar los contenedores
 
-Los comandos de `docker-compose` se lanzan desde la carpeta `laradock`.
+Los comandos de `docker compose` se lanzan desde la carpeta `laradock`.
 
 ### Arrancar los contenedores necesarios:
 
