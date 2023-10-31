@@ -126,6 +126,14 @@ docker run -it --rm --name php-cli \
 
 **atención** _Si quisiéramos generar más aplicaciones Laravel, únicamente deberíamos cambiar el nombre del proyecto, que se encuentra al final de la orden, después de `laravel/laravel`._
 
+### Arrancar los contenedores necesarios:
+
+Desde el directorio de _Laradock_ ejecutaremos el siguiente comando para arrancar los contenedores:
+
+```
+docker compose up -d nginx mariadb php-fpm phpmyadmin workspace
+```
+
 ### Crear la base de datos
 
 1. Acceder a [phpMyAdmin](http://localhost:8081/)
@@ -183,12 +191,6 @@ Para cada aplicación, generaremos un servidor virtual. En este caso, nuestro se
 ### (Re)arrancar los contenedores
 
 Los comandos de `docker compose` se lanzan desde la carpeta `laradock`.
-
-### Arrancar los contenedores necesarios:
-
-```
-docker compose up -d nginx mariadb php-fpm phpmyadmin workspace
-```
 
 La primera vez que arrancamos los contenedores tarda mucho tiempo, ya que _Docker_ debe descargar las imágenes que le son necesarias.
 
