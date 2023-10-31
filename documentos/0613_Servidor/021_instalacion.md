@@ -133,6 +133,7 @@ Desde el directorio de _Laradock_ ejecutaremos el siguiente comando para arranca
 ```
 docker compose up -d nginx mariadb php-fpm phpmyadmin workspace
 ```
+La primera vez que se ejecute este comando tardará bastante puesto que tiene que descargar muchas imágenes desde internet.
 
 ### Crear la base de datos
 
