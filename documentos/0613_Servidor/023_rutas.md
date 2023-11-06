@@ -82,9 +82,9 @@ Route::any('foo', function()
 Si queremos añadir parámetros a una ruta simplemente los tenemos que indicar entre llaves `{}` a continuación de la ruta, de la forma:
 
 ```
-Route::get('saluda/{**nombre**}', function(**$nombre**)
+Route::get('saluda/{nombre}', function($nombre)
 {
-    return '¡Hola ' . **$nombre** . '!';
+    return '¡Hola ' . $nombre . '!';
 });
 ```
 
@@ -93,7 +93,7 @@ En este caso estamos definiendo la ruta `/saluda/{nombre}`, donde _nombre_ es re
 Para indicar que un parámetro es opcional añadiremos el símbolo `?` al final (y en este caso no daría error si no se realiza la petición con dicho parámetro):
 
 ```
-Route::get('saluda/{nombre**?**}', function($nombre = null)
+Route::get('saluda/{nombre?}', function($nombre = null)
 {
     return '¡Hola ' . $nombre . '!';
 });
@@ -102,7 +102,7 @@ Route::get('saluda/{nombre**?**}', function($nombre = null)
 También podemos poner algún valor por defecto.
 
 ```
-Route::get('saluda/{**nombre?**}', function(**$nombre = 'colega'**)
+Route::get('saluda/{nombre?}', function($nombre = 'colega')
 {
     return '¡Hola ' . $nombre . '!';
 });
@@ -115,7 +115,7 @@ Route::get('saluda/{nombre}', function($nombre)
 {
     return '¡Hola ' . $nombre . '!';
 })
-**->where('nombre', '[A-Za-z]+')**;
+->where('nombre', '[A-Za-z]+');
 ```
 
 ```
@@ -123,7 +123,7 @@ Route::get('user/{id}', function($id)
 {
     //
 })
-**->where('id', '[0-9]+')**;
+->where('id', '[0-9]+');
 ```
 
 Si hubiera varios parámetros podríamos validarlos usando un array:
@@ -133,7 +133,7 @@ Route::get('user/{id}/{name}', function($id, $name)
 {
     //
 })
-**->where(array('id' => '[0-9]+', 'name' => '[A-Za-z]+'))**
+->where(array('id' => '[0-9]+', 'name' => '[A-Za-z]+'))
 ```
 
 ## Agrupar rutas
