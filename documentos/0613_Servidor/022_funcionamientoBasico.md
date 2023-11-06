@@ -52,7 +52,7 @@ Además de esta carpeta encontraremos muchas otras como `Console`, `Events`, `Ex
 
 En la raíz de app también podemos encontrar el fichero `User.php`. Este fichero es un modelo de datos que viene predefinido por Laravel para trabajar con los usuarios de la web, que incluye métodos para hacer _login_, _registro_, etc. En el capítulo sobre bases de datos hablaremos más sobre esto.
 
-##Funcionamiento básico
+## Funcionamiento básico
 
 El funcionamiento básico que sigue Laravel tras una petición web a una URL de nuestro sitio es el siguiente:
 
