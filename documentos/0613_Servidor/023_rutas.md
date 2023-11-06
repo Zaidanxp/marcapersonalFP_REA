@@ -184,7 +184,7 @@ Con este método nos aseguraremos que la _URL_ sea válida y además se le añad
 
 ## Ejercicios:
 
-A estas alturas ya tendríamos que ser capaces de añadir contenido estático a nuestra web, simplemente modificando el fichero de rutas y devolviendo todo el contenido desde ese ficehro. Para evitar tener que mantener un inmenso fichero `routes/web.php` con todo el código mezclado en el mismo archivo, en las siguientes secciones separaremos el código de las vistas y más adelante añadiremos los controladores.
+A estas alturas ya tendríamos que ser capaces de añadir contenido estático a nuestra web, simplemente modificando el fichero de rutas y devolviendo todo el contenido desde ese fichero. Para evitar tener que mantener un inmenso fichero `routes/web.php` con todo el código mezclado en el mismo archivo, en las siguientes secciones separaremos el código de las vistas y más adelante añadiremos los controladores.
 
 En este ejercicio vamos a definir las rutas principales que va a tener nuestro sitio web.
 
