@@ -104,7 +104,7 @@ php artisan key:generate
 - Reiniciamos el contenedor de NGINX
 
     ```
-    docker-compose restart nginx
+    docker compose restart nginx
     ```
 
 ### MariaDB
