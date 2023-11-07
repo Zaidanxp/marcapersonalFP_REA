@@ -13,7 +13,7 @@ Los contenidos que se presentan a continuación constituyen un desarrollo que, i
     3. [Rutas](./023_rutas.md)
     4. [Artisan](./024_artisan.md)
     5. [Vistas](./025_vistas.md)
-        1. [Plantillas mediante Blade](./0251_vistasBlade.md)
+        1. [Plantillas mediante Blade](./026_vistasBlade.md)
 3. Controladores, filtros y formularios
     1. Controladores
     2. Middleware o filtros
