@@ -197,10 +197,10 @@ Método | Ruta | Texto a mostrar
 GET | `/` | Pantalla principal
 GET | `login` | Login usuario
 GET | `logout` | Logout usuario
-GET | `proyectos` | Listado proyectos
-GET | `proyectos/show/{id}` | Vista detalle proyecto {id}
-GET | `proyectos/create` | Añadir proyecto
-GET | `proyectos/edit/{id}` |Modificar proyecto {id}
+GET | `catalog` | Listado proyectos
+GET | `catalog/show/{id}` | Vista detalle proyecto {id}
+GET | `catalog/create` | Añadir proyecto
+GET | `catalog/edit/{id}` | Modificar proyecto {id}
 GET | `perfil/{id}` | Visualizar el currículo de {id}
 
 Debemos asegurarnos de que todos los parámetros `{id}` sean números naturales.

@@ -16,10 +16,6 @@
             </div>
 
             <div class="form-group">
-               {{-- TODO: Completa el input para los metadatos --}}
-            </div>
-
-            <div class="form-group">
                {{-- TODO: Completa el input para el docente --}}
             </div>
 
@@ -28,8 +24,8 @@
             </div>
 
             <div class="form-group">
-               <label for="descripcion">Descripción</label>
-               <textarea name="descripcion" id="descripcion" class="form-control" rows="3"></textarea>
+               <label for="descripcion">Metadatos</label>
+               <textarea name="metadatos" id="metadatos" class="form-control" rows="3"></textarea>
             </div>
 
             <div class="form-group text-center">
