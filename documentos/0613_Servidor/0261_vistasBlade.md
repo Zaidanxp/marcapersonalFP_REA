@@ -1,4 +1,4 @@
-# 2.5.1 Plantillas mediante Blade
+# 2.6.1 Plantillas mediante Blade
 
 _Laravel_ utiliza _Blade_ para la definición de plantillas en las vistas. Esta librería permite realizar todo tipo de operaciones con los datos, además de la sustitución de secciones de las plantillas por otro contenido, herencia entre plantillas, definición de _layouts_ o plantillas base, etc.
 

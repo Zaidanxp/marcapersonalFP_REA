@@ -1,4 +1,4 @@
-# 2.4. Artisan
+# 2.5. Artisan
 
 _Laravel_ incluye un interfaz de línea de comandos (_CLI_, _Command line interface_) llamado _**Artisan**_. Esta utilidad nos va a permitir realizar múltiples tareas necesarias durante el proceso de desarrollo o despliegue a producción de una aplicación, por lo que nos facilitará y acelerará el trabajo.
 

@@ -182,27 +182,3 @@ Cuando queramos generar la _URL_ hasta una ruta podemos utilizar el siguiente m�
 
 Con este método nos aseguraremos que la _URL_ sea válida y además se le añadirá el dominio que tengamos definido en los ficheros de configuración. En general no será necesaria su utilización y simplemente podremos escribir la ruta a mano hasta una dirección de la forma: `/foo` (anteponiendo la barra `/` para asegurarnos que la ruta sea a partir de la raíz del dominio de nuestro sitio). Sin embargo se recomienda la utilización de este método en general para evitar problemas de generación de rutas no existentes o relativas (si se nos olvidase anteponer la `/`).
 
-## Ejercicios:
-
-A estas alturas ya tendríamos que ser capaces de añadir contenido estático a nuestra web, simplemente modificando el fichero de rutas y devolviendo todo el contenido desde ese fichero. Para evitar tener que mantener un inmenso fichero `routes/web.php` con todo el código mezclado en el mismo archivo, en las siguientes secciones separaremos el código de las vistas y más adelante añadiremos los controladores.
-
-En este ejercicio vamos a definir las rutas principales que va a tener nuestro sitio web.
-
-Necesitaremos crear las vistas para poder realizar las operaciones **CRUD** sobre cada una de las tablas. De momento, las vistas únicamente deben devolver el texto con la _operación/visualización_ que deberán realizar en un futuro.
-
-Las siguientes son las pantallas principales y un ejemplo del resultado del **CRUD** sobre la tabla 
-
-Método | Ruta | Texto a mostrar
--------|------|-------
-GET | `/` | Pantalla principal
-GET | `login` | Login usuario
-GET | `logout` | Logout usuario
-GET | `catalog` | Listado proyectos
-GET | `catalog/show/{id}` | Vista detalle proyecto {id}
-GET | `catalog/create` | Añadir proyecto
-GET | `catalog/edit/{id}` | Modificar proyecto {id}
-GET | `perfil/{id}` | Visualizar el currículo de {id}
-
-Debemos asegurarnos de que todos los parámetros `{id}` sean números naturales.
-
-El parámetro `{id}` es opcional. En el caso de que exista debe mostrar _Visualizar el currículo de_ y el número enviado, mientras que en caso de no enviar ningún valor para ese parámetro se debería mostrar _Visualizar el currículo propio_

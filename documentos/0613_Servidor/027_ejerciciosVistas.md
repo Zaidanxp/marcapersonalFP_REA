@@ -1,4 +1,4 @@
-# Ejercicios
+# 2.7 Ejercicios Vistas
 
 ## _Layout_ principal de las vistas con Bootstrap
 
@@ -84,3 +84,13 @@ return view(' | proyectos.show', array('id'=>$id));
 ```
 
 Una vez hechos estos cambios ya podemos probarlo en el navegador, el cual debería mostrar en todos los casos la plantilla base con la barra de navegación principal y los estilos de _Bootstrap_ aplicados. En la sección principal de contenido de momento solo podremos ver los textos que hemos puesto de ejemplo.
+
+## Comprobar el ejercicio
+
+Para comprobar que la solución desarrollada cumple con los requisitos, puedes copiar el archivo [ViewsExerciseTest.php](./materiales/ejercicios-laravel/tests/Feature/ViewsExerciseTest.php) a la carpeta `tests/Feature` de tu proyecto y, posteriormente, ejecutar el siguiente comando artisan:
+
+`php artisan test`
+
+Como en el caso del ejercicio de rutas, la ejecución de los test debería devolver <span style="background-color: lightgreen">PASS</span> en color verde para cada uno de los tests.
+
+En el caso de obtener un resultado diferente, habrá que investigar cuál es la la condición `assert` que no se cumple e intentar reparar el error.
