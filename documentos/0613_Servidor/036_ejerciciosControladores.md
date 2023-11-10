@@ -18,12 +18,14 @@ catalog/show/{id} | CatalogController | getShow
 catalog/create | CatalogController | getCreate
 catalog/edit/{id} | CatalogController | getEdit
 
-Acordaros que los métodos `getShow()` y `getEdit()` tendrán que recibir como parámetro el `$id` del elemento a mostrar o editar, por lo que la definición del método en el controlador tendrá que ser como la siguiente:
+Acordaros que los métodos `getShow()` y `getEdit()` tendrán que recibir como parámetro el `$id` del elemento a mostrar o editar y enviar a la vista el proyecto correspondiente, además del id recibido, por lo que la definición del método en el controlador tendrá que ser como la siguiente:
 
 ```
 public function getShow($id)
 {
-    return view('catalog.show', array('id'=>$id));
+        return view('catalog.show')
+            ->width('proyecto', $this->arrayProyectos[$id])
+            ->width('id' => $id);
 }
 ```
 
@@ -60,7 +62,7 @@ Y en la vista correspondiente simplemente tendremos que incluir el siguiente tro
     @foreach( $arrayProyectos as $key => $proyecto )
     <div class="col-xs-6 col-sm-4 col-md-3 text-center">
 
-        <a href="{{ url('/catalog/show/' . $key ) }}">
+        <a href="{{ action([App\Http\Controllers\CatalogController::class, 'getShow'], ['id' => $key] ) }}">
             <img src="/images/mp-logo.png" style="height:200px"/>
             <h4 style="min-height:45px;margin:5px 0 10px 0">
                 {{ $proyecto['nombre'] }}
@@ -85,7 +87,7 @@ Este método se utiliza para mostrar la vista detalle de una proyecto. Hemos de 
 En esta vista vamos a crear dos columnas, la primera columna para mostrar la imagen del proyecto y la segunda para incluir todos los detalles. A continuación se incluye la estructura _HTML_ que tendría que tener esta pantalla:
 
 ```
-<div class="row">
+<div class="row m-4">
 
     <div class="col-sm-4">
 
@@ -100,7 +102,9 @@ En esta vista vamos a crear dos columnas, la primera columna para mostrar la ima
 </div>
 ```
 
-En la columna de la izquierda completamos el `TODO` para insertar la imagen del proyecto. En la columna de la derecha se tendrán que mostrar todos los datos del proyecto: `docente_id`, `nombre`, `url_github` y `metadatos`. Para mostrar el estado del proyecto consultaremos el valor `calificacion` del array, el cual podrá tener dos casos:
+En la columna de la izquierda insertamos la imagen del proyecto, mientras que en la columna de la derecha se tendrán que mostrar todos los datos del proyecto: `docente_id`, `nombre`, `url_github` y `metadatos`.
+
+Para mostrar el estado del proyecto consultaremos el valor `calificacion` del array, el cual podrá tener dos casos:
 
     En caso de estar **suspenso** (calificacion < 5) aparecerá el estado "Proyecto suspenso" y un botón azul para "Aprobar proyecto".
     En caso de estar **aprobado** (calificacion >= 5) aparecerá el estado "Proyecto aprobado" y un botón rojo para "Suspender proyecto".
@@ -114,49 +118,54 @@ Esta pantalla finalmente tendría el siguiente código:
 ```
 @section('content')
 
-    <div class="row">
+
+    <div class="row m-4">
 
         <div class="col-sm-4">
 
-            <a href="{{ url('/catalog/show/' . $id ) }}">
-                <img src="/images/mp-logo.png" style="height:200px"/>
-            </a>
+            <img src="/images/mp-logo.png" style="height:200px"/>
 
         </div>
         <div class="col-sm-8">
 
-            <h4>{{$proyecto['nombre']}}</h4>
-            <h6>Docente: El docente con id {{$proyecto['docente_id']}}</h6>
-            <h6>URL GitHub: <a href="https://github.com/2DAW-CarlosIII/{{$proyecto['dominio']}}">
-                    {{$proyecto['dominio']}}</a></h6>
-            {{ $metadatos = $proyecto['metadatos']}}
-            <div><strong>Metadatos:</strong>
+            <h3><strong>Nombre: </strong>{{ $proyecto['nombre'] }}</h3>
+            <h4><strong>Dominio: </strong>
+                <a href="http://github.com/2DAW-CarlosIII/{{ $proyecto['dominio'] }}">
+                    http://github.com/2DAW-CarlosIII/{{ $proyecto['dominio'] }}
+                </a>
+            </h4>
+            <h4><strong>Docente: </strong>{{ $proyecto['docente_id'] }}</h4>
+            <p><strong>Metadatos: </strong>
                 <ul>
-                    @foreach($metadatos as $key => $value)
-                        <li>{{ $key }}: {{ $value }}</li>
+                    @foreach ($proyecto['metadatos'] as $indice => $metadato)
+                        <li>{{ $indice }}: {{ $metadato }}</li>
                     @endforeach
                 </ul>
-            </div>
+            </p>
             <p><strong>Estado: </strong>
-                @if($proyecto['metadatos']['calificacion] >= 5)
+                @if($proyecto['metadatos']['calificacion'] >= 5)
                     Proyecto aprobado
                 @else
                     Proyecto suspenso
                 @endif
             </p>
 
-            @if($proyecto['metadatos']['calificacion] >= 5)
+            @if($proyecto['metadatos']['calificacion'] >= 5)
                 <a class="btn btn-danger" href="#">Suspender proyecto</a>
             @else
                 <a class="btn btn-primary" href="#">Aprobar proyecto</a>
             @endif
-            <a class="btn btn-warning" href="{{ url('/catalog/edit/' . $id ) }}">
+            <a class="btn btn-warning" href="{{ action([App\Http\Controllers\CatalogController::class, 'getEdit'], ['id' => $id]) }}">
                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                Editar proyecto</a>
-            <a class="btn btn-outline-info" href="{{ action('App\Http\Controllers\CatalogController@getIndex') }}">Volver al listado</a>
+                Editar proyecto
+            </a>
+            <a class="btn btn-outline-info" href="{{ action([App\Http\Controllers\CatalogController::class, 'getIndex']) }}">
+                Volver al listado
+            </a>
+
 
         </div>
-</div>
+    </div>
 
 @endsection
 ```
@@ -235,7 +244,18 @@ Además tendrá un botón al final con el texto "Añadir proyecto".
 Este método permitirá modificar el contenido de una proyecto. El formulario será exactamente igual al de añadir proyecto, así que lo podemos copiar y pegar en esta vista y simplemente cambiar los siguientes puntos:
 
     - El título por "Modificar proyecto".
-    - El texto del botón de envío por "Modificar proyecto".
+    - El valor del `action` del formulario debería ser:`action([App\Http\Controllers\CatalogController::class, 'getEdit'], ['id' => $id])`
     - Añadir justo debajo de la apertura del formulario el campo oculto para indicar que se va a enviar por PUT. Recordad que Laravel incluye el método `{{ method_field('PUT') }}` que nos ayudará a hacer esto.
+    - El texto del botón de envío por "Modificar proyecto".
 
 De momento no tendremos que hacer nada más. Más adelante lo completaremos para que se rellene con los datos del proyecto a editar.
+
+## Comprobar el ejercicio
+
+Para comprobar que la solución desarrollada cumple con los requisitos, en primer lugar, **vamos a eliminar los ficheros de test que teníamos en la carpeta `tests/Feature`**. Acontinuación, copiaremos el archivo [ControllersExerciseTest.php](./materiales/ejercicios-laravel/tests/Feature/ControllersExerciseTest.php) a la carpeta `tests/Feature` de tu proyecto y, posteriormente, ejecutar el siguiente comando artisan:
+
+`php artisan test`
+
+Como en el caso del ejercicio de rutas, la ejecución de los test debería devolver <span style="background-color: lightgreen">PASS</span> en color verde para cada uno de los tests.
+
+En el caso de obtener un resultado diferente, habrá que investigar cuál es la la condición `assert` que no se cumple e intentar reparar el error.

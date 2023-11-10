@@ -39,17 +39,17 @@ Route::group(['prefix' => 'api'], function()
     Route::group(['prefix' => 'v1'], function()
     {
         // Rutas con el prefijo api/v1
-        Route::get('recurso',      'ControllerAPIv1@getRecurso');
-        Route::post('recurso',     'ControllerAPIv1@postRecurso');
-        Route::get('recurso/{id}', 'ControllerAPIv1@putRecurso');
+        Route::get('recurso',      [ControllerAPIv1::class, 'getRecurso']);
+        Route::post('recurso',     [ControllerAPIv1::class, 'postRecurso']);
+        Route::get('recurso/{id}', [ControllerAPIv1::class, 'putRecurso']);
     });
 
     Route::group(['prefix' => 'v2'], function()
     {
         // Rutas con el prefijo api/v2
-        Route::get('recurso',      'ControllerAPIv2@getRecurso');
-        Route::post('recurso',     'ControllerAPIv2@postRecurso');
-        Route::get('recurso/{id}', 'ControllerAPIv2@putRecurso');
+        Route::get('recurso',      [ControllerAPIv2::class, 'getRecurso']);
+        Route::post('recurso',     [ControllerAPIv2::class, 'postRecurso']);
+        Route::get('recurso/{id}', [ControllerAPIv2::class, 'putRecurso']);
     });
 });
 ```
