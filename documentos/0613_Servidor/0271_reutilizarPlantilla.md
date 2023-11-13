@@ -40,13 +40,14 @@ Hacer esto no es suficiente, ya que el _layout_ de dopetrope utiliza una serie d
 <script src="{{ asset('/dopetrope/assets/js/browser.min.js') }}"></script>
 <script src="{{ asset('/dopetrope/assets/js/breakpoints.min.js') }}"></script>
 <script src="{{ asset('/dopetrope/assets/js/util.js') }}"></script>
+<script src="{{ asset('/dopetrope/assets/js/main.js') }}"></script>
 ```
 
 - En la línea 21, cambiaremos también la ruta de la imagen del logo de la siguiente forma (tendremos que redefinir `APP_URL` en el fichero `.env`):
 
 ```
 <h1>
-    <a href="{{ url(env('APP_URL', 'https://marcapersonal.test')) }}">
+    <a href="{{ url(env('APP_URL', 'http://marcapersonalFP.test')) }}">
         <img src="{{ asset('/images/mp-logo.png') }}" alt="Logo Marca Personal FP" width="200px"/>
     </a>
 </h1>
@@ -62,7 +63,7 @@ En el _layout_ de dopetrope, el contenido de la web se divide en tres secciones 
 - `main`: contenido principal de la web
 - `footer`: pie de página de la web
 
-Vamos a crear _partials con el contenido de cada una de estas partes y las vamos a incluir en el _layout_ principal.
+Vamos a crear _partials_ con el contenido de cada una de estas partes y las vamos a incluir en el _layout_ principal.
 
 ### Crear partials
 
