@@ -111,13 +111,13 @@ En el _partial_ `header.blade.php` vamos a sustituir los códigos que hay bajo l
 
 Para que se vea correctamente, vamos a incluir en `resources/views/dopetrope/layouts/master.blade.php` las referencias a los archivos _css_ y _javascript_ que utiliza el _navbar_ y que estaban en `resources/views/layouts/master.blade.php`:
 
-- En la línea 13 (_justo la posterior a la que comienza por `<link rel="stylesheet" href="{{ asset('/d...`_) vamos a incluir la referencia a la hoja de estilos del _navbar_:
+- En la línea 12 vamos a incluir la referencia a la hoja de estilos del _navbar_ (_desplazando la línea que comienza por `<link rel="stylesheet" href="{{ asset('/d...`_ a la línea 13):
 
 ```
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 ```
 
-- En la línea 2 (_tras las referencias a los scripts `<script src="{{ asset('/d...`_) vamos a incluir la referencia al _javascript_ del _navbar_:
+- En la línea 37 (_tras las referencias a los scripts `<script src="{{ asset('/d...`_) vamos a incluir la referencia al _javascript_ del _navbar_:
 
 ```
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
