@@ -16,14 +16,14 @@ Los contenidos que se presentan a continuación constituyen un desarrollo que, i
     6. [Vistas](./026_vistas.md)
         1. [Plantillas mediante Blade](./0261_vistasBlade.md)
     7. [Ejercicios vistas](./027_ejerciciosVistas.md)
-        2. [Reutilizar plantillas](./0271_reutilizarPlantilla.md)
+        1. [Reutilizar plantillas](./0271_reutilizarPlantilla.md)
 3. [Controladores, filtros y formularios](./03_controladoresFiltrosFormularios.md)
     1. [Controladores](./031_controladores.md)
     2. [Middleware o filtros](./032_middlewares.md)
     3. [Rutas avanzadas](./033_rutasAvanzadas.md)
     4. [Redirecciones](./034_Redirecciones.md)
     5. [Formularios](./035_Formularios.md)
-    6. [Ejercicios](./036_Ejercicios.md)
+    6. [Ejercicios](./036_ejerciciosControladores.md)
 4. Base de datos
     1. Configuración inicial
     2. Migraciones

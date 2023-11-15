@@ -22,7 +22,11 @@ Si queremos cambiar la _URL_ de envío de datos podemos utilizar el atributo `ac
 
 La función `url()` generará la dirección a la ruta indicada. Ademas también podemos usar la función `action()` para indicar directamente el método de un controlador a utilizar, por ejemplo:
 
-`action([HomeController::class, 'getIndex'])`
+```
+use App\Http\Controllers\HomeController;
+
+action([HomeController::class, 'getIndex'])
+```
 
 Como hemos visto anteriormente, en Laravel podemos definir distintas acciones para procesar peticiones realizadas a una misma ruta pero usando un método distinto (`GET`, `POST`, `PUT`, `DELETE`). Por ejemplo, podemos definir la ruta `user` de tipo `GET` para que nos devuelva la página con el formulario para crear un usuario, y por otro lado definir la ruta "`user`" de tipo `POST` para procesar el envío del formulario. De esta forma cada ruta apuntará a un método distinto de un controlador y nos facilitará la separación del código.
 

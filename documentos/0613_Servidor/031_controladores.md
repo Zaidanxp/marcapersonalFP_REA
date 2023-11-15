@@ -59,21 +59,25 @@ Como hemos visto al referenciar el _controlador_ en el fichero de rutas únicame
 
 Por ejemplo, si creamos un controlador en `App\Http\Controllers\Photos\AdminController`, entonces para registrar una ruta hasta dicho controlador tendríamos que hacer:
 
-```Route::get('foo', 'Photos\AdminController@method');```
+```
+use App\Http\Controllers\Photos\AdminController;
+
+Route::get('foo', [AdminController::class, 'method']);
+```
 
 ## Generar una URL a una acción
 
 Para generar la URL que apunte a una acción de un controlador podemos usar el método action de la forma:
 
-```$url = action('FooController@method');```
+```$url = action([FooController::class, 'method']);```
 
 Por ejemplo, para crear en una plantilla con Blade un enlace que apunte a una acción haríamos:
 
-```<a href="{{ action('FooController@method') }}">¡Aprieta aquí!</a>```
+```<a href="{{ action([FooController::class, 'method']) }}">¡Aprieta aquí!</a>```
 
 ## Caché de rutas
 
-Si definimos todas nuestras rutas para que utilicen controladores podemos aprovechar la nueva funcionalidad para crear una _caché de las rutas_. Es importante que estén basadas en controladores porque si definimos respuestas directas desde el fichero de rutas (como vimos en el capítulo anterior) la caché no funcionará.
+Si definimos todas nuestras rutas para que utilicen controladores podemos aprovechar la funcionalidad para crear una _caché de las rutas_. Es importante que estén basadas en controladores porque si definimos respuestas directas desde el fichero de rutas (como vimos en el capítulo anterior) la caché no funcionará.
 
 Gracias a la caché Laravel indican que se puede acelerar el proceso de registro de rutas hasta 100 veces. Para generar la caché simplemente tenemos que ejecutar el comando de Artisan:
 

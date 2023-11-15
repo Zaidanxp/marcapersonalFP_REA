@@ -14,11 +14,15 @@ O si queremos volver a la ruta anterior simplemente podemos usar el método back
 
 También podemos redirigir a un método de un controlador mediante el método `action()` de la forma:
 
-`return redirect()->action('HomeController@index');`
+```
+use App\Http\Controllers\HomeController;
+
+return redirect()->action([HomeController::class, 'index']);
+```
 
 Si queremos añadir parámetros para la llamada al método del controlador tenemos que añadirlos pasando un _array_ como segundo parámetro:
 
-`return redirect()->action('UserController@profile', [1]);`
+`return redirect()->action([UserController::class, 'profile'], ['id' => 1]);`
 
 ## Redirección con los valores de la petición
 
