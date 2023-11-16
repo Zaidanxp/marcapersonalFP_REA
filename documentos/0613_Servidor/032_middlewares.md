@@ -24,17 +24,17 @@ Este comando creará la clase `MyMiddleware` dentro de la carpeta `app/Http/Midd
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class MyMiddleware
 {
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next): Response
     {
         return $next($request);
     }
@@ -49,20 +49,20 @@ El código generado por Artisan ya viene preparado para que podamos escribir dir
 Por ejemplo podríamos crear un filtro que redirija al `home` si el usuario tiene menos de 18 años y en otro caso que le permita acceder a la ruta:
 
 ```
-public function handle($request, Closure $next)
-{
-    if ($request->input('age') < 18) {
-        return redirect('home');
-    }
+    public function handle(Request $request, Closure $next): Response
+    {
+        if ($request->route()->hasParameter('id') && $request->route()->parameter('id') > 10) {
+            return redirect('/');
+        }
 
-    return $next($request);
-}
+        return $next($request);
+    }
 ```
 
 Como hemos dicho antes, podemos hacer tres cosas con una petición:
 
     - Si todo es correcto permitir que la petición continúe devolviendo: `return $next($request);`
-    - Realizar una redirección a otra ruta para no permitir el acceso con: `return redirect('home');`
+    - Realizar una redirección a otra ruta para no permitir el acceso con: `return redirect('/');`
     - Lanzar una excepción o llamar al método abort para mostrar una página de error: `abort(403, 'Unauthorized action.');`
 
 ## Middleware antes o después de la petición
@@ -95,11 +95,38 @@ public function handle($request, Closure $next)
 
 De momento, hemos visto para que vale y como se define un Middleware, en esta sección veremos como utilizarlos. Laravel permite la utilización de Middleware de tres formas distintas: 
 
-    1.- global,
-    2.- asociado a rutas o grupos de rutas,
-    3.- asociado a un controlador o a un método de un controlador. 
+    1.- [asociado a grupos](#middleware-asociado-a-grupos),
+    2.- [global](#middleware-global),
+    3.- [asociado a rutas o grupos de rutas](#middleware-asociado-a-rutas), y
+    4.- [asociado a un controlador o a un método de un controlador](#middleware-dentro-de-controladores). 
 
-En los tres casos será necesario registrar primero el Middleware en la clase `app/Http/Kernel.php`.
+En los cuatro casos será necesario registrar primero el Middleware en la clase `app/Http/Kernel.php`.
+
+### Middleware asociado a grupos
+
+Laravel incluye los grupos de middlewares predefinidos `web` y `api` para facilitar la aplicación de los middlewares a las rutas definidas en el archivo `routes/web.php` y `routes/api.php` respectivamente. Estos grupos se definen en el fichero `app/Http/Kernel.php` y se pueden modificar o ampliar. Por ejemplo, el grupo `web` se define de la siguiente forma:
+
+```
+protected $middlewareGroups = [
+        'web' => [
+            \App\Http\Middleware\EncryptCookies::class,
+            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+            \Illuminate\Session\Middleware\StartSession::class,
+            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+            \App\Http\Middleware\VerifyCsrfToken::class,
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\MyMiddleware::class,
+        ],
+
+        'api' => [
+            // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+            \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        ],
+    ];
+```
+
+En este ejemplo hemos registrado la clase `MyMiddleware` al final del array correspondiente a las rutas `web`. Si queremos que nuestro middleware se ejecute antes que otro filtro simplemente tendremos que colocarlo antes en la posición del array.
 
 ### Middleware global
 
@@ -107,30 +134,28 @@ Para hacer que un Middleware se ejecute con todas las peticiones HTTP realizadas
 
 ```
 protected $middleware = [
-    \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
-    \App\Http\Middleware\EncryptCookies::class,
-    \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-    \Illuminate\Session\Middleware\StartSession::class,
-    \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-    \App\Http\Middleware\VerifyCsrfToken::class,
-    \App\Http\Middleware\MyMiddleware::class,
+        // \App\Http\Middleware\TrustHosts::class,
+        \App\Http\Middleware\TrustProxies::class,
+        \Illuminate\Http\Middleware\HandleCors::class,
+        \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
+        \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
+        \App\Http\Middleware\TrimStrings::class,
+        \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
 ];
 ```
-
-En este ejemplo hemos registrado la clase `MyMiddleware` al final del array. Si queremos que nuestro middleware se ejecute antes que otro filtro simplemente tendremos que colocarlo antes en la posición del array.
 
 ### Middleware asociado a rutas
 
 En el caso de querer que nuestro middleware se ejecute solo cuando se llame a una ruta o a un grupo de rutas también tendremos que registrarlo en el fichero `app/Http/Kernel.php`, pero en el array `$routeMiddleware`. Al añadirlo a este array además tendremos que asignarle un nombre o clave, que será el que después utilizaremos asociarlo con una ruta.
 
-En primer lugar añadimos nuestro filtro al _array_ y le asignamos el nombre `"es_mayor_de_edad"`:
+En primer lugar añadimos nuestro filtro al _array_ y le asignamos el nombre `"id_mayor_de_10"`:
 
 ```
 protected $routeMiddleware = [
     'auth' => \App\Http\Middleware\Authenticate::class,
     'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
     'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-    'es_mayor_de_edad' => \App\Http\Middleware\MyMiddleware::class,
+    'id_mayor_de_10' => \App\Http\Middleware\MyMiddleware::class,
 ];
 ```
 

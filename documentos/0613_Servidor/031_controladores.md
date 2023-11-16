@@ -6,13 +6,12 @@ Como ya vimos en la [sección de introducción](./01_introduccion.md), los _cont
 
 ## Controlador básico
 
-Los controladores se almacenan en _ficheros PHP_ en la carpeta `app/Http/Controllers` y normalmente se les añade el sufijo _Controller_, por ejemplo `UserController.php` o `MoviesController.php`. A continuación se incluye un ejemplo básico de un controlador almacenado en el fichero `app/Http/Controllers/UserController.php`:
+Los controladores se almacenan en _ficheros PHP_ en la carpeta `app/Http/Controllers` y normalmente se les añade el sufijo _Controller_, por ejemplo `UserController.php` o `CatalogController.php`. A continuación se incluye un ejemplo básico de un controlador almacenado en el fichero `app/Http/Controllers/UserController.php`:
 
 ```
 <?php
 namespace App\Http\Controllers;
 
-use App\User;
 use App\Http\Controllers\Controller;
 
 class UserController extends Controller
@@ -22,23 +21,23 @@ class UserController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function showProfile($id)
+    public function showProfile($nombre)
     {
-        $user = User::findOrFail($id);
-        return view('user.profile', ['user' => $user]);
+        return view('user.profile', ['user' => $nombre]);
     }
 }
 ```
 
 Todos los controladores tienen que extender la clase base `Controller`. Esta clase viene ya creada por defecto con la instalación de _Laravel_, la podemos encontrar en la carpeta `app/Http/Controllers`. Se utiliza para centralizar toda la lógica que se vaya a utilizar de forma compartida por los controladores de nuestra aplicación. Por defecto solo carga código para validación y autorización, pero podemos añadir en la misma todos los métodos que necesitemos.
 
-En el código de ejemplo, el método `showProfile($id)` lo único que realiza es obtener los datos de un usuario, generar la vista `user.profile` a partir de los datos obtenidos y devolverla como valor de retorno para que se muestre por pantalla.
+En el código de ejemplo, el método `showProfile($nombre)` lo único que realiza es obtener los datos de un usuario, generar la vista `user.profile` a partir de los datos obtenidos y devolverla como valor de retorno para que se muestre por pantalla.
 
 Una vez definido un _controlador_ ya podemos asociarlo a una _ruta_. Para esto tenemos que modificar el fichero de rutas `routes.php` de la forma:
 
 ```
 use App\Http\Controllers\UserController;
-Route::get('user/{id}', [UserController::class, 'showProfile']);
+
+Route::get('user/{nombre}', [UserController::class, 'showProfile']);
 ```
 
 En lugar de pasar una función como segundo parámetro, tenemos que escribir una cadena que contenga el _nombre del controlador_, seguido de una arroba `@` y del _nombre del método_ que queremos asociar. No es necesario añadir nada más, ni los parámetros que recibe el método en cuestión, todo esto se hace de forma automática.
@@ -47,9 +46,9 @@ En lugar de pasar una función como segundo parámetro, tenemos que escribir una
 
 Como hemos visto los controladores se almacenan dentro de la carpeta app/Http/Controllers como ficheros PHP. Para crear uno nuevo bien lo podemos hacer a mano y rellenar nosotros todo el código, o podemos utilizar el siguiente comando de Artisan que nos adelantará todo el trabajo:
 
-```php artisan make:controller ProyectosController```
+```php artisan make:controller CatalogController```
 
-Este comando creará el controlador `ProyectosController` dentro de la carpeta `app/Http/Controllers` y lo completará con el código básico que hemos visto antes.
+Este comando creará el controlador `CatalogController` dentro de la carpeta `app/Http/Controllers` y lo completará con el código básico que hemos visto antes.
 
 ## Controladores y espacios de nombres
 
