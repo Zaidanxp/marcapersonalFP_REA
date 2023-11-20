@@ -46,7 +46,7 @@ El código generado por Artisan ya viene preparado para que podamos escribir dir
     - `$request`: En la cual nos vienen todos los parámetros de entrada de la petición.
     - `$next`: El método o función que tiene que procesar la petición.
 
-Por ejemplo podríamos crear un filtro que redirija al `home` si el usuario tiene menos de 18 años y en otro caso que le permita acceder a la ruta:
+Por ejemplo podríamos crear un filtro que redirija al `home` si se solicita una ruta que contenga un parámetro `id` con un valor superior a 10. En cualquier otro caso que le permita acceder a la ruta:
 
 ```
     public function handle(Request $request, Closure $next): Response
@@ -93,12 +93,15 @@ public function handle($request, Closure $next)
 
 ## Uso de Middleware
 
-De momento, hemos visto para que vale y como se define un Middleware, en esta sección veremos como utilizarlos. Laravel permite la utilización de Middleware de tres formas distintas: 
+De momento, hemos visto para que vale y como se define un Middleware, en esta sección veremos como utilizarlos. Laravel permite la utilización de Middleware de cuatro formas distintas: 
 
-    1.- [asociado a grupos](#middleware-asociado-a-grupos),
-    2.- [global](#middleware-global),
-    3.- [asociado a rutas o grupos de rutas](#middleware-asociado-a-rutas), y
-    4.- [asociado a un controlador o a un método de un controlador](#middleware-dentro-de-controladores). 
+1.- [asociado a grupos](#middleware-asociado-a-grupos),
+
+2.- [global](#middleware-global),
+
+3.- [asociado a rutas o grupos de rutas](#middleware-asociado-a-rutas), y
+
+4.- [asociado a un controlador o a un método de un controlador](#middleware-dentro-de-controladores). 
 
 En los cuatro casos será necesario registrar primero el Middleware en la clase `app/Http/Kernel.php`.
 
@@ -146,52 +149,44 @@ protected $middleware = [
 
 ### Middleware asociado a rutas
 
-En el caso de querer que nuestro middleware se ejecute solo cuando se llame a una ruta o a un grupo de rutas también tendremos que registrarlo en el fichero `app/Http/Kernel.php`, pero en el array `$routeMiddleware`. Al añadirlo a este array además tendremos que asignarle un nombre o clave, que será el que después utilizaremos asociarlo con una ruta.
+En el caso de querer que nuestro middleware se ejecute solo cuando se llame a una ruta o a un grupo de rutas también tendremos que registrarlo en el fichero `app/Http/Kernel.php`, pero en el array `$middlewareAliases`. Al añadirlo a este array además tendremos que asignarle un nombre o clave, que será el que después utilizaremos asociarlo con una ruta.
 
 En primer lugar añadimos nuestro filtro al _array_ y le asignamos el nombre `"id_mayor_de_10"`:
 
 ```
-protected $routeMiddleware = [
-    'auth' => \App\Http\Middleware\Authenticate::class,
-    'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-    'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-    'id_mayor_de_10' => \App\Http\Middleware\MyMiddleware::class,
+protected $middlewareAliases = [
+        'auth' => \App\Http\Middleware\Authenticate::class,
+        'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+        'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,
+        'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
+        'can' => \Illuminate\Auth\Middleware\Authorize::class,
+        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
+        'precognitive' => \Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests::class,
+        'signed' => \App\Http\Middleware\ValidateSignature::class,
+        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'id_mayor_de_10' => \App\Http\Middleware\MyMiddleware::class,
 ];
 ```
 
-Una vez registrado nuestro middleware ya lo podemos utilizar en el fichero de rutas app/Http/routes.php mediante la clave o nombre asignado, por ejemplo:
+Una vez registrado nuestro middleware ya lo podemos utilizar en el fichero de rutas `app/Http/routes.php`` mediante la clave o nombre asignado, por ejemplo:
 
 ```
-Route::get('dashboard', ['middleware' => 'es_mayor_de_edad', function () {
-    //...
-}]);
+Route::prefix('catalog')->middleware('id_mayor_de_10')->group(function () {
+    Route::get('/', ...
+});
 ```
 
-En el ejemplo anterior hemos asignado el middleware con clave `es_mayor_de_edad` a la ruta `dashboard`. Como se puede ver se utiliza un _array_ como segundo parámetro, en el cual indicamos el _middleware_ y la _acción_. Si la petición supera el filtro entonces se ejecutara la función asociada.
-
-Para asociar un filtro con una ruta que utiliza un método de un controlador se realizaría de la misma manera pero indicando la acción mediante la clave `uses`:
-
-```
-Route::get('profile', [
-    'middleware' => 'auth',
-    'uses' => 'UserController@showProfile'
-]);
-```
+En el ejemplo anterior hemos asignado el middleware con clave `id_mayor_de_10` al grupo de rutas cuyo prefijo es `catalog`. Si la petición supera el filtro entonces se ejecutara la función asociada.
 
 Si queremos asociar varios middleware con una ruta simplemente tenemos que añadir un _array_ con las claves. Los filtros se ejecutarán en el orden indicado en dicho _array_:
 
 ```
-Route::get('dashboard', ['middleware' => ['auth', 'es_mayor_de_edad'], function () {
-    //...
-}]);
+Route::prefix('catalog')->middleware(['auth', 'id_mayor_de_10'])->group(function () {
+    Route::get('/', ...
+});
 ```
-
-Laravel también permite asociar los filtros con las rutas usando el método `middleware()` sobre la definición de la ruta de la forma:
-
-```
-Route::get('/', function () {
-    // ...
-})->middleware(['first', 'second']);
 ```
 
 // O sobre un controlador: 
