@@ -18,7 +18,7 @@ catalog/show/{id} | CatalogController | getShow
 catalog/create | CatalogController | getCreate
 catalog/edit/{id} | CatalogController | getEdit
 
-Acordaros que los métodos `getShow()` y `getEdit()` tendrán que recibir como parámetro el `$id` del elemento a mostrar o editar y enviar a la vista el proyecto correspondiente, además del id recibido, por lo que la definición del método en el controlador tendrá que ser como la siguiente:
+Acordaos que los métodos `getShow()` y `getEdit()` tendrán que recibir como parámetro el `$id` del elemento a mostrar o editar y enviar a la vista el proyecto correspondiente, además del id recibido, por lo que la definición del método en el controlador tendrá que ser como la siguiente:
 
 ```
 public function getShow($id)
