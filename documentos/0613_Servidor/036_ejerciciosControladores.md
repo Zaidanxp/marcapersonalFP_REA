@@ -61,22 +61,22 @@ Y en la vista correspondiente simplemente tendremos que incluir el siguiente tro
 
 <div class="row">
 
-    @for ($i=0; $i<count($arrayProyectos); $i++)
+    @foreach ($arrayProyectos as $key => $proyecto)
 
     <div class="col-4 col-6-medium col-12-small">
         <section class="box">
             <a href="#" class="image featured"><img src="{{ asset('/images/mp-logo.png') }}" alt="" /></a>
             <header>
-                <h3>{{ $arrayProyectos[$i]['nombre'] }}</h3>
+                <h3>{{ $proyecto['nombre'] }}</h3>
             </header>
             <p>
-                <a href="http://github.com/2DAW-CarlosIII/{{ $arrayProyectos[$i]['dominio'] }}">
-                    http://github.com/2DAW-CarlosIII/{{ $arrayProyectos[$i]['dominio'] }}
+                <a href="http://github.com/2DAW-CarlosIII/{{ $proyecto['dominio'] }}">
+                    http://github.com/2DAW-CarlosIII/{{ $proyecto['dominio'] }}
                 </a>
             </p>
             <footer>
                 <ul class="actions">
-                    <li><a href="{{ action([App\Http\Controllers\CatalogController::class, 'getShow'], ['id' => $i] ) }}" class="button alt">Más info</a></li>
+                    <li><a href="{{ action([App\Http\Controllers\CatalogController::class, 'getShow'], ['id' => $key] ) }}" class="button alt">Más info</a></li>
                 </ul>
             </footer>
         </section>
@@ -90,7 +90,7 @@ Y en la vista correspondiente simplemente tendremos que incluir el siguiente tro
 
 El logo lo debemos recoger también de la carpeta de [materiales](./materiales) y colocarlo en la carpeta `public/images`.
 
-Como se puede ver en el código, en primer lugar se crea una fila (usando el sistema de rejilla de Bootstrap) y a continuación se realiza un bucle `foreach` utilizando la notación de _Blade_ para iterar por todas los proyectos. Para cada proyecto obtenemos su posición en el array y sus datos asociados, y generamos una columna para mostrarlos. Es importante que nos fijemos en como se itera por los elementos de un array de datos y en la forma de acceder a los valores. Además se ha incluido un enlace para que al pulsar sobre un proyecto nos lleve a la dirección `/catalog/show/{$key}`, siendo `key` la posición de ese proyecto en el array.
+Como se puede ver en el código, en primer lugar se crea una fila (usando el sistema de rejilla de Bootstrap) y a continuación se realiza un bucle `foreach` utilizando la notación de _Blade_ para iterar por todos los proyectos. Para cada proyecto obtenemos su posición en el array y sus datos asociados, y generamos una columna para mostrarlos. Es importante que nos fijemos en como se itera por los elementos de un array de datos y en la forma de acceder a los valores. Además, se ha incluido un enlace para que, al pulsar sobre un proyecto, nos lleve a la dirección `/catalog/show/{$key}`, siendo `key` la posición de ese proyecto en el array.
 
 ### Método CatalogController@getShow
 
@@ -271,3 +271,10 @@ Para comprobar que la solución desarrollada cumple con los requisitos, en prime
 Como en el caso del ejercicio de rutas, la ejecución de los test debería devolver <span style="background-color: lightgreen">PASS</span> en color verde para cada uno de los tests.
 
 En el caso de obtener un resultado diferente, habrá que investigar cuál es la la condición `assert` que no se cumple e intentar reparar el error.
+
+# Otros ejercicios de controladores
+
+- [Usuarios](0361_controladorUsers.md)
+- [Currículos](./0362_curriculoController.md)
+- [Reconocimientos](./0363_reconocimientoController.md)
+- [Actividades](./0364_actividadController.md)
