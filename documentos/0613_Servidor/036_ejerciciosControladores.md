@@ -24,8 +24,8 @@ Acordaos que los métodos `getShow()` y `getEdit()` tendrán que recibir como pa
 public function getShow($id)
 {
         return view('catalog.show')
-            ->width('proyecto', $this->arrayProyectos[$id])
-            ->width('id' => $id);
+            ->with('proyecto', $this->arrayProyectos[$id])
+            ->with('id', $id);
 }
 ```
 
@@ -55,22 +55,34 @@ Este método tiene que mostrar un listado de todas los proyectos que tiene marca
 Y en la vista correspondiente simplemente tendremos que incluir el siguiente trozo de código en su sección content:
 
 ```
+@extends('layouts.master')
+
 @section('content')
 
 <div class="row">
 
-    @foreach( $arrayProyectos as $key => $proyecto )
-    <div class="col-xs-6 col-sm-4 col-md-3 text-center">
+    @for ($i=0; $i<count($arrayProyectos); $i++)
 
-        <a href="{{ action([App\Http\Controllers\CatalogController::class, 'getShow'], ['id' => $key] ) }}">
-            <img src="/images/mp-logo.png" style="height:200px"/>
-            <h4 style="min-height:45px;margin:5px 0 10px 0">
-                {{ $proyecto['nombre'] }}
-            </h4>
-        </a>
-
+    <div class="col-4 col-6-medium col-12-small">
+        <section class="box">
+            <a href="#" class="image featured"><img src="{{ asset('/images/mp-logo.png') }}" alt="" /></a>
+            <header>
+                <h3>{{ $arrayProyectos[$i]['nombre'] }}</h3>
+            </header>
+            <p>
+                <a href="http://github.com/2DAW-CarlosIII/{{ $arrayProyectos[$i]['dominio'] }}">
+                    http://github.com/2DAW-CarlosIII/{{ $arrayProyectos[$i]['dominio'] }}
+                </a>
+            </p>
+            <footer>
+                <ul class="actions">
+                    <li><a href="{{ action([App\Http\Controllers\CatalogController::class, 'getShow'], ['id' => $i] ) }}" class="button alt">Más info</a></li>
+                </ul>
+            </footer>
+        </section>
     </div>
-    @endforeach
+
+    @endfor
 
 </div>
 @endsection
@@ -78,11 +90,11 @@ Y en la vista correspondiente simplemente tendremos que incluir el siguiente tro
 
 El logo lo debemos recoger también de la carpeta de [materiales](./materiales) y colocarlo en la carpeta `public/images`.
 
-Como se puede ver en el código, en primer lugar se crea una fila (usando el sistema de rejilla de Bootstrap) y a continuación se realiza un bucle `foreach` utilizando la notación de _Blade_ para iterar por todas los proyectos. Para cada proyecto obtenemos su posición en el array y sus datos asociados, y generamos una columna para mostrarlos. Es importante que nos fijemos en como se itera por los elementos de un array de datos y en la forma de acceder a los valores. Además se ha incluido un enlace para que al pulsar sobre una proyecto nos lleve a la dirección `/catalog/show/{$key}`, siendo `key` la posición de esa proyecto en el array.
+Como se puede ver en el código, en primer lugar se crea una fila (usando el sistema de rejilla de Bootstrap) y a continuación se realiza un bucle `foreach` utilizando la notación de _Blade_ para iterar por todas los proyectos. Para cada proyecto obtenemos su posición en el array y sus datos asociados, y generamos una columna para mostrarlos. Es importante que nos fijemos en como se itera por los elementos de un array de datos y en la forma de acceder a los valores. Además se ha incluido un enlace para que al pulsar sobre un proyecto nos lleve a la dirección `/catalog/show/{$key}`, siendo `key` la posición de ese proyecto en el array.
 
 ### Método CatalogController@getShow
 
-Este método se utiliza para mostrar la vista detalle de una proyecto. Hemos de tener en cuenta que el método correspondiente recibe un identificador que, de momento, se refiere a la posición del proyecto en el array. Por lo tanto, tendremos que coger dicha proyecto del array (`$this->arrayProyectos[$id]`) y pasársela a la vista.
+Este método se utiliza para mostrar la vista detalle de un proyecto. Hemos de tener en cuenta que el método correspondiente recibe un identificador que, de momento, se refiere a la posición del proyecto en el array. Por lo tanto, tendremos que coger dicho proyecto del array (`$this->arrayProyectos[$id]`) y pasársela a la vista.
 
 En esta vista vamos a crear dos columnas, la primera columna para mostrar la imagen del proyecto y la segunda para incluir todos los detalles. A continuación se incluye la estructura _HTML_ que tendría que tener esta pantalla:
 
@@ -172,7 +184,7 @@ Esta pantalla finalmente tendría el siguiente código:
 
 ### Método CatalogController@getCreate
 
-Este método devuelve la vista `catalog.create` para añadir una nueva proyecto. Para crear este formulario en la vista correspondiente nos podemos basar en el contenido de la plantilla [catalog_create.php](./materiales/ejercicios-laravel/catalog_create.php). Esta plantilla tiene una serie de `TODO`s que hay que completar. En total tendrá que tener los siguientes campos:
+Este método devuelve la vista `catalog.create` para añadir una nuevo proyecto. Para crear este formulario en la vista correspondiente nos podemos basar en el contenido de la plantilla [catalog_create.php](./materiales/ejercicios-laravel/catalog_create.php). Esta plantilla tiene una serie de `TODO`s que hay que completar. En total tendrá que tener los siguientes campos:
 
 Label | Name | Tipo de campo
 ------|------|--------------
@@ -241,18 +253,18 @@ Además tendrá un botón al final con el texto "Añadir proyecto".
 
 ### Método CatalogController@getEdit
 
-Este método permitirá modificar el contenido de una proyecto. El formulario será exactamente igual al de añadir proyecto, así que lo podemos copiar y pegar en esta vista y simplemente cambiar los siguientes puntos:
+Este método permitirá modificar el contenido de un proyecto. El formulario será exactamente igual al de añadir proyecto, así que lo podemos copiar y pegar en esta vista y simplemente cambiar los siguientes puntos:
 
     - El título por "Modificar proyecto".
     - El valor del `action` del formulario debería ser:`action([App\Http\Controllers\CatalogController::class, 'getEdit'], ['id' => $id])`
-    - Añadir justo debajo de la apertura del formulario el campo oculto para indicar que se va a enviar por PUT. Recordad que Laravel incluye el método `{{ method_field('PUT') }}` que nos ayudará a hacer esto.
+    - Añadir justo debajo de la apertura del formulario el campo oculto para indicar que se va a enviar por PUT. Recordad que Laravel incluye el método `@method('PUT')` que nos ayudará a hacer esto.
     - El texto del botón de envío por "Modificar proyecto".
 
 De momento no tendremos que hacer nada más. Más adelante lo completaremos para que se rellene con los datos del proyecto a editar.
 
 ## Comprobar el ejercicio
 
-Para comprobar que la solución desarrollada cumple con los requisitos, en primer lugar, **vamos a eliminar los ficheros de test que teníamos en la carpeta `tests/Feature`**. Acontinuación, copiaremos el archivo [ControllersExerciseTest.php](./materiales/ejercicios-laravel/tests/Feature/ControllersExerciseTest.php) a la carpeta `tests/Feature` de tu proyecto y, posteriormente, ejecutar el siguiente comando artisan:
+Para comprobar que la solución desarrollada cumple con los requisitos, en primer lugar, **vamos a eliminar los ficheros de test que teníamos en la carpeta `tests/Feature`**. A continuación, copiaremos el archivo [ControllersExerciseTest.php](./materiales/ejercicios-laravel/tests/Feature/ControllersExerciseTest.php) a la carpeta `tests/Feature` de tu proyecto y, posteriormente, ejecutar el siguiente comando artisan:
 
 `php artisan test`
 
