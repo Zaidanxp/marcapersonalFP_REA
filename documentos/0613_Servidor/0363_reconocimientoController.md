@@ -34,70 +34,70 @@ Este método tiene que mostrar un listado de todas los reconocimientos de los us
     [
         'estudiante_id' => 1,
         'actividad_id' => 2,
-        'documento' => 'https://drive.google.com/document/d/' . generateRandomString(11),
+        'documento' => 'https://drive.google.com/document/d/' . $this->generateRandomString(11),
         'fecha' => '05/12/2022',
         'docente_validador' => 2
     ],
     [
         'estudiante_id' => 2,
         'actividad_id' => 3,
-        'documento' => 'https://drive.google.com/document/d/' . generateRandomString(11),
+        'documento' => 'https://drive.google.com/document/d/' . $this->generateRandomString(11),
         'fecha' => '10/10/2022',
         'docente_validador' => 3
     ],
     [
         'estudiante_id' => 3,
         'actividad_id' => 4,
-        'documento' => 'https://drive.google.com/document/d/' . generateRandomString(11),
+        'documento' => 'https://drive.google.com/document/d/' . $this->generateRandomString(11),
         'fecha' => '15/11/2022',
         'docente_validador' => 4
     ],
     [
         'estudiante_id' => 4,
         'actividad_id' => 5,
-        'documento' => 'https://drive.google.com/document/d/' . generateRandomString(11),
+        'documento' => 'https://drive.google.com/document/d/' . $this->generateRandomString(11),
         'fecha' => '20/01/2023',
         'docente_validador' => 5
     ],
     [
         'estudiante_id' => 5,
         'actividad_id' => 6,
-        'documento' => 'https://drive.google.com/document/d/' . generateRandomString(11),
+        'documento' => 'https://drive.google.com/document/d/' . $this->generateRandomString(11),
         'fecha' => '25/02/2023',
         'docente_validador' => 6
     ],
     [
         'estudiante_id' => 6,
         'actividad_id' => 7,
-        'documento' => 'https://drive.google.com/document/d/' . generateRandomString(11),
+        'documento' => 'https://drive.google.com/document/d/' . $this->generateRandomString(11),
         'fecha' => '03/04/2023',
         'docente_validador' => 7
     ],
     [
         'estudiante_id' => 7,
         'actividad_id' => 8,
-        'documento' => 'https://drive.google.com/document/d/' . generateRandomString(11),
+        'documento' => 'https://drive.google.com/document/d/' . $this->generateRandomString(11),
         'fecha' => '08/05/2023',
         'docente_validador' => 8
     ],
     [
         'estudiante_id' => 8,
         'actividad_id' => 9,
-        'documento' => 'https://drive.google.com/document/d/' . generateRandomString(11),
+        'documento' => 'https://drive.google.com/document/d/' . $this->generateRandomString(11),
         'fecha' => '13/06/2023',
         'docente_validador' => 9
     ],
     [
         'estudiante_id' => 9,
         'actividad_id' => 10,
-        'documento' => 'https://drive.google.com/document/d/' . generateRandomString(11),
+        'documento' => 'https://drive.google.com/document/d/' . $this->generateRandomString(11),
         'fecha' => '18/07/2023',
         'docente_validador' => 10
     ],
     [
         'estudiante_id' => 10,
         'actividad_id' => 1,
-        'documento' => 'https://drive.google.com/document/d/' . generateRandomString(11),
+        'documento' => 'https://drive.google.com/document/d/' . $this->generateRandomString(11),
         'fecha' => '23/08/2023',
         'docente_validador' => 1
     ],
