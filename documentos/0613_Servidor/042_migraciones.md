@@ -9,18 +9,18 @@ La forma de funcionar de las migraciones es crear ficheros (_PHP_) con la descri
 Para crear una nueva migración se utiliza el comando de _Artisan_ `make:migration`, al cual le pasaremos el nombre del fichero a crear y el nombre de la tabla:
 
 ```
-php artisan make:migration create_users_table --create=users
+php artisan make:migration create_estudiantes_table --create=estudiantes
 ```
 
-Esto nos creará un fichero de migración en la carpeta `database/migrations` con el nombre `<TIMESTAMP>_create_users_table.php`. Al añadir un _timestamp_ a las migraciones el sistema sabe el orden en el que tiene que ejecutar (o deshacer) las mismas.
+Esto nos creará un fichero de migración en la carpeta `database/migrations` con el nombre `<TIMESTAMP>_create_estudiantes_table.php`. Al añadir un _timestamp_ a las migraciones el sistema sabe el orden en el que tiene que ejecutar (o deshacer) las mismas.
 
 Si lo que queremos es añadir una migración que modifique los campos de una tabla existente tendremos que ejecutar el siguiente comando:
 
 ```
-php artisan make:migration add_votes_to_user_table --table=users
+php artisan make:migration add_ciclo_to_estudiantes_table --table=estudiantes
 ```
 
-En este caso se creará también un fichero en la misma carpeta, con el nombre `<TIMESTAMP>_add_votes_to_user_table.php` pero preparado para modificar los campos de dicha tabla.
+En este caso se creará también un fichero en la misma carpeta, con el nombre `<TIMESTAMP>_add_ciclo_to_estudiante_table.php` pero preparado para modificar los campos de dicha tabla.
 
 Por defecto, al indicar el nombre del fichero de migraciones se suele seguir siempre el mismo patrón (aunque el realidad el nombre es libre). Si es una migración que crea una tabla el nombre tendrá que ser `create_<table-name>_table` y si es una migración que modifica una tabla será `<action>_to_<table-name>_table`.
 

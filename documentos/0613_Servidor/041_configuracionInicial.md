@@ -28,11 +28,11 @@ En este mismo fichero de configuración, dentro de la sección `connections`, po
 ],
 ```
 
-Como se puede ver, básicamente los campos que tenemos que configurar para usar nuestra base de datos son: `host`, `database`, `username` y `password`. El `host` lo podemos dejar como está si vamos a usar una base de datos local, mientras que los otros tres campos sí que tenemos que actualizarlos con el nombres de la base de datos a utilizar y el usuario y la contraseña de acceso. Para poner estos valores abrimos el fichero `.env` de la raíz del proyecto y los actualizamos:
+Como se puede ver, básicamente los campos que tenemos que configurar para usar nuestra base de datos son: `host`, `database`, `username` y `password`. El `host` lo configuraremos para que alcance el contenedor de MariaDB. Los otros tres campos tenemos que configurarlos con el nombres de la base de datos a utilizar y el usuario y la contraseña de acceso. Para poner estos valores abrimos el fichero `.env` de la raíz del proyecto y los actualizamos:
 
 ```
 DB_CONNECTION=mysql
-DB_HOST=localhost
+DB_HOST=DB_HOST=mariadb
 DB_DATABASE=nombre-base-de-datos
 DB_USERNAME=nombre-de-usuario
 DB_PASSWORD=contraseña-de-acceso
@@ -56,6 +56,6 @@ Para poder empezar a trabajar con las migraciones es necesario en primer lugar c
 php artisan migrate:install
 ```
 
-    Si nos diese algún error tendremos que revisar la configuración que hemos puesto de la base de datos y si hemos creado la base de datos con el nombre, usuario y contraseña indicado.
+_Si nos diese algún error tendremos que revisar la configuración que hemos puesto de la base de datos y si hemos creado la base de datos con el nombre, usuario y contraseña indicado._
 
 Si todo funciona correctamente, podremos ir al navegador y acceder de nuevo a nuestra base de datos con _PHPMyAdmin_ y comprobaremos que se nos habrá creado la tabla `migrations`. Con esto ya tenemos configurada la base de datos y el acceso a la misma. En las siguientes secciones veremos como añadir tablas y posteriormente como realizar consultas.
