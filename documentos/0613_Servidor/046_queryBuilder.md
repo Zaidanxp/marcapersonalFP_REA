@@ -1,78 +1,93 @@
-4.6. Constructor de consultas (Query Builder)
+# 4.6. Constructor de consultas (Query Builder)
 
-Laravel incluye una serie de clases que nos facilita la construcción de consultas y otro tipo de operaciones con la base de datos. Además, al utilizar estas clases, creamos una notación mucho más legible, compatible con todos los tipos de bases de datos soportados por Laravel y que nos previene de cometer errores o de ataques por inyección de código SQL.
-Consultas
+_Laravel_ incluye una serie de clases que nos facilita la construcción de consultas y otro tipo de operaciones con la base de datos. Además, al utilizar estas clases, creamos una notación mucho más legible, compatible con todos los tipos de bases de datos soportados por _Laravel_ y que nos previene de cometer errores o de ataques por **inyección de código SQL**.
 
-Para realizar una "Select" que devuelva todas las filas de una tabla utilizaremos el siguiente código:
+## Consultas
 
-$users = DB::table('users')->get();
+Para realizar una `SELECT` que devuelva todas las filas de una tabla utilizaremos el siguiente código:
 
-foreach ($users as $user)
+```php
+$estudiantes = DB::table('estudiantes')->get();
+
+foreach ($estudiantes as $estudiante)
 {
-    echo $user->name;
+    echo $estudiante->nombre;
 }
+```
 
-En el ejemplo se utiliza el constructor DB::tabla indicando el nombre de la tabla sobre la que se va a realizar la consulta, y por último se llama al método get() para obtener todas las filas de la misma.
+En el ejemplo anterior se utiliza el constructor `DB::tabla` indicando el nombre de la tabla sobre la que se va a realizar la consulta, y por último se llama al método `get()` para obtener todas las filas de la misma.
 
-Si queremos obtener un solo elemento podemos utilizar first en lugar de get, de la forma:
+Si queremos obtener un solo elemento podemos utilizar `first()` en lugar de `get()`, de la forma:
 
-$user = DB::table('users')->first();
+```php
+$estudiante = DB::table('estudiantes')->first();
 
-echo $user->name;
+echo $estudiante->nombre;
+```
 
-Clausula where
+## Método `where()`
 
-Para filtrar los datos usamos la clausula where, indicando el nombre de la columna y el valor a filtrar:
+Para filtrar los datos usamos el método `where()`, indicando el nombre de la columna y el valor a filtrar:
 
-$user = DB::table('users')->where('name', 'Pedro')->get();
+```php
+$estudiante = DB::table('estudiantes')->where('nombre', 'Pedro')->get();
 
-echo $user->name;
+echo $estudiante->nombre;
+```
 
-En este ejemplo, la clausula where filtrará todas las filas cuya columna name sea igual a Pedro. Si queremos realizar otro tipo de filtrados, como columnas que tengan un valor mayor (>), mayor o igual (>=), menor (<), menor o igual (<=), distinto del indicado (<>) o usar el operador like, lo podemos indicar como segundo parámetro de la forma:
+En este ejemplo, el método `where()` filtrará todas las filas cuya columna `nombre` sea igual a `Pedro`. Si queremos realizar otro tipo de filtrados, como columnas que tengan un valor mayor (`>`), mayor o igual (`>=`), menor (`<`), menor o igual (`<=`), distinto del indicado (`<>`) o usar el operador `like`, lo podemos indicar como segundo parámetro de la forma:
 
-$users = DB::table('users')->where('votes', '>', 100)->get();
+```php
+$estudiantes = DB::table('estudiantes')->where('votos', '>', 100)->get();
 
-$users = DB::table('users')->where('status', '<>', 'active')->get();
+$estudiantes = DB::table('estudiantes')->where('confirmado', '<>', true)->get();
 
-$users = DB::table('users')->where('name', 'like', 'T%')->get();
-
-Si añadimos más clausulas where a la consulta por defecto se unirán mediante el operador lógico AND. En caso de que queramos utilizar el operador lógico OR lo tendremos que realizar usando orWhere de la forma:
-
-$users = DB::table('users')
-                    ->where('votes', '>', 100)
-                    ->orWhere('name', 'Pedro')
+$estudiantes = DB::table('estudiantes')->where('nombre', 'like', 'T%')->get();
+```
+Si añadimos más clausulas where a la consulta por defecto se unirán mediante el operador lógico `AND`. En caso de que queramos utilizar el operador lógico `OR` lo tendremos que realizar usando `orWhere` de la forma:
+```php
+$estudiantes = DB::table('estudiantes')
+                    ->where('votos', '>', 100)
+                    ->orWhere('nombre', 'Pedro')
                     ->get();
+```
 
-orderBy / groupBy / having_
+## orderBy / groupBy / having_
 
-También podemos utilizar los métodos orderBy, groupBy y having en las consultas:
-
-$users = DB::table('users')
-                    ->orderBy('name', 'desc')
+También podemos utilizar los métodos `orderBy`, `groupBy` y `having` en las consultas:
+```php
+$estudiantes = DB::table('estudiantes')
+                    ->orderBy('nombre', 'desc')
                     ->groupBy('count')
                     ->having('count', '>', 100)
                     ->get();
+```
 
-Offset / Limit
+## Offset / Limit
 
-Si queremos indicar un offset o limit lo realizaremos mediante los métodos skip (para el offset) y take (para limit), por ejemplo:
+Si queremos indicar un `offset` o `limit` lo realizaremos mediante los métodos `skip` (para el `offset`) y `take` (para `limit`), por ejemplo:
 
-$users = DB::table('users')->skip(10)->take(5)->get();
+```php
+$estudiantes = DB::table('estudiantes')->skip(10)->take(5)->get();
+```
 
-Transacciones
+## Transacciones
 
-Laravel también permite crear transacciones sobre un conjunto de operaciones:
+_Laravel_ también permite crear transacciones sobre un conjunto de operaciones:
 
+```php
 DB::transaction(function()
 {
-    DB::table('users')->update(array('votes' => 1));
+    DB::table('estudiantes')->update(array('votos' => 1));
 
-    DB::table('posts')->delete();
+    DB::table('users')->delete();
 });
+```
 
 En caso de que se produzca cualquier excepción en las operaciones que se realizan en la transacción se desharían todos los cambios aplicados hasta ese momento de forma automática.
-Más informacion
 
-Para más información sobre la construcción de Querys (join, insert, update, delete, agregados, etc.) podéis consultar la documentación de Laravel en su sitio web:
+## Más informacion
+
+Para más información sobre la construcción de _Querys_ (`join`, `insert`, `update`, `delete`, _agregados_, etc.) podéis consultar la documentación de _Laravel_ en su sitio web:
 
 http://laravel.com/docs/queries

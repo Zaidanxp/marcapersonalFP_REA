@@ -39,6 +39,7 @@ El constructor `Schema::create` recibe como segundo parámetro una función que 
             $table->string('nombre', 32);
             $table->string('apellidos', 32);
             $table->string('direccion');
+            $table->integer('votos');
             $table->boolean('confirmado')->default(false);
             $table->timestamps();
         });
@@ -115,7 +116,7 @@ php artisan make:migration add_user_id_to_estudiantes_table --table=estudiantes
 `Schema` permite definir _claves ajenas_ entre tablas. en el fichero de migración que acabamos de crear, añadimos las siguientes órdenes de creación de atributos e índice:
 
 ```
-$table->unsignedBigInteger('user_id');
+$table->unsignedBigInteger('user_id')->nullable();
 
 $table->foreign('user_id')->references('id')->on('users');
 ```
