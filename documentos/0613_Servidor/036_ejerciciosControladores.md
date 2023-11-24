@@ -20,7 +20,7 @@ catalog/edit/{id} | CatalogController | getEdit
 
 Acordaos que los métodos `getShow()` y `getEdit()` tendrán que recibir como parámetro el `$id` del elemento a mostrar o editar y enviar a la vista el proyecto correspondiente, además del id recibido, por lo que la definición del método en el controlador tendrá que ser como la siguiente:
 
-```
+```php
 public function getShow($id)
 {
         return view('catalog.show')
@@ -31,7 +31,7 @@ public function getShow($id)
 
 Por último, vamos a cambiar el fichero de rutas `routes/web.php` para que todas las rutas que teníamos definidas (excepto las de _login_ y _logout_ que las dejaremos como están) apunten a los nuevos métodos de los controladores, por ejemplo:
 
-```
+```php
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CatalogController;
 
@@ -54,7 +54,7 @@ Este método tiene que mostrar un listado de todas los proyectos que tiene marca
 
 Y en la vista correspondiente simplemente tendremos que incluir el siguiente trozo de código en su sección content:
 
-```
+```php
 @extends('layouts.master')
 
 @section('content')
@@ -98,7 +98,7 @@ Este método se utiliza para mostrar la vista detalle de un proyecto. Hemos de t
 
 En esta vista vamos a crear dos columnas, la primera columna para mostrar la imagen del proyecto y la segunda para incluir todos los detalles. A continuación se incluye la estructura _HTML_ que tendría que tener esta pantalla:
 
-```
+```php
 <div class="row m-4">
 
     <div class="col-sm-4">
@@ -127,7 +127,7 @@ Además tenemos que incluir dos botones más, un botón que nos llevará a edita
 
 Esta pantalla finalmente tendría el siguiente código:
 
-```
+```php
 @section('content')
 
 

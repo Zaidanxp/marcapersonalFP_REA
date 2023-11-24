@@ -6,7 +6,7 @@ En este primer apartado vamos a ver los primeros pasos que tenemos que dar con _
 
 Lo primero que tenemos que hacer para trabajar con bases de datos es completar la configuración. Como ejemplo vamos a configurar el acceso a una base de datos tipo _MySQL_. Si editamos el fichero con la configuración `config/database.php` podemos ver en primer lugar la siguiente línea:
 
-```
+```php
 'default' => env('DB_CONNECTION', 'mysql'),
 ```
 
@@ -14,7 +14,7 @@ Este valor indica el tipo de base de datos a utilizar por defecto. Como vimos en
 
 En este mismo fichero de configuración, dentro de la sección `connections`, podemos encontrar todos los campos utilizados para configurar cada tipo de base de datos, en concreto la base de datos tipo `mysql` tiene los siguientes valores:
 
-```
+```php
 'mysql' => [
     'driver'    => 'mysql',
     'host'      => env('DB_HOST', 'localhost'),
@@ -30,7 +30,7 @@ En este mismo fichero de configuración, dentro de la sección `connections`, po
 
 Como se puede ver, básicamente los campos que tenemos que configurar para usar nuestra base de datos son: `host`, `database`, `username` y `password`. El `host` lo configuraremos para que alcance el contenedor de MariaDB. Los otros tres campos tenemos que configurarlos con el nombres de la base de datos a utilizar y el usuario y la contraseña de acceso. Para poner estos valores abrimos el fichero `.env` de la raíz del proyecto y los actualizamos:
 
-```
+```php
 DB_CONNECTION=mysql
 DB_HOST=DB_HOST=mariadb
 DB_DATABASE=nombre-base-de-datos
@@ -52,7 +52,7 @@ A continuación, vamos a crear la tabla de migraciones. En la siguiente sección
 
 Para poder empezar a trabajar con las migraciones es necesario en primer lugar crear la tabla de migraciones. Para esto tenemos que ejecutar el siguiente comando de Artisan:
 
-```
+```bash
 php artisan migrate:install
 ```
 

@@ -8,7 +8,7 @@ A lo largo del curso utilizaremos mayoritariamente la que hace uso de Laradock.
 
 En cualquier caso, para almacenar los proyectos de Laravel que vayamos generando, crearemos un directorio `laravel` en el directorio `Documentos`.
 
-```
+```bash
 cd ~/Documentos
 mkdir laravel
 cd laravel/
@@ -16,7 +16,7 @@ cd laravel/
 
 Y nos aseguraremos de tener actualizado Composer:
 
-```
+```bahs
 sudo composer self-update --2
 ```
 
@@ -30,37 +30,37 @@ Antes de poder utilizar Laravel, debemos asegurarnos de cumplir sus requisitos:
 
 A continuación, instalaremos Laravel installer utilizando composer, el cual ya tenemos instalado en la máquina virtual.
 
-```
+```bash
 composer global require "laravel/installer"
 ```
 
-Nos debemos asegurar de que el ejecutable de laravel sea accesible desde terminal de comandos. Para ello, editaremos el archivo ~/.bashrc e incluiremos, al final del mismo, la siguiente línea:
+Nos debemos asegurar de que el ejecutable de `laravel` sea accesible desde terminal de comandos. Para ello, editaremos el archivo `~/.bashrc` e incluiremos, al final del mismo, la siguiente línea:
 
-```
+```bash
 alias laravel='~/.config/composer/vendor/bin/laravel'
 ```
 
 Como ya hemos hecho en anteriores ocasiones, podemos cerrar el terminal y volver a abrirlo, para que tenga efecto la línea anterior o, simplemente, ejecutar el siguiente comando:
 
-```
+```bash
 source ~/.bashrc
 ```
 
 En este momento, ya podremos utilizar laravel para crear nuestra primera aplicación web:
 
-```
+```bash
 laravel new prueba
 ```
 
 La aplicación web creada con Laravel se encontrará en el directorio `prueba`.
 
-```
+```bash
 cd prueba
 ```
 
 En el entorno de desarrollo, podemos usar el servidor web que nos proporciona el propio Laravel a través de su _CLI_ `artisan`.
 
-```
+```bash
 php artisan serve
 ```
 
@@ -84,14 +84,14 @@ _Si estás utilizando la máquina virtual que se ofrece en esta documentación, 
 
 1. Clonar el repositorio:
 
-```
+```bash
 git clone https://github.com/Laradock/laradock.git
 ```
     Para que funcione, tiene que estar instalado el [cliente de línea de comandos de Git](https://git-scm.com/downloads).
 
 2. Copiar el fichero `.env.example` a `.env`:
 
-```
+```bahs
 cd laradock && cp .env.example .env && cd ..
 ```
 
@@ -112,13 +112,13 @@ cd laradock && cp .env.example .env && cd ..
 
 - Accedemos a la carpeta en la que vayamos a almacenar nuestros proyectos Laravel. En nuestro caso:
 
-```
+```bash
 cd ~/Documentos/laravel/
 ```
 
 - Generamos el proyecto _marcapersonalfp_ con el siguiente comando:
 
-```
+```bash
 docker run -it --rm --name php-cli \
     -v "$PWD:/usr/src/app" thecodingmachine/php:8.2-v4-slim-cli \
     composer create-project --prefer-dist laravel/laravel marcapersonalfp
@@ -130,9 +130,10 @@ docker run -it --rm --name php-cli \
 
 Desde el directorio de _Laradock_ ejecutaremos el siguiente comando para arrancar los contenedores:
 
-```
+```bash
 docker compose up -d nginx mariadb php-fpm phpmyadmin workspace
 ```
+
 La primera vez que se ejecute este comando tardará bastante puesto que tiene que descargar muchas imágenes desde internet.
 
 ### Crear la base de datos
@@ -146,7 +147,7 @@ La primera vez que se ejecute este comando tardará bastante puesto que tiene qu
 
     Alternativamente, podemos acceder a la pestaña de SQL de phpMyAdmin o al contenedor de MariaDB y ejecutar las siguientes sentencias:
 
-    ```
+    ```sql
     CREATE USER 'marcapersonalfp'@'%' IDENTIFIED VIA mysql_native_password USING PASSWORD('marcapersonalfp');
     GRANT USAGE ON *.* TO 'marcapersonalfp'@'%' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;
     CREATE DATABASE IF NOT EXISTS `marcapersonalfp`;
@@ -157,7 +158,7 @@ La primera vez que se ejecute este comando tardará bastante puesto que tiene qu
 
 3. Editar el `.env` de la aplicación
 
-    ```
+    ```php
     DB_CONNECTION=mysql
     DB_HOST=mariadb
     DB_PORT=3306
@@ -179,15 +180,15 @@ Para cada aplicación, generaremos un servidor virtual. En este caso, nuestro se
 
 3. Añadiremos el archivo `/etc/hosts` (con `sudo`) una línea para que traduzca convenientemente la url `marcapersonalfp.test`.
 
-    ```
-    127.0.0.1  marcapersonalfp.test
-    ```
+```bash
+127.0.0.1  marcapersonalfp.test
+```
 
 4. Reiniciaremos el contenedor de NGINX desde el directorio `laradock`
 
-    ```
-    docker compose restart nginx
-    ```
+```bash
+docker compose restart nginx
+```
 
 ### (Re)arrancar los contenedores
 
@@ -197,7 +198,7 @@ La primera vez que arrancamos los contenedores tarda mucho tiempo, ya que _Docke
 
 Y para reiniciar un contenedor concreto:
 
-```
+```bash
 docker compose restart nginx
 ```
 

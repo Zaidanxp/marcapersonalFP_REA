@@ -14,7 +14,7 @@ A continuación vamos a crear el layout principal de nuestro sitio. Para eso, cr
 
  A continuación le añadimos, como contenido, la plantilla base que propone _Bootstrap_ en su [documentación](https://getbootstrap.com/docs/5.3/getting-started/introduction/):
 
-```
+```php
 <!doctype html>
 <html lang="en">
   <head>
@@ -34,13 +34,13 @@ Después, modificaremos los siguientes elementos:
 
 - Dentro de la sección `<body>` del _HTML_, eliminamos el texto que viene de ejemplo (`<h1>Hello, world!</h1>`) e incluimos la barra de navegación que hemos guardado antes utilizando el siguiente código:
 
-```
+```php
 @include('partials.navbar')
 ```
 
 - A continuación de la barra de navegación añadimos la sección principal donde aparecerá el contenido de la web:
 
-```
+```php
 <div class="container">
     @yield('content')
 </div>
@@ -52,7 +52,7 @@ Con esto ya hemos definido el _layout_ principal, sin embargo todavía no podemo
 
 En este apartado, vamos terminar una primera versión estable de la web. En primer lugar, crearemos las vistas asociadas a cada ruta, las cuales tendrán que extender del _layout_ que hemos hecho en el apartado anterior y mostrar (en la sección `content` del _layout_) el texto de ejemplo que habíamos definido [para cada ruta](./023_rutas.md#ejercicios). En general, todas las vistas tendrán un código similar al siguiente (variando únicamente la sección `content`):
 
-```
+```php
 @extends('layouts.master')
 
 @section('content')
@@ -77,7 +77,7 @@ Creamos una vista separada para cada una de las rutas excepto para la ruta `logo
 
 Por último, vamos a actualizar las rutas del fichero `routes/web.php` para que se carguen las vistas que acabamos de crear. Acordaos que para referenciar las vistas que están dentro de carpetas, la barra `/` de separación se transforma en un _punto_ (`.`), y que, además, como segundo parámetro, podemos pasar datos a la vista. A continuación se incluyen algunos ejemplos:
 
-```
+```php
 return view('home');
 return view(' | proyectos.index');
 return view(' | proyectos.show', array('id'=>$id));
@@ -89,7 +89,9 @@ Una vez hechos estos cambios ya podemos probarlo en el navegador, el cual deber�
 
 Para comprobar que la solución desarrollada cumple con los requisitos, puedes copiar el archivo [ViewsExerciseTest.php](./materiales/ejercicios-laravel/tests/Feature/ViewsExerciseTest.php) a la carpeta `tests/Feature` de tu proyecto y, posteriormente, ejecutar el siguiente comando artisan:
 
-`php artisan test`
+```bash
+php artisan test
+```
 
 Como en el caso del ejercicio de rutas, la ejecución de los test debería devolver <span style="background-color: lightgreen">PASS</span> en color verde para cada uno de los tests.
 

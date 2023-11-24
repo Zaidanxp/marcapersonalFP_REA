@@ -1,4 +1,5 @@
 # 1. Introducción
+
 ## ¿Qué es Laravel?
 
 Laravel es un _framework_ de código abierto para el desarrollo de aplicaciones web con PHP, que posee una sintaxis simple, expresiva y elegante. Fue creado en 2011 por Taylor Otwell, inspirándose en Ruby on Rails y Symfony, de los cuales ha adoptado sus principales ventajas.

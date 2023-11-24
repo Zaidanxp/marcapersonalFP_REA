@@ -46,7 +46,9 @@ En lugar de pasar una función como segundo parámetro, tenemos que escribir una
 
 Como hemos visto los controladores se almacenan dentro de la carpeta app/Http/Controllers como ficheros PHP. Para crear uno nuevo bien lo podemos hacer a mano y rellenar nosotros todo el código, o podemos utilizar el siguiente comando de Artisan que nos adelantará todo el trabajo:
 
-```php artisan make:controller CatalogController```
+```bash
+php artisan make:controller CatalogController
+```
 
 Este comando creará el controlador `CatalogController` dentro de la carpeta `app/Http/Controllers` y lo completará con el código básico que hemos visto antes.
 
@@ -58,7 +60,7 @@ Como hemos visto al referenciar el _controlador_ en el fichero de rutas únicame
 
 Por ejemplo, si creamos un controlador en `App\Http\Controllers\Photos\AdminController`, entonces para registrar una ruta hasta dicho controlador tendríamos que hacer:
 
-```
+```php
 use App\Http\Controllers\Photos\AdminController;
 
 Route::get('foo', [AdminController::class, 'method']);
@@ -68,11 +70,15 @@ Route::get('foo', [AdminController::class, 'method']);
 
 Para generar la URL que apunte a una acción de un controlador podemos usar el método action de la forma:
 
-```$url = action([FooController::class, 'method']);```
+```php
+$url = action([FooController::class, 'method']);
+```
 
 Por ejemplo, para crear en una plantilla con Blade un enlace que apunte a una acción haríamos:
 
-```<a href="{{ action([FooController::class, 'method']) }}">¡Aprieta aquí!</a>```
+```php
+<a href="{{ action([FooController::class, 'method']) }}">¡Aprieta aquí!</a>
+```
 
 ## Caché de rutas
 
@@ -80,10 +86,14 @@ Si definimos todas nuestras rutas para que utilicen controladores podemos aprove
 
 Gracias a la caché Laravel indican que se puede acelerar el proceso de registro de rutas hasta 100 veces. Para generar la caché simplemente tenemos que ejecutar el comando de Artisan:
 
-```php artisan route:cache```
+```bash
+php artisan route:cache
+```
 
 Si creamos más rutas y queremos añadirlas a la caché simplemente tenemos que volver a lanzar el mismo comando. Para borrar la caché de rutas y no generar una nueva caché tenemos que ejecutar:
 
-```php artisan route:clear```
+```bash
+php artisan route:clear
+```
 
 La caché se recomienda crearla solo cuando ya vayamos a pasar a producción nuestra web. Cuando estamos trabajando en la web es posible que añadamos nuevas rutas y sino nos acordamos de regenerar la caché la ruta no funcionará.

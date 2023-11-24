@@ -25,7 +25,7 @@ Existen otros métodos que, de momento, no abordaremos en esta documentación: `
 
 Las rutas, además de definir la _URL_ de la petición, también indican el **método** con el cual se ha de hacer dicha petición. Los dos métodos más utilizados y que empezaremos viendo son las peticiones tipo `GET` y tipo `POST`. Por ejemplo, para definir una petición tipo GET tendríamos que añadir el siguiente código a nuestro fichero `routes/web.php`:
 
-```
+```php
 Route::get('hola', function()
 {
     return '¡Hola mundo!';
@@ -36,7 +36,7 @@ Este código se lanzaría cuando se realice una petición tipo `GET` a la ruta r
 
 Para definir una ruta tipo `POST` se realizaría de la misma forma pero cambiando el verbo `GET` por `POST`:
 
-```
+```php
 Route::post('foo/bar', function()
 {
     return '¡Hola mundo!';
@@ -47,13 +47,13 @@ En este caso la ruta apuntaría a la dirección URL `foo/bar` (`http://localhost
 
 De la misma forma podemos definir rutas para peticiones tipo `PUT` o `DELETE`:
 
-```
+```php
 Route::put('foo/bar', function () {
     //
 });
 ```
 
-```
+```php
 Route::delete('foo/bar', function () {
     //
 });
@@ -61,7 +61,7 @@ Route::delete('foo/bar', function () {
 
 Si queremos que una ruta se defina a la vez para varios verbos lo podemos hacer añadiendo un array con los tipos, de la siguiente forma:
 
-```
+```php
 Route::match(array('GET', 'POST'), '/', function()
 {
     return '¡Hola mundo!';
@@ -70,7 +70,7 @@ Route::match(array('GET', 'POST'), '/', function()
 
 O para cualquier tipo de petición HTTP utilizando el método any:
 
-```
+```php
 Route::any('foo', function()
 {
     return '¡Hola mundo!';
@@ -81,7 +81,7 @@ Route::any('foo', function()
 
 Si queremos añadir parámetros a una ruta simplemente los tenemos que indicar entre llaves `{}` a continuación de la ruta, de la forma:
 
-```
+```php
 Route::get('saluda/{nombre}', function($nombre)
 {
     return '¡Hola ' . $nombre . '!';
@@ -92,7 +92,7 @@ En este caso estamos definiendo la ruta `/saluda/{nombre}`, donde _nombre_ es re
 
 Para indicar que un parámetro es opcional añadiremos el símbolo `?` al final (y en este caso no daría error si no se realiza la petición con dicho parámetro):
 
-```
+```php
 Route::get('saluda/{nombre?}', function($nombre = null)
 {
     return '¡Hola ' . $nombre . '!';
@@ -101,7 +101,7 @@ Route::get('saluda/{nombre?}', function($nombre = null)
 
 También podemos poner algún valor por defecto.
 
-```
+```php
 Route::get('saluda/{nombre?}', function($nombre = 'colega')
 {
     return '¡Hola ' . $nombre . '!';
@@ -110,7 +110,7 @@ Route::get('saluda/{nombre?}', function($nombre = 'colega')
 
 Laravel también permite el uso de expresiones regulares para validar los parámetros que se le pasan a una ruta. Por ejemplo, para validar que un parámetro esté formado solo por letras o solo por números:
 
-```
+```php
 Route::get('saluda/{nombre}', function($nombre)
 {
     return '¡Hola ' . $nombre . '!';
@@ -118,7 +118,7 @@ Route::get('saluda/{nombre}', function($nombre)
 ->where('nombre', '[A-Za-z]+');
 ```
 
-```
+```php
 Route::get('user/{id}', function($id)
 {
     //
@@ -128,7 +128,7 @@ Route::get('user/{id}', function($id)
 
 Si hubiera varios parámetros podríamos validarlos usando un array:
 
-```
+```php
 Route::get('user/{id}/{name}', function($id, $name)
 {
     //
@@ -154,7 +154,7 @@ A estas alturas es difícil comprender algunos de esos atributos, aunque sí pod
 
 La posibilidad de crear prefijos de rutas permite asociar un valor constante antes de cada una de las rutas de un grupo. Los dos siguientes códigos generan las mismas rutas:
 
-```
+```php
 Route::get('/proyectos', function () {
     //
 });
@@ -163,7 +163,7 @@ Route::get('/proyectos/show/{id}', function () {
 });
 ```
 
-```
+```php
 Route::prefix('proyectos')->group(function () {
     Route::get('/', function () {
         //
@@ -178,7 +178,9 @@ Route::prefix('proyectos')->group(function () {
 
 Cuando queramos generar la _URL_ hasta una ruta podemos utilizar el siguiente método:
 
-`$url = url('foo');`
+```php
+$url = url('foo');
+```
 
 Con este método nos aseguraremos que la _URL_ sea válida y además se le añadirá el dominio que tengamos definido en los ficheros de configuración. En general no será necesaria su utilización y simplemente podremos escribir la ruta a mano hasta una dirección de la forma: `/foo` (anteponiendo la barra `/` para asegurarnos que la ruta sea a partir de la raíz del dominio de nuestro sitio). Sin embargo se recomienda la utilización de este método en general para evitar problemas de generación de rutas no existentes o relativas (si se nos olvidase anteponer la `/`).
 

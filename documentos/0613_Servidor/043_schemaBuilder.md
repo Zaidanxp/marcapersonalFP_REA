@@ -7,7 +7,7 @@ Crear y borrar una tabla
 
 Para añadir una nueva tabla a la base de datos se utiliza el siguiente constructor:
 
-```
+```php
 Schema::create('estudiantes', function (Blueprint $table) {
     $table->increments('id');
 });
@@ -17,10 +17,9 @@ Donde el primer argumento es el nombre de la tabla y el segundo es una función 
 
 En la sección down de la migración tendremos que eliminar la tabla que hemos creado, para esto usaremos alguno de los siguientes métodos:
 
-```
+```php
 Schema::drop('estudiantes');
-```
-```
+// o
 Schema::dropIfExists('estudiantes');
 ```
 
@@ -32,7 +31,7 @@ El constructor `Schema::create` recibe como segundo parámetro una función que 
 
 - En la migración `<TIMESTAMP>_create_estudiantes_table` añadiremos los atributos iniciales de la tabla:
 
-```
+```php
         Schema::create('estudiantes', function($table)
         {
             $table->id();
@@ -47,7 +46,7 @@ El constructor `Schema::create` recibe como segundo parámetro una función que 
 
 - Por su parte, en la migración `<TIMESTAMP>_add_ciclo_to_estudiante_table` añadiremos, a la tabla definida anteriormente, el atributo `ciclo` en el método `up()`:
 
-```
+```php
         Schema::table('estudiantes', function (Blueprint $table) {
             $table->string('ciclo', 4);
         });
@@ -55,7 +54,7 @@ El constructor `Schema::create` recibe como segundo parámetro una función que 
 
 - Por si tuviéramos que deshacer alguna migración, deberíamos poner en el método `down()` del mismo fichero `<TIMESTAMP>_add_ciclo_to_estudiante_table`, el siguiente código:
 
-```
+```php
         Schema::table('estudiantes', function (Blueprint $table) {
             $table->dropColumn('ciclo');
         });
@@ -101,7 +100,7 @@ $table->index('state'); | Añadir un índice a una columna
 
 En la tabla se especifica como añadir estos índices después de crear el campo, pero también permite indicar estos índices a la vez que se crea el campo:
 
-```
+```php
 $table->string('email')->unique();
 ```
 
@@ -109,13 +108,13 @@ $table->string('email')->unique();
 
 Para probar a generar una clave ajena, vamos a crear el correspondiente fichero de migración:
 
-```
+```bash
 php artisan make:migration add_user_id_to_estudiantes_table --table=estudiantes
 ```
 
 `Schema` permite definir _claves ajenas_ entre tablas. en el fichero de migración que acabamos de crear, añadimos las siguientes órdenes de creación de atributos e índice:
 
-```
+```php
 $table->unsignedBigInteger('user_id')->nullable();
 
 $table->foreign('user_id')->references('id')->on('users');
@@ -127,7 +126,7 @@ En este ejemplo, en primer lugar añadimos la columna `user_id` de tipo `UNSIGNE
 
 También podemos especificar las acciones que se tienen que realizar para `on delete` y `on update`:
 
-```
+```php
         $table->foreign('user_id')
             ->references('id')->on('users')
             ->onDelete('cascade');
@@ -135,7 +134,7 @@ También podemos especificar las acciones que se tienen que realizar para `on de
 
 Para eliminar una _clave ajena_, en el método `down()` de la migración tenemos que utilizar el siguiente código:
 
-```
+```php
             $table->dropForeign('estudiantes_user_id_foreign');
             $table->dropColumn('user_id');
 ```

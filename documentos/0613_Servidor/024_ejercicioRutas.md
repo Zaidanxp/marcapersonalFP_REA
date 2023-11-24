@@ -27,7 +27,9 @@ El parámetro `{id}` es opcional. En el caso de que exista debe mostrar _Visuali
 
 Para comprobar que la solución desarrollada cumple con los requisitos, puedes copiar el archivo [RouteExerciseTest.php](./materiales/ejercicios-laravel/tests/Feature/RouteExerciseTest.php) a la carpeta `tests/Feature` de tu proyecto y, posteriormente, ejecutar el siguiente comando artisan:
 
-`php artisan test`
+```bash
+php artisan test
+```
 
 El resultado debería ser similar al que se muestra a continuación:
 <small>

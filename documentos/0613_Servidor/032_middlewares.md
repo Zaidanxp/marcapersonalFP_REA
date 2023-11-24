@@ -14,11 +14,13 @@ Laravel incluye middleware para gestionar la **autenticación**, el **modo mante
 
 Para crear un nuevo Middleware podemos utilizar el comando de Artisan:
 
-```php artisan make:middleware MyMiddleware```
+```bash
+php artisan make:middleware MyMiddleware
+```
 
 Este comando creará la clase `MyMiddleware` dentro de la carpeta `app/Http/Middleware` con el siguiente contenido por defecto:
 
-```
+```php
 <?php
 
 namespace App\Http\Middleware;
@@ -48,7 +50,7 @@ El código generado por Artisan ya viene preparado para que podamos escribir dir
 
 Por ejemplo podríamos crear un filtro que redirija al `home` si se solicita una ruta que contenga un parámetro `id` con un valor superior a 10. En cualquier otro caso que le permita acceder a la ruta:
 
-```
+```php
     public function handle(Request $request, Closure $next): Response
     {
         if ($request->route()->hasParameter('id') && $request->route()->parameter('id') > 10) {
@@ -69,7 +71,7 @@ Como hemos dicho antes, podemos hacer tres cosas con una petición:
 
 Para hacer que el código de un Middleware se ejecute antes o después de la petición HTTP simplemente tenemos que poner nuestro código antes o después de la llamada a `$next($request);`. Por ejemplo, el siguiente _Middleware_ realizaría la acción antes de la petición:
 
-```
+```php
 public function handle($request, Closure $next)
 {
     // Código a ejecutar antes de la petición
@@ -80,7 +82,7 @@ public function handle($request, Closure $next)
 
 Mientras que el siguiente Middleware ejecutaría el código después de la petición:
 
-```
+```php
 public function handle($request, Closure $next)
 {
     $response = $next($request);
@@ -95,13 +97,10 @@ public function handle($request, Closure $next)
 
 De momento, hemos visto para que vale y como se define un Middleware, en esta sección veremos como utilizarlos. Laravel permite la utilización de Middleware de cuatro formas distintas: 
 
-1.- [asociado a grupos](#middleware-asociado-a-grupos),
-
-2.- [global](#middleware-global),
-
-3.- [asociado a rutas o grupos de rutas](#middleware-asociado-a-rutas), y
-
-4.- [asociado a un controlador o a un método de un controlador](#middleware-dentro-de-controladores). 
+1. [asociado a grupos](#middleware-asociado-a-grupos),
+1. [global](#middleware-global),
+1. [asociado a rutas o grupos de rutas](#middleware-asociado-a-rutas), y
+1. [asociado a un controlador o a un método de un controlador](#middleware-dentro-de-controladores). 
 
 En los cuatro casos será necesario registrar primero el Middleware en la clase `app/Http/Kernel.php`.
 
@@ -109,7 +108,7 @@ En los cuatro casos será necesario registrar primero el Middleware en la clase 
 
 Laravel incluye los grupos de middlewares predefinidos `web` y `api` para facilitar la aplicación de los middlewares a las rutas definidas en el archivo `routes/web.php` y `routes/api.php` respectivamente. Estos grupos se definen en el fichero `app/Http/Kernel.php` y se pueden modificar o ampliar. Por ejemplo, el grupo `web` se define de la siguiente forma:
 
-```
+```php
 protected $middlewareGroups = [
         'web' => [
             \App\Http\Middleware\EncryptCookies::class,
@@ -135,7 +134,7 @@ En este ejemplo hemos registrado la clase `MyMiddleware` al final del array corr
 
 Para hacer que un Middleware se ejecute con todas las peticiones HTTP realizadas a una aplicación simplemente lo tenemos que registrar en el array `$middleware` definido en la clase `app/Http/Kernel.php`. Por ejemplo:
 
-```
+```php
 protected $middleware = [
         // \App\Http\Middleware\TrustHosts::class,
         \App\Http\Middleware\TrustProxies::class,
@@ -153,7 +152,7 @@ En el caso de querer que nuestro middleware se ejecute solo cuando se llame a un
 
 En primer lugar añadimos nuestro filtro al _array_ y le asignamos el nombre `"id_mayor_de_10"`:
 
-```
+```php
 protected $middlewareAliases = [
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
@@ -172,7 +171,7 @@ protected $middlewareAliases = [
 
 Una vez registrado nuestro middleware ya lo podemos utilizar en el fichero de rutas `app/Http/routes.php`` mediante la clave o nombre asignado, por ejemplo:
 
-```
+```php
 Route::prefix('catalog')->middleware('id_mayor_de_10')->group(function () {
     Route::get('/', ...
 });
@@ -182,16 +181,15 @@ En el ejemplo anterior hemos asignado el middleware con clave `id_mayor_de_10` a
 
 Si queremos asociar varios middleware con una ruta simplemente tenemos que añadir un _array_ con las claves. Los filtros se ejecutarán en el orden indicado en dicho _array_:
 
-```
+```php
 Route::prefix('catalog')->middleware(['auth', 'id_mayor_de_10'])->group(function () {
     Route::get('/', ...
 });
 ```
-```
 
-// O sobre un controlador: 
+O sobre un controlador: 
 
-```
+```php
 Route::get('profile', 'UserController@showProfile')->middleware('auth');
 ```
 
@@ -199,7 +197,7 @@ Route::get('profile', 'UserController@showProfile')->middleware('auth');
 
 También es posible indicar el middleware a utilizar desde dentro de un controlador. En este caso los filtros también tendrán que estar registrador en el array _$routeMiddleware_ del fichero `app/Http/Kernel.php`. Para utilizarlos se recomienda realizar la asignación en el constructor del controlador y asignar los filtros usando su clave mediante el método `middleware()`. Podremos indicar que se filtren todos los métodos, solo algunos, o todos excepto los indicados, por ejemplo:
 
-```
+```php
 class UserController extends Controller
 {
     /**
@@ -225,7 +223,9 @@ class UserController extends Controller
 
 Al crear una aplicación Web es importante asegurarse de que todas las rutas definidas son correctas y que las partes privadas realmente están protegidas. Para esto Laravel incluye el siguiente método de Artisan:
 
-```php artisan route:list```
+```bash
+php artisan route:list
+```
 
 Este método muestra una tabla con todas las rutas, métodos y acciones. Ademas para cada ruta indica los filtros asociados, tanto si están definidos desde el fichero de rutas como desde dentro de un controlador. Por lo tanto es muy útil para comprobar que todas las rutas y filtros que hemos definido se hayan creado correctamente.
 
@@ -233,7 +233,7 @@ Este método muestra una tabla con todas las rutas, métodos y acciones. Ademas 
 
 Un Middleware también puede recibir parámetros. Por ejemplo, podemos crear un filtro para comprobar si el usuario logueado tiene un determinado _rol_ indicado por parámetro. Para esto lo primero que tenemos que hacer es añadir un tercer parámetro a la función handle del Middleware:
 
-```
+```php
 <?php
 
 namespace App\Http\Middleware;
@@ -266,7 +266,7 @@ En el código anterior de ejemplo se ha añadido el tercer parámetro `$role` a 
 
 Para pasar un parámetro a un middleware en la definición de una ruta lo tendremos que añadir a continuación del nombre del filtro separado por dos puntos, por ejemplo:
 
-```
+```php
 Route::put('post/{id}', ['middleware' => 'role:editor', function ($id) {
     //
 }]);

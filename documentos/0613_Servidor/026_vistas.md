@@ -8,7 +8,7 @@ Las vistas se almacenan en la carpeta `resources/views` como ficheros _PHP_, y p
 
 A continuación se incluye un ejemplo de una vista simple, almacenada en el fichero `resources/views/home.php`, que simplemente mostrará por pantalla `¡Hola <nombre>!`, donde `<nombre>` es una variable de _PHP_ que la vista tiene que recibir como entrada para poder mostrarla.
 
-```
+```php
 <html>
     <head>
         <title>Mi Web</title>
@@ -23,7 +23,7 @@ A continuación se incluye un ejemplo de una vista simple, almacenada en el fich
 
 Una vez tenemos una vista tenemos que asociarla a una ruta para poder mostrarla. Para esto tenemos que ir al fichero `routes/web.php` como hemos visto antes y escribir el siguiente código:
 
-```
+```php
 Route::get('/home/{nombre}', function($nombre)
 {
     return view('home', array('nombre' => $nombre));
@@ -39,7 +39,7 @@ Como hemos visto para referenciar una vista únicamente tenemos que escribir el 
 
 Las vistas se pueden organizar en sub-carpetas dentro de la carpeta `resources/views`, por ejemplo podríamos tener una carpeta `resources/views/proyectos` y dentro de esta todas las vistas relacionadas, como por ejemplo `crear.php`, `mostrar.php` o `listar.php`. En este caso para referenciar las vistas que están dentro de sub-carpetas tenemos que utilizar la notación tipo _"dot"_, en la que las barras que separan las carpetas se sustituyen por **puntos**. Por ejemplo, para referenciar la vista `resources/views/proyectos/listar.php` usaríamos el nombre `proyectos.listar`, o la vista `resources/views/proyectos/crear.php` la cargaríamos de la forma:
 
-```
+```php
 Route::get('crear', function()
 {
     return view('proyectos.crear');
@@ -50,7 +50,7 @@ Route::get('crear', function()
 
 Como hemos visto, para pasar datos a una vista tenemos que utilizar el segundo parámetro del método `view`, el cual acepta un _array asociativo_. En este _array_ podemos añadir todas la variables que queramos utilizar dentro de la vista, ya sean de tipo variable normal (_cadena_, _entero_, etc.) u otro _array_ u _objeto_ con más datos. Por ejemplo, para enviar a la vista `mostrar` todos los datos del `proyecto` cuyo `id` recibimos a través de la ruta tendríamos que hacer:
 
-```
+```php
 Route::get('proyectos/mostrar/{id}', function($id)
 {
     $proyecto = // Cargar los datos del proyecto a partir de $id
@@ -60,7 +60,7 @@ Route::get('proyectos/mostrar/{id}', function($id)
 
 _Laravel_ además ofrece una alternativa que crea una notación un poco más clara. En lugar de pasar un _array_ como segundo parámetro podemos utilizar el método `with` para indicar una a una las variables o contenidos que queremos enviar a la vista:
 
-```
+```php
 $view = view('home')->with('nombre', 'Javi');
 
 $view = view('proyectos.mostrar')

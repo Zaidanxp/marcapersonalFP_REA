@@ -6,7 +6,7 @@ En esta sección vamos a repasar brevemente como crear un formulario usando etiq
 
 Para abrir y cerrar un formulario que apunte a la _URL_ actual y utilice el método _POST_ tenemos que usar las siguientes etiquetas _HTML_:
 
-```
+```php
 <form method="POST">
     ...
 </form>
@@ -14,7 +14,7 @@ Para abrir y cerrar un formulario que apunte a la _URL_ actual y utilice el mét
 
 Si queremos cambiar la _URL_ de envío de datos podemos utilizar el atributo `action` de la forma:
 
-```
+```php
 <form action="{{ url('foo/bar') }}" method="POST">
     ...
 </form>
@@ -22,7 +22,7 @@ Si queremos cambiar la _URL_ de envío de datos podemos utilizar el atributo `ac
 
 La función `url()` generará la dirección a la ruta indicada. Ademas también podemos usar la función `action()` para indicar directamente el método de un controlador a utilizar, por ejemplo:
 
-```
+```php
 use App\Http\Controllers\HomeController;
 
 action([HomeController::class, 'getIndex'])
@@ -32,7 +32,7 @@ Como hemos visto anteriormente, en Laravel podemos definir distintas acciones pa
 
 _HTML_ solo permite el uso de formularios de tipo `GET` o `POST`. Si queremos enviar un formulario usando otros de los métodos (o verbos) definidos en el protocolo _REST_, como son `PUT`, `PATCH` o `DELETE`, tendremos que añadir un campo oculto para indicarlo. Laravel establece el uso del nombre `_method` para indicar el método a usar, por ejemplo:
 
-```
+```php
 <form action="/foo/bar" method="POST">
     <input type="hidden" name="_method" value="PUT">
     ...
@@ -41,7 +41,7 @@ _HTML_ solo permite el uso de formularios de tipo `GET` o `POST`. Si queremos en
 
 Laravel se encargará de recoger el valor de dicho campo y de procesarlo como una petición tipo `PUT` (o la que indiquemos). Además, para facilitar más la definición de este tipo de formularios ha añadido la función `method_field`` que directamente creará este campo oculto:
 
-```
+```php
 <form action="/foo/bar" method="POST">
     {{ method_field('PUT') }}
     ...
@@ -54,7 +54,7 @@ El _CSRF_ (del inglés _Cross-site request forgery_ o falsificación de petició
 
 Laravel proporciona una forma fácil de protegernos de este tipo de ataques. Simplemente tendremos que utilizar la directiva de Blade `@csrf` después de abrir el formulario, igual que vimos en la sección anterior, este método añadirá un campo oculto ya configurado con los valores necesarios. A continuación se incluye un ejemplo de uso:
 
-```
+```php
 <form action="/foo/bar" method="POST">
     @csrf
     ...
@@ -129,7 +129,7 @@ Para crear una etiqueta tenemos que usar el tag `label` de HTML:
 
 Donde el atributo for se utiliza para especificar el identificador del campo relacionado con la etiqueta. De esta forma, al pulsar sobre la etiqueta se marcará automáticamente el campo relacionado. A continuación se muestra un ejemplo completo:
 
-```
+```php
 <label for="correo">Correo electrónico:</label>
 <input type="email" name="correo" id="correo">
 ```
@@ -138,7 +138,7 @@ Donde el atributo for se utiliza para especificar el identificador del campo rel
 
 Para crear campos tipo _checkbox_ o tipo _radio button_ tenemos que utilizar también la etiqueta `input`, pero indicando el tipo `chekbox` o `radio` respectivamente. Por ejemplo, para crear un _checkbox_ para aceptar los términos escribiríamos:
 
-```
+```php
 <label for="terms">Aceptar términos</label>
 <input type="checkbox" name="terms" id="terms" value="1">
 ```
@@ -147,7 +147,7 @@ En este caso, al enviar el formulario, si el usuario marca la casilla nos llegar
 
 Para crear una lista de _checkbox_ o de _radio button_ es importante que todos tengan el mismo nombre (para la propiedad `name`). De esta forma los valores devueltos estarán agrupados en esa variable, y además, el _radio button_ funcionará correctamente: al apretar sobre una opción se desmarcará la que este seleccionada en dicho grupo (entre todos los que tengan el mismo nombre). Por ejemplo:
 
-```
+```php
 <label for="color">Elige tu color favorito:</label>
 <br>
 <input type="radio" name="color" id="color" value="rojo">Rojo<br>
@@ -158,7 +158,7 @@ Para crear una lista de _checkbox_ o de _radio button_ es importante que todos t
 
 Además podemos añadir el atributo `checked` para marcar una opción por defecto:
 
-```
+```php
 <label for="clase">Clase:</label>
 <input type="radio" name="clase" id="clase" value="turista" checked>Turista<br>
 <input type="radio" name="clase" id="clase" value="preferente">Preferente<br>
@@ -168,7 +168,7 @@ Además podemos añadir el atributo `checked` para marcar una opción por defect
 
 Para generar un campo para subir ficheros utilizamos también la etiqueta `input` indicando en su tipo el valor `file`, por ejemplo:
 
-```
+```php
 <label for="imagen">Sube la imagen:</label>
 <input type="file" name="imagen" id="imagen">
 ```
@@ -180,7 +180,7 @@ Para enviar ficheros la etiqueta de apertura del formulario tiene que cumplir do
 
 A continuación se incluye un ejemplo completo:
 
-```
+```php
 <form enctype="multipart/form-data" method="post">
     <label for="imagen">Sube la imagen:</label>
     <input type="file" name="imagen" id="imagen">
@@ -191,7 +191,7 @@ A continuación se incluye un ejemplo completo:
 
 Para crear una lista desplegable utilizamos la etiqueta _HTML_ `select`. Las opciones la indicaremos entre la etiqueta de apertura y cierre usando elementos `option`, de la forma:
 
-```
+```php
 <select name="marca">
   <option value="volvo">Volvo</option>
   <option value="saab">Saab</option>
@@ -202,7 +202,7 @@ Para crear una lista desplegable utilizamos la etiqueta _HTML_ `select`. Las opc
 
 En el ejemplo anterior se creará una lista desplegable con cuatro opciones. Al enviar el formulario el valor seleccionado nos llegará en la variable marca. Además, para elegir una opción por defecto podemos utilizar el atributo `selected`, por ejemplo:
 
-```
+```php
 <label for="talla">Elige la talla:</label>
 <select name="talla" id="talla">
   <option value="XS">XS</option> 
@@ -223,7 +223,7 @@ Por último vamos a ver como añadir botones a un formulario. En un formulario p
 
 A continuación se incluyen ejemplo de cada uno de ellos:
 
-```
+```php
 <button type="submit">Enviar</button>
 <button type="reset">Borrar</button>
 <button type="button">Volver</button>
@@ -233,7 +233,7 @@ A continuación se incluyen ejemplo de cada uno de ellos:
 
 Para obtener la instancia del objeto `Request` actual debemos inyectar la clase `Illuminate\Http\Request` en el método del controlador.
 
-```
+```php
 <?php
 namespace App\Http\Controllers;
 

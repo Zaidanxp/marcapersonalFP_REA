@@ -8,7 +8,7 @@ La forma de funcionar de las migraciones es crear ficheros (_PHP_) con la descri
 
 Para crear una nueva migración se utiliza el comando de _Artisan_ `make:migration`, al cual le pasaremos el nombre del fichero a crear y el nombre de la tabla:
 
-```
+```bash
 php artisan make:migration create_estudiantes_table --create=estudiantes
 ```
 
@@ -16,7 +16,7 @@ Esto nos creará un fichero de migración en la carpeta `database/migrations` co
 
 Si lo que queremos es añadir una migración que modifique los campos de una tabla existente tendremos que ejecutar el siguiente comando:
 
-```
+```bash
 php artisan make:migration add_ciclo_to_estudiantes_table --table=estudiantes
 ```
 
@@ -28,7 +28,7 @@ Por defecto, al indicar el nombre del fichero de migraciones se suele seguir sie
 
 El fichero o clase _PHP_ generada para una migración siempre tiene una estructura similar a la siguiente:
 
-```
+```php
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -61,7 +61,7 @@ En el método `up()` es donde tendremos crear o modificar la tabla, y en el mét
 
 Después de crear una migración y de definir los campos de la tabla (en la siguiente sección veremos como especificar esto) tenemos que lanzar la migración con el siguiente comando:
 
-```
+```bash
 php artisan migrate
 ```
 
@@ -69,24 +69,24 @@ php artisan migrate
 
 Este comando aplicará la migración sobre la base de datos. Si hubiera más de una migración pendiente se ejecutarán todas. Para cada migración se llamará a su método `up()` para que cree o modifique la base de datos. Posteriormente, en caso de que queramos deshacer los últimos cambios podremos ejecutar:
 
-```
+```bash
 php artisan migrate:rollback
 ```
 
 O si queremos deshacer todas las migraciones
 
-```
+```bash
 php artisan migrate:reset
 ```
 
 Un comando interesante, cuando estamos desarrollando un nuevo sitio web, es `migrate:refresh`, el cual deshará todos los cambios y volver a aplicar las migraciones:
 
-```
+```bash
 php artisan migrate:refresh
 ```
 
 Además, si queremos comprobar el estado de las migraciones, para ver las que ya están instaladas y las que quedan pendientes, podemos ejecutar:
 
-```
+```bash
 php artisan migrate:status
 ```

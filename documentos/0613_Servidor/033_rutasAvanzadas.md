@@ -8,7 +8,7 @@ A continuación vamos a ver algunas de estas opciones, en todos los casos usarem
 
 Esta opción es muy útil para aplicar un filtro sobre todo un conjunto de rutas, de esta forma solo tendremos que especificar el filtro una vez y además nos permitirá dividir las rutas en secciones (distinguiendo mejor a que secciones se les está aplicando un filtro):
 
-```
+```php
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', function ()    {
         // Ruta filtrada por el middleware
@@ -24,7 +24,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 También podemos utilizar la opción de agrupar rutas para indicar un prefijo que se añadirá a todas las _URL_ del grupo. Por ejemplo, si queremos definir una sección de rutas que empiecen por el prefijo dashboard tendríamos que hacer lo siguiente:
 
-```
+```php
 Route::group(['prefix' => 'dashboard'], function () {
     Route::get('catalog', function () { /* ... */ });
     Route::get('users', function () { /* ... */ });
@@ -33,7 +33,7 @@ Route::group(['prefix' => 'dashboard'], function () {
 
 También podemos crear grupos de rutas dentro de otros grupos. Por ejemplo para definir un grupo de rutas a utilizar en una _API_ y crear diferentes rutas según la versión de la API podríamos hacer:
 
-```
+```php
 Route::group(['prefix' => 'api'], function()
 {
     Route::group(['prefix' => 'v1'], function()
@@ -58,7 +58,7 @@ De esta forma podemos crear secciones dentro de nuestro fichero de rutas para ag
 
 Esta opción también la podemos aprovechar para especificar parámetros comunes que se recogerán para todas las rutas y se pasarán a todos los controladores o funciones asociadas, por ejemplo:
 
-```
+```php
 Route::group(['prefix' => 'accounts/{account_id}'], function () {
     Route::get('detail', function ($account_id)  { /* ... */ });
     Route::get('settings', function ($account_id)  { /* ... */ });

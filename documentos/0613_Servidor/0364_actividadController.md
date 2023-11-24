@@ -27,7 +27,7 @@ En este ejercicio vamos a terminar los métodos de los controladores que hemos c
 
 Este método tiene que mostrar un listado de todas los actividades de los usuarios que tiene _marcapersonalFP_. El listado de `actividades` será el siguiente:
 
-```
+```php
 <?php
     private $arrayActividades = [
         [
@@ -78,7 +78,7 @@ Este array de `actividades` lo tenéis que copiar como variable miembro de la cl
 
 Y en la vista correspondiente tendremos que adaptar el siguiente trozo de código en su sección content:
 
-```
+```php
 @extends('layouts.master')
 
 @section('content')
@@ -160,7 +160,7 @@ De momento, no tendremos que hacer nada más. Más adelante lo completaremos par
 
 Para comprobar que la solución desarrollada cumple con los requisitos, crearemos un test con el siguiente comando _Artisan_
 
-```
+```bash
 php artisan make:test ActividadControllerTest
 ```
 
@@ -169,7 +169,9 @@ Adapta esas líneas para que solicite datos de `actividades` y controle que se d
 
 posteriormente, ejecutar el siguiente comando artisan:
 
-`php artisan test`
+```bash
+php artisan test
+```
 
 Como en el caso del ejercicio de rutas, la ejecución de los test debería devolver <span style="background-color: lightgreen">PASS</span> en color verde para cada uno de los tests.
 

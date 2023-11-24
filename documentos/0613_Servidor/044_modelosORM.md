@@ -10,7 +10,7 @@ Por defecto los modelos se guardarán como clases _PHP_ dentro de la carpeta `ap
 
 Para definir un modelo que use _Eloquent_ únicamente tenemos que crear una clase que herede de la clase `Model`:
 
-```
+```php
 <?php
 
 namespace App\Models;
@@ -26,7 +26,7 @@ class Estudiante extends Model
 
 Sin embargo es mucho más fácil y rápido crear los modelos usando el comando `make:model` de _Artisan_:
 
-```
+```bash
 php artisan make:model Estudiante
 ```
 
@@ -40,7 +40,7 @@ En general, el nombre de los modelos se pone en singular, con la primera letra e
 
 Si la tabla tuviese otro nombre lo podemos indicar usando la propiedad protegida `$table` del modelo:
 
-```
+```php
 <?php
 
 namespace App\Models;
@@ -68,7 +68,7 @@ Otra propiedad que, en ocasiones, tendremos que establecer son los _timestamps_ 
 
 A continuación se muestra un ejemplo de un modelo de Eloquent en el que se añadirían todas las especificaciones que hemos visto:
 
-```
+```php
 <?php
 
 namespace App\Models;
@@ -92,14 +92,14 @@ Una vez creado el modelo, ya podemos empezar a utilizarlo para recuperar datos d
 
 Es importante que para su utilización indiquemos al inicio de la clase el _espacio de nombres_ del modelo o modelos a utilizar. Por ejemplo, si vamos a usar los modelos `User` y `Estudiante` tendríamos que añadir:
 
-```
+```php
 use App\Models\User;
 use App\Models\Estudiante;
 ```
 
 Si queremos tener algunos registros en la tabla `estudiantes`, podemos ejecutar la siguiente rutina en la pestaña SQL de [phpMyAdmin](http://localhost:8081).
 
-```
+```sql
 DELIMITER $$
 CREATE DEFINER=`root`@`%` PROCEDURE `insertar_estudiantes`()
 BEGIN
@@ -130,7 +130,7 @@ Debemos tener en cuenta que la utilización de los modelos se realizará habitua
 
 Crea, por lo tanto, la siguiente ruta en el fichero `routes/web.php`:
 
-```
+```php
 Route::get('pruebaDB', function () {
     // aquí irán el código que utiliza el modelo
 });
@@ -142,7 +142,7 @@ Route::get('pruebaDB', function () {
 
 Para obtener todas las filas de la tabla asociada a un modelo usaremos el método `all()`:
 
-```
+```php
     $estudiantes = Estudiante::all();
 
     foreach( $estudiantes as $estudiante ) {
@@ -157,26 +157,26 @@ Este método nos devolverá un _array_ de resultados, donde cada item del _array
 
 _Eloquent_ también incorpora el método find($id) para buscar un elemento a partir del identificador único del modelo, por ejemplo:
 
-```
+```php
 $estudiante = Estudiante::find(1);
 echo $estudiante->nombre;
 ```
 
 Si queremos que se lance una excepción cuando no se encuentre un modelo podemos utilizar los métodos `findOrFail()` o `firstOrFail()`. Esto nos permite capturar las excepciones y mostrar un error `404` cuando sucedan.
 
-```
+```php
 $estudiante = Estudiante::findOrFail(21);
 echo $estudiante->nombre;
 ```
 
-```
+```php
 $estudiante = Estudiante::where('votos', '>', 100)->firstOrFail();
 echo $estudiante->nombre;
 ```
 
 A continuación se incluyen otros ejemplos de consultas usando _Eloquent_ con algunos de los métodos que ya habíamos visto en la sección "Constructor de consultas":
 
-```
+```php
 // Obtener 10 estudiantes con más de 100 votos
 $estudiantes = Estudiante::where('votos', '>', 100)->take(10)->get();
 
@@ -185,25 +185,26 @@ $estudiantes = Estudiante::where('votos', '>', 100)->take(10)->get();
     }
 ```
 
-```
+```php
 // Obtener el primer estudiante con más de 100 votos
 $estudiante = Estudiante::where('votos', '>', 100)->first();
 echo $estudiante->nombre;
 ```
 
 También podemos utilizar los métodos agregados para calcular el **total** de registros obtenidos, o el **máximo**, **mínimo**, **media** o **suma** de una determinada columna. Por ejemplo:
-
+```php
 $count = Estudiante::where('votos', '>', 100)->count();
 $votos = Estudiante::max('votos');
 $votos = Estudiante::min('votos');
 $votos = Estudiante::avg('votos');
 $total = Estudiante::sum('votos');
+```
 
 ## Insertar datos
 
 Para añadir una entrada en la tabla de la base de datos asociada con un modelo simplemente tenemos que crear una nueva instancia de dicho modelo, asignar los valores que queramos y por último guardarlos con el método `save()`:
 
-```
+```php
 $count = Estudiante::where('votos', '>', 100)->count();
 echo 'Antes: ' . $count . '<br />';
 
@@ -223,7 +224,7 @@ echo 'Después: ' . $count . '<br />';
 
 Para obtener el identificador asignado en la base de datos después de guardar (cuando se trate de tablas con índice _auto-incremental_), lo podremos recuperar simplemente accediendo al campo `id` del objeto que habíamos creado, por ejemplo:
 
-```
+```php
 $insertedId = $user->id;
 ```
 
@@ -231,7 +232,7 @@ $insertedId = $user->id;
 
 Para actualizar una instancia de un modelo es muy sencillo, solo tendremos que recuperar en primer lugar la instancia que queremos actualizar, a continuación modificarla y por último guardar los datos:
 
-```
+```php
 $estudiante = Estudiante::find(1);
 $estudiante->votos = 200;
 $estudiante->save();
@@ -241,7 +242,7 @@ $estudiante->save();
 
 Para borrar una instancia de un modelo en la base de datos simplemente tenemos que usar su método `delete()`:
 
-```
+```php
 $count = Estudiante::count();
 echo 'Antes: ' . $count . '<br />';
 $estudiante = Estudiante::find(1);
@@ -253,7 +254,7 @@ echo 'Después: ' . $count . '<br />';
 
 Si, por ejemplo, queremos borrar un conjunto de resultados también podemos usar el método `delete()` de la forma:
 
-```
+```php
 $affectedRows = Estudiante::where('votos', '>', 100)->delete();
 echo 'Estudiantes eliminados: ' . $affectedRows . '<br />';
 ```
