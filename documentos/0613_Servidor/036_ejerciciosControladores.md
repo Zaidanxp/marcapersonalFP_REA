@@ -118,12 +118,12 @@ En la columna de la izquierda insertamos la imagen del proyecto, mientras que en
 
 Para mostrar el estado del proyecto consultaremos el valor `calificacion` del array, el cual podrá tener dos casos:
 
-    En caso de estar **suspenso** (calificacion < 5) aparecerá el estado "Proyecto suspenso" y un botón azul para "Aprobar proyecto".
-    En caso de estar **aprobado** (calificacion >= 5) aparecerá el estado "Proyecto aprobado" y un botón rojo para "Suspender proyecto".
+- En caso de estar **suspenso** (calificacion < 5) aparecerá el estado "Proyecto suspenso" y un botón azul para "Aprobar proyecto".
+- En caso de estar **aprobado** (calificacion >= 5) aparecerá el estado "Proyecto aprobado" y un botón rojo para "Suspender proyecto".
 
 Además tenemos que incluir dos botones más, un botón que nos llevará a editar el proyecto y otro para volver al listado de proyectos.
 
-    Nota: los botones de aprobar/suspender de momento no tienen que funcionar. Acordaos que en _Bootstrap_ podemos transformar un enlace en un botón, simplemente aplicando las clases "btn btn-default" (más info en: http://getbootstrap.com/css/#buttons).
+> **Nota:** los botones de aprobar/suspender de momento no tienen que funcionar. Acordaos que en _Bootstrap_ podemos transformar un enlace en un botón, simplemente aplicando las clases "btn btn-default" (más info en: http://getbootstrap.com/css/#buttons).
 
 Esta pantalla finalmente tendría el siguiente código:
 
@@ -193,9 +193,9 @@ Nombre | nombre | texto
 Dominio | dominio | texto
 Metadatos | metadatos | textarea
 
-Además tendrá un botón al final con el texto "Añadir proyecto".
+Además, tendrá un botón al final con el texto "Añadir proyecto".
 
-```
+```php
 @section('content')
 
 <div class="row" style="margin-top:40px">
@@ -249,24 +249,26 @@ Además tendrá un botón al final con el texto "Añadir proyecto".
 @endsection
 ```
 
-    De momento el formulario no funcionará. Más adelante lo terminaremos.
+> De momento el formulario no funcionará. Más adelante lo terminaremos.
 
 ### Método CatalogController@getEdit
 
 Este método permitirá modificar el contenido de un proyecto. El formulario será exactamente igual al de añadir proyecto, así que lo podemos copiar y pegar en esta vista y simplemente cambiar los siguientes puntos:
 
-    - El título por "Modificar proyecto".
-    - El valor del `action` del formulario debería ser:`action([App\Http\Controllers\CatalogController::class, 'getEdit'], ['id' => $id])`
-    - Añadir justo debajo de la apertura del formulario el campo oculto para indicar que se va a enviar por PUT. Recordad que Laravel incluye el método `@method('PUT')` que nos ayudará a hacer esto.
-    - El texto del botón de envío por "Modificar proyecto".
+- El título por "Modificar proyecto".
+- El valor del `action` del formulario debería ser:`action([App\Http\Controllers\CatalogController::class, 'getEdit'], ['id' => $id])`
+- Añadir justo debajo de la apertura del formulario el campo oculto para indicar que se va a enviar por PUT. Recordad que Laravel incluye el método `@method('PUT')` que nos ayudará a hacer esto.
+- El texto del botón de envío por "Modificar proyecto".
 
-De momento no tendremos que hacer nada más. Más adelante lo completaremos para que se rellene con los datos del proyecto a editar.
+De momento, no tendremos que hacer nada más. Más adelante lo completaremos para que se rellene con los datos del proyecto a editar.
 
 ## Comprobar el ejercicio
 
 Para comprobar que la solución desarrollada cumple con los requisitos, en primer lugar, **vamos a eliminar los ficheros de test que teníamos en la carpeta `tests/Feature`**. A continuación, copiaremos el archivo [ControllersExerciseTest.php](./materiales/ejercicios-laravel/tests/Feature/ControllersExerciseTest.php) a la carpeta `tests/Feature` de tu proyecto y, posteriormente, ejecutar el siguiente comando artisan:
 
-`php artisan test`
+```bash
+php artisan test
+```
 
 Como en el caso del ejercicio de rutas, la ejecución de los test debería devolver <span style="background-color: lightgreen">PASS</span> en color verde para cada uno de los tests.
 

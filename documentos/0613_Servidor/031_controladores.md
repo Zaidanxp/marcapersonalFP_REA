@@ -8,7 +8,7 @@ Como ya vimos en la [sección de introducción](./01_introduccion.md), los _cont
 
 Los controladores se almacenan en _ficheros PHP_ en la carpeta `app/Http/Controllers` y normalmente se les añade el sufijo _Controller_, por ejemplo `UserController.php` o `CatalogController.php`. A continuación se incluye un ejemplo básico de un controlador almacenado en el fichero `app/Http/Controllers/UserController.php`:
 
-```
+```php
 <?php
 namespace App\Http\Controllers;
 
@@ -34,7 +34,7 @@ En el código de ejemplo, el método `showProfile($nombre)` lo único que realiz
 
 Una vez definido un _controlador_ ya podemos asociarlo a una _ruta_. Para esto tenemos que modificar el fichero de rutas `routes.php` de la forma:
 
-```
+```php
 use App\Http\Controllers\UserController;
 
 Route::get('user/{nombre}', [UserController::class, 'showProfile']);

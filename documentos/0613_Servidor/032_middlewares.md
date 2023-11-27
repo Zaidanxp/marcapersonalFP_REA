@@ -6,9 +6,9 @@ Los componentes llamados **Middleware** son un mecanismo proporcionado por _Lara
 - dar un error
 - redireccionar a otra página en caso de no permitirla.
 
-Laravel incluye varios filtros por defecto, uno de ellos es el encargado de realizar la **autenticación de los usuarios**. Este filtro lo podemos aplicar sobre una ruta, un conjunto de rutas o sobre un controlador en concreto. Este middleware se encargará de filtrar las peticiones a dichas rutas: _en caso de estar logueado y tener permisos de acceso le permitirá continuar con la petición, y en caso de no estar autenticado lo redireccionará al formulario de login_.
+_Laravel_ incluye varios filtros por defecto, uno de ellos es el encargado de realizar la **autenticación de los usuarios**. Este filtro lo podemos aplicar sobre una ruta, un conjunto de rutas o sobre un controlador en concreto. Este middleware se encargará de filtrar las peticiones a dichas rutas: _en caso de estar logueado y tener permisos de acceso le permitirá continuar con la petición, y en caso de no estar autenticado lo redireccionará al formulario de login_.
 
-Laravel incluye middleware para gestionar la **autenticación**, el **modo mantenimiento**, la **protección contra CSRF**, y algunos más. Todos estos filtros los podemos encontrar en la carpeta `app/Http/Middleware`, y los podremos modificar o ampliar su funcionalidad. Pero además de estos podemos crear nuestros propios Middleware como veremos a continuación.
+_Laravel_ incluye middleware para gestionar la **autenticación**, el **modo mantenimiento**, la **protección contra CSRF**, y algunos más. Todos estos filtros los podemos encontrar en la carpeta `app/Http/Middleware`, y los podremos modificar o ampliar su funcionalidad. Pero además de estos podemos crear nuestros propios Middleware como veremos a continuación.
 
 ## Definir un nuevo Middleware
 
@@ -45,10 +45,10 @@ class MyMiddleware
 
 El código generado por Artisan ya viene preparado para que podamos escribir directamente la implementación del filtro a realizar dentro de la función `handle()`. Como podemos ver, esta función solo incluye el valor de retorno con una llamada a `return $next($request);`, que lo que hace es continuar con la petición y ejecutar el método que tiene que procesarla. Como entrada la función `handle()` recibe dos parámetros:
 
-    - `$request`: En la cual nos vienen todos los parámetros de entrada de la petición.
-    - `$next`: El método o función que tiene que procesar la petición.
+- `$request`: En la cual nos vienen todos los parámetros de entrada de la petición.
+- `$next`: El método o función que tiene que procesar la petición.
 
-Por ejemplo podríamos crear un filtro que redirija al `home` si se solicita una ruta que contenga un parámetro `id` con un valor superior a 10. En cualquier otro caso que le permita acceder a la ruta:
+Por ejemplo, podríamos crear un filtro que redirija al `home` si se solicita una ruta que contenga un parámetro `id` con un valor superior a 10. En cualquier otro caso que le permita acceder a la ruta:
 
 ```php
     public function handle(Request $request, Closure $next): Response
@@ -63,9 +63,9 @@ Por ejemplo podríamos crear un filtro que redirija al `home` si se solicita una
 
 Como hemos dicho antes, podemos hacer tres cosas con una petición:
 
-    - Si todo es correcto permitir que la petición continúe devolviendo: `return $next($request);`
-    - Realizar una redirección a otra ruta para no permitir el acceso con: `return redirect('/');`
-    - Lanzar una excepción o llamar al método abort para mostrar una página de error: `abort(403, 'Unauthorized action.');`
+- Si todo es correcto permitir que la petición continúe devolviendo: `return $next($request);`
+- Realizar una redirección a otra ruta para no permitir el acceso con: `return redirect('/');`
+- Lanzar una excepción o llamar al método abort para mostrar una página de error: `abort(403, 'Unauthorized action.');`
 
 ## Middleware antes o después de la petición
 
@@ -106,7 +106,7 @@ En los cuatro casos será necesario registrar primero el Middleware en la clase 
 
 ### Middleware asociado a grupos
 
-Laravel incluye los grupos de middlewares predefinidos `web` y `api` para facilitar la aplicación de los middlewares a las rutas definidas en el archivo `routes/web.php` y `routes/api.php` respectivamente. Estos grupos se definen en el fichero `app/Http/Kernel.php` y se pueden modificar o ampliar. Por ejemplo, el grupo `web` se define de la siguiente forma:
+_Laravel_ incluye los grupos de middlewares predefinidos `web` y `api` para facilitar la aplicación de los middlewares a las rutas definidas en el archivo `routes/web.php` y `routes/api.php` respectivamente. Estos grupos se definen en el fichero `app/Http/Kernel.php` y se pueden modificar o ampliar. Por ejemplo, el grupo `web` se define de la siguiente forma:
 
 ```php
 protected $middlewareGroups = [

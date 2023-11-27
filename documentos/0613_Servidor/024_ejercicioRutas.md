@@ -49,4 +49,5 @@ El resultado debería ser similar al que se muestra a continuación:
 </span>
 </pre>
 </small>
+
 En el caso de obtener un resultado diferente, habrá que investigar cuál es la la condición `assert` que no se cumple e intentar reparar el error.

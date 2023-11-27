@@ -10,9 +10,11 @@ También debemos copiar el [logo de marcapersonalfp](./materiales/ejercicios-lar
 
 A continuación vamos a crear el layout principal de nuestro sitio. Para eso, creamos el fichero `resources/views/layouts/master.blade.php`:
 
-`php artisan make:view layouts.master`
+```bash
+php artisan make:view layouts.master
+```
 
- A continuación le añadimos, como contenido, la plantilla base que propone _Bootstrap_ en su [documentación](https://getbootstrap.com/docs/5.3/getting-started/introduction/):
+A continuación le añadimos, como contenido, la plantilla base que propone _Bootstrap_ en su [documentación](https://getbootstrap.com/docs/5.3/getting-started/introduction/):
 
 ```php
 <!doctype html>
@@ -34,17 +36,17 @@ Después, modificaremos los siguientes elementos:
 
 - Dentro de la sección `<body>` del _HTML_, eliminamos el texto que viene de ejemplo (`<h1>Hello, world!</h1>`) e incluimos la barra de navegación que hemos guardado antes utilizando el siguiente código:
 
-```php
-@include('partials.navbar')
-```
+  ```php
+  @include('partials.navbar')
+  ```
 
 - A continuación de la barra de navegación añadimos la sección principal donde aparecerá el contenido de la web:
 
-```php
-<div class="container">
-    @yield('content')
-</div>
-```
+  ```php
+  <div class="container">
+      @yield('content')
+  </div>
+  ```
 
 Con esto ya hemos definido el _layout_ principal, sin embargo todavía no podemos probarlo ya que no está asociado a ninguna ruta. En los siguientes apartados realizaremos los cambios necesarios para poder verlo y además añadiremos el resto de vistas hijas.
 

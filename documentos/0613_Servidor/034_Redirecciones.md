@@ -1,8 +1,8 @@
 # 3.4. Redirecciones
 
-Como respuesta a una petición también podemos devolver una redirección. Esta opción será interesante cuando, por ejemplo, el usuario no esté logueado y lo queramos redirigir al formulario de _login_, o cuando se produzca un error en la validación de una petición y queramos redirigir a otra ruta.
+Como respuesta a una petición, también podemos devolver una redirección. Esta opción será interesante cuando, por ejemplo, el usuario no esté logueado y lo queramos redirigir al formulario de _login_, o cuando se produzca un error en la validación de una petición y queramos redirigir a otra ruta.
 
-Para esto simplemente tenemos que utilizar el método `redirect()`` indicando como parámetro la ruta a redireccionar, por ejemplo:
+Para esto, simplemente tenemos que utilizar el método `redirect()`` indicando como parámetro la ruta a redireccionar, por ejemplo:
 
 ```php
 return redirect('user/login');

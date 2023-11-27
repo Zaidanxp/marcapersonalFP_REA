@@ -1,12 +1,12 @@
 # 2.2. Funcionamiento básico
 
-En esta sección vamos a analizar la estructura de un proyecto, es decir, donde va cada cosa, y a continuación veremos el ciclo de vida de una petición en Laravel.
+En esta sección vamos a analizar la estructura de un proyecto, es decir, donde va cada cosa, y a continuación veremos el ciclo de vida de una petición en _Laravel_.
 
 ## Estructura de un proyecto
 
 Al crear un nuevo proyecto de Laravel se nos generará una estructura de carpetas y ficheros para organizar nuestro código. Es importante que conozcamos para que vale cada elemento y donde tenemos que colocar nuestro código. En este manual lo iremos viendo poco a poco, por lo que más adelante se volverán a explicar algunos de estos elementos más en detalle. Pero de momento vamos a explicar brevemente las carpetas que más utilizaremos y las que mejor tendremos que conocer:
 
- - `app` – Contiene el código principal de la aplicación. Esta carpeta a su vez está dividida en muchas subcarpetas que analizaremos en la siguiente sección.
+- `app` – Contiene el código principal de la aplicación. Esta carpeta a su vez está dividida en muchas subcarpetas que analizaremos en la siguiente sección.
 
 - `config` – Aquí se encuentran todos los archivos de configuración de la aplicación: base datos, cache, correos, sesiones o cualquier otra configuración general de la aplicación.
 

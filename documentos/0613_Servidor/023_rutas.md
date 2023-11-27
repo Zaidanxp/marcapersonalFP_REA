@@ -19,7 +19,7 @@ Las rutas, en su forma más sencilla, pueden devolver directamente un valor desd
 
 Existen otros métodos que, de momento, no abordaremos en esta documentación: `HEAD`, `CONNECT`, `OPTIONS`, `TRACE` y `PATCH`.
 
-* _Información extraída de [mozilla.org](https://developer.mozilla.org/es/docs/Web/HTTP/Methods)_
+> _Información extraída de [mozilla.org](https://developer.mozilla.org/es/docs/Web/HTTP/Methods)_
 
 ## Rutas básicas
 
@@ -108,7 +108,7 @@ Route::get('saluda/{nombre?}', function($nombre = 'colega')
 });
 ```
 
-Laravel también permite el uso de expresiones regulares para validar los parámetros que se le pasan a una ruta. Por ejemplo, para validar que un parámetro esté formado solo por letras o solo por números:
+_Laravel_ también permite el uso de expresiones regulares para validar los parámetros que se le pasan a una ruta. Por ejemplo, para validar que un parámetro esté formado solo por letras o solo por números:
 
 ```php
 Route::get('saluda/{nombre}', function($nombre)

@@ -32,8 +32,9 @@ Route::get('/home/{nombre}', function($nombre)
 
 En este caso estamos definiendo que la vista se devuelva cuando se haga una petición tipo `GET` a `/home/{nombre}`. El único cambio que hemos hecho con respecto a lo que vimos en la sección anterior de rutas ha sido en el valor devuelto por la función, el cual genera la vista usando el método `view` y la devuelve. Esta función recibe como parámetros:
 
-    El nombre de la vista (en este caso **home**), el cual será un fichero almacenado en la carpeta `resources/views`, acordaos que la vista anterior de ejemplo la habíamos guardado en `resources/views/home.php`. Para indicar el nombre de la vista se utiliza el mismo nombre del fichero pero sin la extensión `.php`.
-    Como segundo parámetro recibe un _array_ de datos que se le pasarán a la vista. En este caso la vista recibirá una variable llamada `$nombre` con el valor del parámetro de la ruta.
+> El nombre de la vista (en este caso **home**), el cual será un fichero almacenado en la carpeta `resources/views`, acordaos que la vista anterior de ejemplo la habíamos guardado en `resources/views/home.php`. Para indicar el nombre de la vista se utiliza el mismo nombre del fichero pero sin la extensión `.php`.
+
+> Como segundo parámetro recibe un _array_ de datos que se le pasarán a la vista. En este caso la vista recibirá una variable llamada `$nombre` con el valor del parámetro de la ruta.
 
 Como hemos visto para referenciar una vista únicamente tenemos que escribir el nombre del fichero que la contiene pero sin la extensión `.php`. En el ejemplo, para cargar la vista almacenada en el fichero `home.php` la referenciamos mediante el nombre `home`, sin la extensión `.php` ni la ruta `resources/views`.
 

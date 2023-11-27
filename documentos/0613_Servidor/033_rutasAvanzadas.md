@@ -1,8 +1,8 @@
 # 3.3. Rutas avanzadas
 
-Laravel permite crear grupos de rutas para especificar opciones comunes a todas ellas, como por ejemplo un middleware, un prefijo, un subdominio o un espacio de nombres que se tiene que aplicar sobre todas ellas.
+_Laravel_ permite crear grupos de rutas para especificar opciones comunes a todas ellas, como por ejemplo un middleware, un prefijo, un subdominio o un espacio de nombres que se tiene que aplicar sobre todas ellas.
 
-A continuación vamos a ver algunas de estas opciones, en todos los casos usaremos el método Route::group, el cual recibirá como primer parámetro las opciones a aplicar sobre todo el grupo y como segundo parámetro una clausula con la definición de las rutas.
+A continuación, vamos a ver algunas de estas opciones, en todos los casos usaremos el método Route::group, el cual recibirá como primer parámetro las opciones a aplicar sobre todo el grupo y como segundo parámetro una clausula con la definición de las rutas.
 
 ## Middleware sobre un grupo de rutas
 
@@ -54,7 +54,7 @@ Route::group(['prefix' => 'api'], function()
 });
 ```
 
-De esta forma podemos crear secciones dentro de nuestro fichero de rutas para agrupar, por ejemplo, todas las rutas públicas, todas las de la sección privada de administración, sección privada de usuario, las rutas de las diferentes versiones de la API de nuestro sitio, etc.
+De esta forma, podemos crear secciones dentro de nuestro fichero de rutas para agrupar, por ejemplo, todas las rutas públicas, todas las de la sección privada de administración, sección privada de usuario, las rutas de las diferentes versiones de la API de nuestro sitio, etc.
 
 Esta opción también la podemos aprovechar para especificar parámetros comunes que se recogerán para todas las rutas y se pasarán a todos los controladores o funciones asociadas, por ejemplo:
 
