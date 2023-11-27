@@ -16,7 +16,7 @@ cd laravel/
 
 Y nos aseguraremos de tener actualizado Composer:
 
-```bahs
+```bash
 sudo composer self-update --2
 ```
 
@@ -84,16 +84,16 @@ _Si estás utilizando la máquina virtual que se ofrece en esta documentación, 
 
 1. Clonar el repositorio:
 
-```bash
-git clone https://github.com/Laradock/laradock.git
-```
-    Para que funcione, tiene que estar instalado el [cliente de línea de comandos de Git](https://git-scm.com/downloads).
+    ```bash
+    git clone https://github.com/Laradock/laradock.git
+    ```
+    > Para que funcione, tiene que estar instalado el [cliente de línea de comandos de Git](https://git-scm.com/downloads).
 
 2. Copiar el fichero `.env.example` a `.env`:
 
-```bahs
-cd laradock && cp .env.example .env && cd ..
-```
+    ```bash
+    cd laradock && cp .env.example .env && cd ..
+    ```
 
 3. Editar el fichero `.env` de la carpeta laradock:
 
@@ -112,19 +112,19 @@ cd laradock && cp .env.example .env && cd ..
 
 - Accedemos a la carpeta en la que vayamos a almacenar nuestros proyectos Laravel. En nuestro caso:
 
-```bash
-cd ~/Documentos/laravel/
-```
+    ```bash
+    cd ~/Documentos/laravel/
+    ```
 
 - Generamos el proyecto _marcapersonalfp_ con el siguiente comando:
 
-```bash
-docker run -it --rm --name php-cli \
-    -v "$PWD:/usr/src/app" thecodingmachine/php:8.2-v4-slim-cli \
-    composer create-project --prefer-dist laravel/laravel marcapersonalfp
-```
+    ```bash
+    docker run -it --rm --name php-cli \
+        -v "$PWD:/usr/src/app" thecodingmachine/php:8.2-v4-slim-cli \
+        composer create-project --prefer-dist laravel/laravel marcapersonalfp
+    ```
 
-**atención** _Si quisiéramos generar más aplicaciones Laravel, únicamente deberíamos cambiar el nombre del proyecto, que se encuentra al final de la orden, después de `laravel/laravel`._
+    > **atención** _Si quisiéramos generar más aplicaciones Laravel, únicamente deberíamos cambiar el nombre del proyecto, que se encuentra al final de la orden, después de `laravel/laravel`._
 
 ### Arrancar los contenedores necesarios:
 
@@ -156,7 +156,7 @@ La primera vez que se ejecute este comando tardará bastante puesto que tiene qu
 
     Para acceder al contenedor de MariaDB podemos ejecutar el comando `docker exec -ti laradock-mariadb-1 /bin/bash`. Una vez en el interior del contenedor (`root@________:/# `), podremos iniciar una sesión de MariaDB ejecutando `mariadb -p` respondiendo con _root_ como contraseña y ejecutar las sentencias anteriores.
 
-3. Editar el `.env` de la aplicación
+2. Editar el `.env` de la aplicación
 
     ```php
     DB_CONNECTION=mysql
@@ -180,15 +180,15 @@ Para cada aplicación, generaremos un servidor virtual. En este caso, nuestro se
 
 3. Añadiremos el archivo `/etc/hosts` (con `sudo`) una línea para que traduzca convenientemente la url `marcapersonalfp.test`.
 
-```bash
-127.0.0.1  marcapersonalfp.test
-```
+    ```bash
+    127.0.0.1  marcapersonalfp.test
+    ```
 
 4. Reiniciaremos el contenedor de NGINX desde el directorio `laradock`
 
-```bash
-docker compose restart nginx
-```
+    ```bash
+    docker compose restart nginx
+    ```
 
 ### (Re)arrancar los contenedores
 
@@ -208,5 +208,5 @@ Página principal: [http://marcapersonalfp.test](http://marcapersonalfp.test)
 
 ![Captura de pantalla MarcaPersonalFP recién instalado](./images/marcaPersonalFP_LaravelInstalacion.png)
 
-* Los pasos anteriores se pueden repetir para cualquier otra aplicación, cambiando cada aparición de _marcapersonalfp_ por el nombre que le queramos asignar a la nueva aplicación.
+> Los pasos anteriores se pueden repetir para cualquier otra aplicación, cambiando cada aparición de _marcapersonalfp_ por el nombre que le queramos asignar a la nueva aplicación.
 
