@@ -6,7 +6,7 @@ En estos ejercicios vamos a continuar con la gestión de los proyectos que habí
 
 En primer lugar, vamos a comprobar la correcta configuración de la base de datos. Para esto, tenemos que abrir el fichero `.env` para comprobar que vamos a usar una base de datos tipo _MySQL_ llamada `marcapersonalfp` junto con el nombre de usuario y contraseña de acceso.
 
-A continuación, abrimos _PHPMyAdmin_ y comprobamos que el usuario llamado `marcapersonalfp` y la base de datos con el mismo nombre están creados. Por último, abriremos un terminal en la carpeta de nuestro proyecto y ejecutamos el comando que crea la tabla de _migraciones_.
+A continuación, abrimos _PHPMyAdmin_ y comprobamos que el usuario llamado `marcapersonalfp` y la base de datos con el mismo nombre están creados. Por último, abriremos un terminal en la carpeta de nuestro proyecto y ejecutamos el comando que traslada las _migraciones_ realizadas hasta este momento.
 
 ```bash
 php artisan migrate
@@ -14,7 +14,7 @@ php artisan migrate
 
 Si todo va bien podremos actualizar desde _PHPMyAdmin_ y comprobar que se ha creado la tabla `migrations` dentro de nuestra nueva base de datos.
 
-    Si nos diese algún error tendremos que revisar los valores indicados en el fichero .env. En caso de ser correctos es posible que también tengamos que reiniciar el servidor o terminal que tengamos abierto.
+> Si nos diese algún error tendremos que revisar los valores indicados en el fichero `.env`. En caso de ser correctos es posible que también tengamos que reiniciar el servidor o terminal que tengamos abierto.
 
 Ahora vamos a crear la tabla que utilizaremos para almacenar los proyectos. Ejecuta el comando de _Artisan_ para crear la migración llamada `create_proyectos_table` para la tabla `proyectos`.
 
@@ -31,7 +31,7 @@ metadatos | textarea | sí
 
 > Recuerda que, en el método `down()` de la migración, tienes que deshacer los cambios que has hecho en el método `up()`, en este caso, sería eliminar la tabla.
 
-Por último ejecutaremos el comando de _Artisan_ que añade las nuevas migraciones y comprobaremos que la tabla se ha creado correctamente con los campos que le hemos indicado.
+Por último, ejecutaremos el comando de _Artisan_ que añade las nuevas migraciones y comprobaremos que la tabla se ha creado correctamente con los campos que le hemos indicado.
 
 ## Ejercicio 2 - Modelo de datos
 
@@ -57,7 +57,7 @@ Ahora vamos a proceder a rellenar la tabla de la base de datos con los datos ini
     1. Y, a continuación, añadimos el siguiente código:
 ```php
     foreach( self::$arrayProyectos as $proyecto ) {
-        $p = new Movie;
+        $p = new Proyecto;
         $p->docente_id = $proyecto['title'];
         $p->nombre = $proyecto['nombre'];
         $p->dominio = $proyecto['dominio'];
@@ -84,3 +84,10 @@ Ya no necesitaremos más el _array_ de proyectos (`$arrayProyectos`) que habíam
 Ahora tendremos que actualizar las vistas para que, en lugar de acceder a los datos del _array_, los obtenga del objeto con el proyecto. Para esto, cambiaremos en todos los sitios donde hayamos puesto `$proyecto['campo']` por `$proyecto->campo`.
 
 Además, en la vista `catalog/index.blade.php`, en vez de utilizar el índice del _array_ (`$key`) como identificador para crear el enlace a `catalog/show/{id}`, tendremos que utilizar el campo `id` del proyecto (`$proyecto->id`). Lo mismo en la vista `catalog/show.blade.php`, para generar el enlace de editar proyecto tendremos que añadir el identificador del proyecto a la ruta `catalog/edit`.
+
+# Otros ejercicios de Bases de Datos
+
+- [Docentes](./0471_BDDocente.md)
+- [Currículos](./0472_BDCurriculo.md)
+- [Reconocimientos](./0473_BDReconocimiento.md)
+- [Actividades](./0474_BDActividad.md)

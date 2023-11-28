@@ -9,13 +9,14 @@ Para añadir una nueva tabla a la base de datos se utiliza el siguiente construc
 
 ```php
 Schema::create('estudiantes', function (Blueprint $table) {
-    $table->increments('id');
+    $table->id();
+    ...
 });
 ```
 
 Donde el primer argumento es el nombre de la tabla y el segundo es una función que recibe como parámetro un objeto del tipo `Blueprint` que utilizaremos para configurar las columnas de la tabla.
 
-En la sección down de la migración tendremos que eliminar la tabla que hemos creado, para esto usaremos alguno de los siguientes métodos:
+En el método `down()` de la migración tendremos que eliminar la tabla que hemos creado, para esto usaremos alguno de los siguientes métodos:
 
 ```php
 Schema::drop('estudiantes');

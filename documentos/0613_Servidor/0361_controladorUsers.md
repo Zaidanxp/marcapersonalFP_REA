@@ -177,16 +177,16 @@ Perfil Linkedin | linkedin | url
 
 Además tendrá un botón al final con el texto "Añadir Usuario".
 
-    De momento el formulario no funcionará. Más adelante lo terminaremos.
+> De momento el formulario no funcionará. Más adelante lo terminaremos.
 
 ### Método UserController@getEdit
 
 Este método permitirá modificar el contenido de un `user`. El formulario será exactamente igual al de añadir `user`, así que lo podemos copiar y pegar en esta vista y simplemente cambiar los siguientes puntos:
 
-    - El título por "Modificar Usuario".
-    - El valor del `action` del formulario debería ser:`action([App\Http\Controllers\UserController::class, 'getEdit'], ['id' => $id])`
-    - Añadir justo debajo de la apertura del formulario el campo oculto para indicar que se va a enviar por PUT. Recordad que Laravel incluye el método `@method('PUT')` que nos ayudará a hacer esto.
-    - El texto del botón de envío por "Modificar Usuario".
+- El título por "Modificar Usuario".
+- El valor del `action` del formulario debería ser:`action([App\Http\Controllers\UserController::class, 'getEdit'], ['id' => $id])`
+- Añadir justo debajo de la apertura del formulario el campo oculto para indicar que se va a enviar por PUT. Recordad que Laravel incluye el método `@method('PUT')` que nos ayudará a hacer esto.
+- El texto del botón de envío por "Modificar Usuario".
 
 De momento, no tendremos que hacer nada más. Más adelante lo completaremos para que se rellene con los datos del `user` a editar.
 
