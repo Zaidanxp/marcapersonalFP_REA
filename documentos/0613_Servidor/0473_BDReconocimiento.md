@@ -1,4 +1,4 @@
-# 4.7. Ejercicios de Bases de Datos
+# 4.7.3. Ejercicios de Bases de Datos
 
 En estos ejercicios vamos a continuar con la gestión de marcapersonalFP.es, que habíamos empezado en sesiones anteriores y le añadiremos todo lo referente a la gestión de la base de datos.
 

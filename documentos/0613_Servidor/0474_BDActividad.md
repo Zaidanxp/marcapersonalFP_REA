@@ -1,4 +1,4 @@
-# 4.7. Ejercicios de Bases de Datos de Actividades
+# 4.7.4. Ejercicios de Bases de Datos de Actividades
 
 En estos ejercicios vamos a continuar con la gestión de marcapersonalFP.es, que habíamos empezado en sesiones anteriores y le añadiremos todo lo referente a la gestión de la base de datos.
 
@@ -72,7 +72,7 @@ Ahora vamos a proceder a rellenar la tabla de la base de datos con los datos ini
                 $act->save();
             }
         ```
-        
+
 4. Por último, tendremos que ejecutar el comando de _Artisan_ que procesa las _semillas_ y, una vez realizado, comprobaremos que se rellenado la tabla `actividades` con el listado de actividades.
 
 > Si te aparece el error "`Fatal error: Class 'Actividad' not found`" revisa si has indicado el _espacio de nombres_ del modelo que vas a utilizar (`use App\Models\Actividad;`).

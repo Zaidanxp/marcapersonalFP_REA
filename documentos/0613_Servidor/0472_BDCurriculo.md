@@ -1,4 +1,4 @@
-# 4.7. Ejercicios de Bases de Datos de Currículos
+# 4.7.2. Ejercicios de Bases de Datos de Currículos
 
 En estos ejercicios vamos a continuar con la gestión de marcapersonalFP.es, que habíamos empezado en sesiones anteriores y le añadiremos todo lo referente a la gestión de la base de datos.
 
@@ -57,7 +57,7 @@ Ahora vamos a proceder a rellenar la tabla de la base de datos con los datos ini
             Schema::enableForeignKeyConstraints();
         }
     ```
-    
+
 2. Movemos el array de curriculos que se facilitaba en los materiales y que habíamos copiado dentro del controlador `CurriculoController` a la clase de _semillas_ (`CurriculosTableSeeder.php`), guardándolo como variable privada de la clase.
 
 3. Dentro del método `run()` de la clase `CurriculosTableSeeder` realizamos las siguientes acciones:
