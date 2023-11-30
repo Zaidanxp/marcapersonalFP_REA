@@ -30,9 +30,12 @@ echo $estudiante->nombre;
 Para filtrar los datos usamos el método `where()`, indicando el nombre de la columna y el valor a filtrar:
 
 ```php
-$estudiante = DB::table('estudiantes')->where('nombre', 'Pedro')->get();
+$estudiantes = DB::table('estudiantes')->where('nombre', 'Pedro')->get();
 
-echo $estudiante->nombre;
+foreach ($estudiantes as $estudiante)
+{
+    echo $estudiante->nombre;
+}
 ```
 
 En este ejemplo, el método `where()` filtrará todas las filas cuya columna `nombre` sea igual a `Pedro`. Si queremos realizar otro tipo de filtrados, como columnas que tengan un valor mayor (`>`), mayor o igual (`>=`), menor (`<`), menor o igual (`<=`), distinto del indicado (`<>`) o usar el operador `like`, lo podemos indicar como segundo parámetro de la forma:

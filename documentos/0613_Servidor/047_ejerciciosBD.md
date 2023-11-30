@@ -9,7 +9,7 @@ En primer lugar, vamos a comprobar la correcta configuración de la base de dato
 A continuación, abrimos _PHPMyAdmin_ y comprobamos que el usuario llamado `marcapersonalfp` y la base de datos con el mismo nombre están creados. Por último, abriremos un terminal en la carpeta de nuestro proyecto y ejecutamos el comando que traslada las _migraciones_ realizadas hasta este momento.
 
 ```bash
-php artisan migrate
+php artisan migrate fresh
 ```
 
 Si todo va bien podremos actualizar desde _PHPMyAdmin_ y comprobar que se ha creado la tabla `migrations` dentro de nuestra nueva base de datos.
@@ -27,7 +27,7 @@ Campo | Tipo | nullable
 docente_id | unsignedBigInteger | sí
 nombre | string(120) | no
 dominio | string(30) | sí
-metadatos | textarea | sí
+metadatos | text | sí
 
 > Recuerda que, en el método `down()` de la migración, tienes que deshacer los cambios que has hecho en el método `up()`, en este caso, sería eliminar la tabla.
 
