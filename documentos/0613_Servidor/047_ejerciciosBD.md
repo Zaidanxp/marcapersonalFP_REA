@@ -16,7 +16,7 @@ Si todo va bien podremos actualizar desde _PHPMyAdmin_ y comprobar que se ha cre
 
 > Si nos diese algún error tendremos que revisar los valores indicados en el fichero `.env`. En caso de ser correctos es posible que también tengamos que reiniciar el servidor o terminal que tengamos abierto.
 
-Ahora vamos a crear la tabla que utilizaremos para almacenar los proyectos. Ejecuta el comando de _Artisan_ para crear la migración llamada `create_proyectos_table` para la tabla `proyectos`.
+Ahora vamos a crear la tabla que utilizaremos para almacenar los proyectos. Ejecuta el [comando de _Artisan_ para crear la migración](./042_migraciones.md#crear-una-nueva-migración) llamada `create_proyectos_table` para la tabla `proyectos`.
 
 > Renombra el archivo como `2023_11_29_000000_create_proyectos_table.php`
 
@@ -31,11 +31,11 @@ metadatos | text | sí
 
 > Recuerda que, en el método `down()` de la migración, tienes que deshacer los cambios que has hecho en el método `up()`, en este caso, sería eliminar la tabla.
 
-Por último, ejecutaremos el comando de _Artisan_ que añade las nuevas migraciones y comprobaremos que la tabla se ha creado correctamente con los campos que le hemos indicado.
+Por último, ejecutaremos el [comando de _Artisan_ que añade las nuevas migraciones](./042_migraciones.md#ejecutar-migraciones) y comprobaremos que la tabla se ha creado correctamente con los campos que le hemos indicado.
 
 ## Ejercicio 2 - Modelo de datos
 
-En este ejercicio vamos a crear el modelo de datos asociado con la tabla `proyectos`. Para esto usaremos el comando apropiado de _Artisan_ para crear el modelo llamado `Proyecto`.
+En este ejercicio vamos a crear el modelo de datos asociado con la tabla `proyectos`. Para esto usaremos el [comando apropiado de _Artisan_ para crear el modelo](./044_modelosORM.md#definición-de-un-modelo) llamado `Proyecto`.
 
 Una vez creado este fichero, lo abriremos y comprobaremos que el nombre de la clase sea el correcto y que herede de la clase `Model`. Y ya está, no es necesario hacer nada más, el cuerpo de la clase puede estar vacío (`{}`), todo lo demás se hace **automáticamente**!
 
@@ -58,7 +58,7 @@ Ahora vamos a proceder a rellenar la tabla de la base de datos con los datos ini
 ```php
     foreach( self::$arrayProyectos as $proyecto ) {
         $p = new Proyecto;
-        $p->docente_id = $proyecto['title'];
+        $p->docente_id = $proyecto['docente_id'];
         $p->nombre = $proyecto['nombre'];
         $p->dominio = $proyecto['dominio'];
         $p->metadatos = serialize($proyecto['metadatos']);
@@ -84,6 +84,18 @@ Ya no necesitaremos más el _array_ de proyectos (`$arrayProyectos`) que habíam
 Ahora tendremos que actualizar las vistas para que, en lugar de acceder a los datos del _array_, los obtenga del objeto con el proyecto. Para esto, cambiaremos en todos los sitios donde hayamos puesto `$proyecto['campo']` por `$proyecto->campo`.
 
 Además, en la vista `catalog/index.blade.php`, en vez de utilizar el índice del _array_ (`$key`) como identificador para crear el enlace a `catalog/show/{id}`, tendremos que utilizar el campo `id` del proyecto (`$proyecto->id`). Lo mismo en la vista `catalog/show.blade.php`, para generar el enlace de editar proyecto tendremos que añadir el identificador del proyecto a la ruta `catalog/edit`.
+
+## Comprobar el ejercicio
+
+Para comprobar que la solución desarrollada cumple con los requisitos, se puede copiar el archivo [ProyectosDBTest.php](./materiales/ejercicios-laravel/tests/Feature/ProyectosDBTest.php) a la carpeta `tests/Feature` de tu proyecto y, posteriormente, ejecutar el siguiente comando artisan:
+
+```bash
+php artisan test
+```
+
+Aunque faltarían algunos aspectos para comprobar, la ejecución de los test debería devolver <span style="background-color: lightgreen">PASS</span> en color verde para cada uno de los tests.
+
+En el caso de obtener un resultado diferente, habrá que investigar cuál es la la condición `assert` que no se cumple e intentar reparar el error.
 
 # Otros ejercicios de Bases de Datos
 

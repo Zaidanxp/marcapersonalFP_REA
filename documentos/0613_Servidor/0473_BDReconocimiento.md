@@ -83,7 +83,7 @@ Ahora vamos a proceder a rellenar la tabla de la base de datos con los datos ini
 
 ## Ejercicio 4 - Uso de la base de datos
 
-En este último ejercicio, vamos a actualizar los métodos del controlador `CatalogController` para que obtengan los datos desde la base de datos. Seguiremos los siguientes pasos:
+En este último ejercicio, vamos a actualizar los métodos del controlador `ReconocimientoController` para que obtengan los datos desde la base de datos. Seguiremos los siguientes pasos:
 
 1. Modificar el método `getIndex()` para que obtenga toda la lista de reconocimientos desde la base de datos usando el modelo Reconocimiento y que se pase a la vista ese listado.
 1. Modificar el método `getShow()` para que obtenga el reconocimiento pasado por parámetro usando el método `findOrFail()` y se pase a la vista dicho reconocimiento.
