@@ -99,14 +99,34 @@ _Si estás utilizando la máquina virtual que se ofrece en esta documentación, 
 
     - Seleccionar la versión de PHP: `PHP_VERSION=8.2`
     - Modificar el driver de base de datos de phpMyAdmin: `PMA_DB_ENGINE=mariadb`
-    - Añadir XDEBUG a WORKSPACE y PHP-FPM para poder depurar: `WORKSPACE_INSTALL_XDEBUG=true` y `PHP_FPM_INSTALL_XDEBUG=true`
-    - Modificar los archivos `php-fpm/xdebug.ini` y `workspace/xdebug.ini` para modificar las siguientes variables:
-        - `xdebug.remote_host="dockerhost"`
-        - `xdebug.idekey=VSCODE`
 
-4. Editar el fichero `mariadb/my.cnf` para asignarle únicamente _256M_ a la variable `innodb_log_file_size`, en lugar de las _4048M_ con las que está configurada inicialmente.
+4. Habilitar la depuración de código:
 
-5. Editar el fichero `mariadb/Dockerfile` sustituyendo la línea `CMD ["mysqld"]` por `CMD ["mariadbd"]`.
+    - Añadir _XDEBUG_ a WORKSPACE y PHP-FPM para poder depurar: `WORKSPACE_INSTALL_XDEBUG=true` y `PHP_FPM_INSTALL_XDEBUG=true`
+    - Modificar también los puertos asociados a _XDEBUG_: `WORKSPACE_XDEBUG_PORT=9003` y `PHP_FPM_XDEBUG_PORT=9003`
+    - Modificar los archivos `php-fpm/xdebug.ini` y `workspace/xdebug.ini` con el siguiente contenido:
+        ```bash
+        ; NOTE: The actual debug.so extention is NOT SET HERE but rather (/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini)
+
+        xdebug.client_host="host.docker.internal"
+        xdebug.discover_client_host=1
+        xdebug.client_port=9003
+        xdebug.idekey=vsc
+        xdebug.mode=debug
+        xdebug.start_with_request=trigger
+
+        xdebug.cli_color=0
+        xdebug.output_dir="~/xdebug/phpstorm/tmp/profiling"
+
+        xdebug.var_display_max_children=-1
+        xdebug.var_display_max_data=-1
+        xdebug.var_display_max_depth=-1
+
+        ```
+
+5. Editar el fichero `mariadb/my.cnf` para asignarle únicamente _256M_ a la variable `innodb_log_file_size`, en lugar de las _4048M_ con las que está configurada inicialmente.
+
+6. Editar el fichero `mariadb/Dockerfile` sustituyendo la línea `CMD ["mysqld"]` por `CMD ["mariadbd"]`.
 
 ### Generar el proyecto
 

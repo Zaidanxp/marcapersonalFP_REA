@@ -65,6 +65,9 @@ Ahora vamos a proceder a rellenar la tabla de la base de datos con los datos ini
         $p->save();
     }
 ```
+
+>> Como se puede observar, a la hora de persistir el _array_ de metadatos, utilizamos la función `serialize()`, que lo convierte en un _String_. Cuando queramos volver a recrear el _array_, deberemos utilizar la función inversa `unserialize()`. 
+
 4. Por último, tendremos que ejecutar el comando de _Artisan_ que procesa las _semillas_ y, una vez realizado, comprobaremos que se rellenado la tabla `proyectos` con el listado de proyectos.
 
 > Si te aparece el error "`Fatal error: Class 'Proyecto' not found`" revisa si has indicado el _espacio de nombres_ del modelo que vas a utilizar (`use App\Models\Proyecto;`).

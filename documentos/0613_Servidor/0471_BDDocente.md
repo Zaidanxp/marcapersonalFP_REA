@@ -65,7 +65,7 @@ Ahora vamos a proceder a rellenar la tabla de la base de datos con los datos ini
     nombre | firstName()
     apellidos | lastName()
     direccion | address()
-    ciclo | randomElement(['Administración', 'Comercio, Informática', 'Relaciones con las empresas', 'DIOP', 'Innovación'])
+    ciclo | randomElement(['Administración', 'Comercio', Informática', 'Relaciones con las empresas', 'DIOP', 'Innovación'])
 
 3. Dentro del método `run()` de la clase `DocentesTableSeeder` realizamos las siguientes acciones:
 
