@@ -32,7 +32,7 @@ Los contenidos que se presentan a continuación constituyen un desarrollo que, i
     5. [Inicialización de la base de datos (Database Seeding)](./045_databaseSeeding.md)
     6. [Constructor de consultas (Query Builder)](./046_queryBuilder.md)
     7. [Ejercicios](./047_ejerciciosBD.md)
-5. Datos de entrada y Control de usuarios
-    1. Datos de entrada
-    2. Control de usuarios
-    3. Ejercicios
+5. [Datos de entrada y Control de usuarios](./05_requestYAutenticacion.md)
+    1. [Datos de entrada](./051_datosEntrada.md)
+    2. [Control de usuarios](./052_Autenticacion.md)
+    3. [Ejercicios](./053_ejerciciosRequestUsers.md)
