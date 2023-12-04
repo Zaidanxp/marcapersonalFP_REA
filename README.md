@@ -17,11 +17,11 @@ El objetivo de este proyecto es la creación de una página web [marcaPersonalFP
 
 El diagrama de casos de uso inicial que se plantea es el que se puede ver en la siguiente imagen:
 
-![Diagrama de casos de uso marcapersonalfp.es](../marcaPersonalFP-usecase.png)
+![Diagrama de casos de uso marcapersonalfp.es](./documentos/marcaPersonalFP-usecase.png)
 
 Por su parte, la base de datos que dará soporte a la web seguirá el siguiente esquema:
 
-![Esquema de la base de datos marcapersonalfp.es](../marcapersonalFP.drawio.png)
+![Esquema de la base de datos marcapersonalfp.es](./documentos/marcapersonalFP.drawio.png)
 
 ## Máquina Virtual
 
