@@ -1,0 +1,1008 @@
+marcapersonalFP: 0.1
+info:
+  title: MarcaPersonalFP - OpenAPI 3.0
+  version: 1.0.11
+  description: >-
+    Aquí podrás encontrar los endpoint de la API del servidor marcapersonalFP
+    basada en la especificación OpenAPI 3.0.
+
+    El objetivo de este proyecto es la creación de una página web
+    marcaPersonalFP.es en la que los estudiantes de Formación Profesional puedan
+    publicar su currículo y los logros conseguidos a lo largo de su estancia en
+    el centro.
+
+
+    El diagrama de casos de uso inicial que se plantea es el que se puede ver en
+    la siguiente imagen:
+
+
+    ![Diagrama de casos de uso
+    marcapersonalfp.es](https://raw.githubusercontent.com/2DAW-CarlosIII/marcapersonalFP_REA/master/documentos/marcaPersonalFP-usecase.png)
+
+
+    Por su parte, la base de datos que dará soporte a la web seguirá el
+    siguiente esquema:
+
+
+    ![Esquema relacional de la base de datos
+    marcapersonalfp.es](https://raw.githubusercontent.com/2DAW-CarlosIII/marcapersonalFP_REA/master/documentos/marcapersonalFP.drawio.png)
+
+
+    Enlaces interesantes del proyecto:
+
+    - [Página web en producción](https://marcapersonalfp.es)
+
+    - [Código fuente de la página
+    web](https://github.com/2DAW-CarlosIII/marcapersonalFP23_24)
+
+    - [Recurso Educativo
+    Abierto](https://github.com/2DAW-CarlosIII/marcapersonalFP_REA)
+  termsOfService: https://marcapersonalFP.es/termsOfService
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+externalDocs:
+  description: Proyecto de innovación
+  url: >-
+    https://github.com/2DAW-CarlosIII/marcapersonalFP_REA/blob/master/documentos/Proyecto%20Marca%20Personal%20FP.pdf
+servers:
+  - url: https://localhost/api/v1
+    variables: {}
+    description: Servidor localhost
+  - url: https://marcapersonalFP.test/api/v1
+    variables: {}
+    description: Entorno local de desarrollo
+  - url: https://marcapersonalFP.es/api/v1
+    variables: {}
+    description: Entorno de producción
+tags:
+  - name: user
+    description: Operaciones con los usuarios
+  - name: curriculos
+    description: Operaciones con los currículos
+  - name: proyecto
+    description: Operaciones con los proyectos
+  - name: reconocimiento
+    description: Operaciones con los reconocimiento
+  - name: actividad
+    description: Operaciones con las actividades
+paths:
+  /proyecto:
+    put:
+      tags:
+        - proyecto
+      summary: Actualiza un proyecto existente
+      description: Actualiza un proyecto existente por Id
+      operationId: updateProyecto
+      requestBody:
+        description: Actualiza un proyecto existente
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Proyecto'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Proyecto'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Proyecto'
+        required: true
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Proyecto'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Proyecto'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: proyecto not found
+        '405':
+          description: Validation exception
+      security:
+        - petstore_auth:
+            - write:proyectos
+            - read:proyectos
+    post:
+      tags:
+        - proyecto
+      summary: Añade un nuevo proyecto
+      description: Añade un nuevo proyecto
+      operationId: addProyecto
+      requestBody:
+        description: Crea un nuevo Proyecto
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Proyecto'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Proyecto'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Proyecto'
+        required: true
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Proyecto'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Proyecto'
+        '405':
+          description: Invalid input
+      security:
+        - petstore_auth:
+            - write:proyectos
+            - read:proyectos
+  /proyecto/findByTags:
+    get:
+      tags:
+        - proyecto
+      summary: Encuentra proyectos según etiquetas
+      description: >-
+        Etiquetas múltiples pueden ser provistas separándolas por comas. Utilice tag1,
+        tag2, tag3 para probarlo.
+      operationId: findProyectosByTags
+      parameters:
+        - name: tags
+          in: query
+          description: Tags para filtrar
+          required: false
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Proyecto'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Proyecto'
+        '400':
+          description: Invalid tag value
+      security:
+        - petstore_auth:
+            - write:proyectos
+            - read:proyectos
+  /proyecto/{id}:
+    get:
+      tags:
+        - proyecto
+      summary: Encuentra un proyecto según su ID
+      description: Devuelve un único proyecto
+      operationId: getProyectoById
+      parameters:
+        - name: id
+          in: path
+          description: ID del proyecto a devolver
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Proyecto'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Proyecto'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: proyecto not found
+      security:
+        - api_key: []
+        - petstore_auth:
+            - write:proyectos
+            - read:proyectos
+    post:
+      tags:
+        - proyecto
+      summary: Actualiza un proyecto con los datos del formulario
+      description: ''
+      operationId: updateProyectoWithForm
+      parameters:
+        - name: id
+          in: path
+          description: ID del proyecto a actualizar
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: docente_id
+          in: query
+          description: id del docente tutor del proyecto a actualizar
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: nombre
+          in: query
+          description: Nombre del proyecto tras la actualización
+          schema:
+            type: string
+        - name: dominio
+          in: query
+          description: dominio de GitHub tras la actualización
+          schema:
+            type: string
+      responses:
+        '405':
+          description: Invalid input
+      security:
+        - petstore_auth:
+            - write:proyectos
+            - read:proyectos
+    delete:
+      tags:
+        - proyecto
+      summary: Borra un proyecto
+      description: Borra un proyecto
+      operationId: deleteProyecto
+      parameters:
+        - name: api_key
+          in: header
+          description: ''
+          required: false
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: id del proyecto a borrar
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '400':
+          description: Invalid proyecto value
+      security:
+        - petstore_auth:
+            - write:proyectos
+            - read:proyectos
+  /pet:
+    put:
+      tags:
+        - pet
+      summary: Update an existing pet
+      description: Update an existing pet by Id
+      operationId: updatePet
+      requestBody:
+        description: Update an existent pet in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Pet'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Pet'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+        '405':
+          description: Validation exception
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets
+    post:
+      tags:
+        - pet
+      summary: Add a new pet to the store
+      description: Add a new pet to the store
+      operationId: addPet
+      requestBody:
+        description: Create a new pet in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Pet'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Pet'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '405':
+          description: Invalid input
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets
+  /pet/findByStatus:
+    get:
+      tags:
+        - pet
+      summary: Finds Pets by status
+      description: Multiple status values can be provided with comma separated strings
+      operationId: findPetsByStatus
+      parameters:
+        - name: status
+          in: query
+          description: Status values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: available
+            enum:
+              - available
+              - pending
+              - sold
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid status value
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets
+  /pet/findByTags:
+    get:
+      tags:
+        - pet
+      summary: Finds Pets by tags
+      description: >-
+        Multiple tags can be provided with comma separated strings. Use tag1,
+        tag2, tag3 for testing.
+      operationId: findPetsByTags
+      parameters:
+        - name: tags
+          in: query
+          description: Tags to filter by
+          required: false
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid tag value
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets
+  /pet/{petId}:
+    get:
+      tags:
+        - pet
+      summary: Find pet by ID
+      description: Returns a single pet
+      operationId: getPetById
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+      security:
+        - api_key: []
+        - petstore_auth:
+            - write:pets
+            - read:pets
+    post:
+      tags:
+        - pet
+      summary: Updates a pet in the store with form data
+      description: ''
+      operationId: updatePetWithForm
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet that needs to be updated
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: name
+          in: query
+          description: Name of pet that needs to be updated
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: Status of pet that needs to be updated
+          schema:
+            type: string
+      responses:
+        '405':
+          description: Invalid input
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets
+    delete:
+      tags:
+        - pet
+      summary: Deletes a pet
+      description: delete a pet
+      operationId: deletePet
+      parameters:
+        - name: api_key
+          in: header
+          description: ''
+          required: false
+          schema:
+            type: string
+        - name: petId
+          in: path
+          description: Pet id to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '400':
+          description: Invalid pet value
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets
+  /pet/{petId}/uploadImage:
+    post:
+      tags:
+        - pet
+      summary: uploads an image
+      description: ''
+      operationId: uploadFile
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to update
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: additionalMetadata
+          in: query
+          description: Additional Metadata
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets
+  /store/inventory:
+    get:
+      tags:
+        - store
+      summary: Returns pet inventories by status
+      description: Returns a map of status codes to quantities
+      operationId: getInventory
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: integer
+                  format: int32
+      security:
+        - api_key: []
+  /store/order:
+    post:
+      tags:
+        - store
+      summary: Place an order for a pet
+      description: Place a new order in the store
+      operationId: placeOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '405':
+          description: Invalid input
+  /store/order/{orderId}:
+    get:
+      tags:
+        - store
+      summary: Find purchase order by ID
+      description: >-
+        For valid response try integer IDs with value <= 5 or > 10. Other values
+        will generate exceptions.
+      operationId: getOrderById
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of order that needs to be fetched
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Order not found
+    delete:
+      tags:
+        - store
+      summary: Delete purchase order by ID
+      description: >-
+        For valid response try integer IDs with value < 1000. Anything above
+        1000 or nonintegers will generate API errors
+      operationId: deleteOrder
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of the order that needs to be deleted
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Order not found
+  /user:
+    post:
+      tags:
+        - user
+      summary: Create user
+      description: This can only be done by the logged in user.
+      operationId: createUser
+      requestBody:
+        description: Created user object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+  /user/createWithList:
+    post:
+      tags:
+        - user
+      summary: Creates list of users with given input array
+      description: Creates list of users with given input array
+      operationId: createUsersWithListInput
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+        default:
+          description: successful operation
+  /login:
+    post:
+      tags:
+        - user
+      summary: Logs user into the system
+      description: ''
+      operationId: loginUser
+      parameters:
+        - name: username
+          in: query
+          description: The user name for login
+          required: false
+          schema:
+            type: string
+        - name: password
+          in: query
+          description: The password for login in clear text
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          headers:
+            X-Rate-Limit:
+              description: calls per hour allowed by the user
+              schema:
+                type: integer
+                format: int32
+            X-Expires-After:
+              description: date in UTC when token expires
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/xml:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Invalid username/password supplied
+  /logout:
+    post:
+      tags:
+        - user
+      summary: Logs out current logged in user session
+      description: ''
+      operationId: logoutUser
+      parameters: []
+      responses:
+        default:
+          description: successful operation
+  /user/{username}:
+    get:
+      tags:
+        - user
+      summary: Get user by user name
+      description: ''
+      operationId: getUserByName
+      parameters:
+        - name: username
+          in: path
+          description: 'The name that needs to be fetched. Use user1 for testing. '
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
+    put:
+      tags:
+        - user
+      summary: Update user
+      description: This can only be done by the logged in user.
+      operationId: updateUser
+      parameters:
+        - name: username
+          in: path
+          description: name that need to be deleted
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update an existent user in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        default:
+          description: successful operation
+    delete:
+      tags:
+        - user
+      summary: Delete user
+      description: This can only be done by the logged in user.
+      operationId: deleteUser
+      parameters:
+        - name: username
+          in: path
+          description: The name that needs to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: James
+        email:
+          type: string
+          example: john@email.com
+        password:
+          type: string
+          example: '12345'
+        linkedIn:
+          type: string
+          example: linkedinProfile
+      xml:
+        name: user
+    Proyecto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        docente_id:
+          $ref: '#/components/schemas/User'
+          description: Tutor del proyecto
+          example: 10
+        nombre:
+          type: string
+          description: Nombre del proyecto
+          example: Marca Personal FP
+        dominio:
+          type: string
+          description: slug del nombre del proyecto
+          example: marcapersonalfp
+        metadatos:
+          type: object
+          format: json
+          description: datos de interés del proyecto
+          example: {
+                fecha_inicio: '2023-01-15',
+                fecha_fin: '2023-05-30',
+                calificacion: 9.5
+            }
+      xml:
+        name: proyecto
+    Actividad:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        docente_id:
+          $ref: '#/components/schemas/User'
+          description: Tutor del proyecto
+          example: 10
+        insignia:
+          type: string
+          format: image
+      xml:
+        name: actividad
+    Curriculo:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        user_id:
+          $ref: '#/components/schemas/User'
+          example: 10
+        video_curriculum:
+          type: string
+          description: URL al videocurrículo
+          example: https://youtu.be/2in5XMTlSWg
+        texto_curriculum:
+          type: string
+          description: fichero con el currículo
+          example: miCurriculo.pdf
+      xml:
+        name: curriculum
+    Reconocimiento:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        estudiante_id:
+          $ref: '#/components/schemas/User'
+          description: Estudiante que solicita el reconocimiento
+          example: 10
+        actividad_id:
+          $ref: '#/components/schemas/Actividad'
+          description: Actividad para la que solicita el reconocimiento
+          example: 10
+        documento:
+          type: integer
+          format: int64
+          description: Documento que evidencia la participación
+          example: 10
+        docente_validador:
+          $ref: '#/components/schemas/User'
+          description: Docente que reconoce la participación en la actividad
+          example: 10
+      xml:
+        name: reconocimiento
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+      xml:
+        name: '##default'
+  requestBodies:
+    Pet:
+      description: Pet object that needs to be added to the store
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Pet'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Pet'
+    UserArray:
+      description: List of user object
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/User'
+  securitySchemes:
+    petstore_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://petstore3.swagger.io/oauth/authorize
+          scopes:
+            write:pets: modify pets in your account
+            read:pets: read your pets
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
