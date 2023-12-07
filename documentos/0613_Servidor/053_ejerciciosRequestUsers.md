@@ -1,23 +1,67 @@
-5.3. Ejercicios
+# 5.3. Ejercicios
 
-En los ejercicios de esta sección vamos a completar el proyecto del videoclub terminando el procesamiento de los formularios y añadiendo el sistema de autenticación de usuarios.
-Ejercicio 1 - Migración de la tabla usuarios (0.5 puntos)
+En los ejercicios de esta sección vamos a completar la gestión de proyectos, terminando el procesamiento de los formularios y añadiendo el sistema de autenticación de usuarios.
 
-En primer lugar vamos a crear la tabla de la base de datos para almacenar los usuarios que tendrán acceso a la plataforma de gestión del videoclub.
+## Ejercicio 1 - Migración de la tabla usuarios (0.5 puntos)
 
-Como hemos visto en la teoría, Laravel ya incluye una migración con el nombre create_users_table para la tabla users con todos los campos necesarios. Vamos a abrir esta migración y a comprobar que los campos incluidos coinciden con los de la siguiente tabla:
-Campo	Tipo	Modificador
-id 	Autoincremental 	
-name 	String 	
-email 	String 	unique
-password 	String 	
-remember_token 	Campo remember_token 	
-timestamps 	Timestamps de Eloquent 	 
+En primer lugar vamos a comprobar la existencia de la tabla de la base de datos para almacenar los usuarios que tendrán acceso a la plataforma de gestión de proyectos.
 
-Comprueba también que en el método down de la migración se deshagan los cambios que se hacen en el método up, en este caso sería eliminar la tabla.
+Como hemos visto en la teoría, _Laravel_ ya incluye una migración con el nombre `create_users_table` para la tabla `users` con todos los campos necesarios. Vamos a abrir esta migración y a comprobar que los campos incluidos coinciden con los de la siguiente tabla, añadiendo los que no existan:
 
-Por último usamos el comando de Artisan que añade las nuevas migraciones y comprobamos con PHPMyAdmin que la tabla se ha creado correctamente con todos campos indicados.
-Ejercicio 2 - Seeder de usuarios (0.5 puntos)
+Campo | Tipo | Modificador
+--|--|--
+id | Autoincremental | 
+name | String | 
+email | String | unique
+email_verified_at | timestamp | nullable
+password | String | 
+remember_token | Campo remember_token | 
+timestamps | Timestamps de Eloquent |  
+
+Vamos a crear una nueva migración para añadir los campos nombre y apellidos, que son comunes tanto para los estudiantes como para los docentes:
+
+Campo | Tipo | Modificador
+--|--|--
+nombre | String | 50 
+apellidos | String | 100
+
+Para esto usamos el comando de _Artisan_ que crea las migraciones y editamos el fichero creado en `database/migrations`.
+
+```bash
+php artisan make:migration add_nombre_apellidos_to_users_table --table=users
+```
+
+> Renombra el fichero como _`[año_actual]`_`_12_12_000001_add_nombre_apellidos_to_users_table.php`.
+
+```php
+public function up()
+{
+    Schema::table('users', function (Blueprint $table) {
+        $table->string('nombre', 50)->after('name');
+        $table->string('apellidos', 100)->after('nombre');
+    });
+}
+```
+
+Comprueba también que en el método `down()` de la migración se deshagan los cambios que se hacen en el método `up()`, en este caso sería eliminar los campos añadidos.
+
+```php
+public function down()
+{
+    Schema::table('users', function (Blueprint $table) {
+        $table->dropColumn('nombre');
+        $table->dropColumn('apellidos');
+    });
+}
+```
+
+Por último, usamos el comando de Artisan que añade las nuevas migraciones y comprobamos con PHPMyAdmin que la tabla contiene todos los campos indicados.
+
+```bash
+php artisan migrate
+```
+
+## Ejercicio 2 - Seeder de usuarios (0.5 puntos)
 
 Ahora vamos a proceder a rellenar la tabla users con los datos iniciales. Para esto editamos el fichero de semillas situado en database/seeds/DatabaseSeeder.php y seguiremos los siguientes pasos:
 

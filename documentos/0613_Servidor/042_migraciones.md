@@ -15,7 +15,7 @@ php artisan make:migration create_estudiantes_table --create=estudiantes
 Esto nos creará un fichero de migración en la carpeta `database/migrations` con el nombre `<TIMESTAMP>_create_estudiantes_table.php`. Al añadir un _timestamp_ a las migraciones el sistema sabe el orden en el que tiene que ejecutar (o deshacer) las mismas.
 
 > A la hora de trabajar colaborativamente con estos ficheros de migración, se pueden generar problemas si dos estudiantes crean el fichero de migración para la misma tabla con la única diferencia de que se han creado en un momento distinto. En ese caso, los nombres que se generan serán distintos por lo que se interpretarán como ficheros distintosy `git` no los mezclará correctamente. Por eso, **vamos a renombrar los ficheros de migraciones** que vayamos generando en este tutorial. En el caso del fichero anterior, lo renombraremos como:
-        `2023_11_28_000000_create_estudiantes_table.php`
+        _`[año_actual]`_`_11_28_000000_create_estudiantes_table.php`
 
 Si lo que queremos es añadir una migración que modifique los campos de una tabla existente tendremos que ejecutar el siguiente comando:
 
@@ -25,7 +25,7 @@ php artisan make:migration add_ciclo_to_estudiantes_table --table=estudiantes
 
 En este caso se creará también un fichero en la misma carpeta, con el nombre `<TIMESTAMP>_add_ciclo_to_estudiante_table.php` pero preparado para modificar los campos de dicha tabla.
 
-> Renombra el archivo como `2023_11_28_000001__add_ciclo_to_estudiantes_table.php`
+> Renombra el archivo como _`[año_actual]`_`_11_28_000001__add_ciclo_to_estudiantes_table.php`
 
 Por defecto, al indicar el nombre del fichero de migraciones se suele seguir siempre el mismo patrón (aunque el realidad el nombre es libre). Si es una migración que crea una tabla el nombre tendrá que ser `create_<table-name>_table` y si es una migración que modifica una tabla será `<action>_to_<table-name>_table`.
 

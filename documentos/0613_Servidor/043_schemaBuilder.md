@@ -113,7 +113,7 @@ Para probar a generar una clave ajena, vamos a crear el correspondiente fichero 
 php artisan make:migration add_user_id_to_estudiantes_table --table=estudiantes
 ```
 
-> Renombra el archivo como `2023_11_28_000002_add_user_id_to_estudiantes_table.php`
+> Renombra el archivo como _`[año_actual]`_`_11_28_000002_add_user_id_to_estudiantes_table.php`
 
 `Schema` permite definir _claves ajenas_ entre tablas. en el fichero de migración que acabamos de crear, añadimos las siguientes órdenes de creación de atributos e índice:
 

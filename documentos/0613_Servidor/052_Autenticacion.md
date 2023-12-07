@@ -79,6 +79,8 @@ En la carpeta `app/Models` se encuentra el modelo de datos (llamado `User.php`) 
 
 _Laravel_ también incluye varios controladores para la autenticación de usuarios, que puedes encontrar en `App/Http/Controllers/Auth`. `AuthenticatedSessionController` y `RegisteredUserController` incluyen métodos para ayudarnos en el proceso de autenticación, registro y cierre de sesión; mientras que `PasswordResetLinkController` contienen la lógica para ayudarnos en el proceso de restaurar una contraseña. Para la mayoría de aplicaciones con estos métodos será suficiente y no tendremos que añadir nada más.
 
+> Si añadimos
+
 ## Rutas
 
 Por defecto, _Laravel_ no incluye las rutas para el control de usuarios. No obstante, al instalar _Laravel/Breeze_, podemos observar que se modifica el contenido del fichero `routes/web.php`. Entre otros cambios, el fichero incluye la siguiente línea:

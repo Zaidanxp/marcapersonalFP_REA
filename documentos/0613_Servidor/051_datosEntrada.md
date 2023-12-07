@@ -8,31 +8,37 @@ Para conseguir acceso a estos métodos _Laravel_ utiliza inyección de dependenc
 <?php
  
 namespace App\Http\Controllers;
- 
+
+use App\Models\Estudiante;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
  
-class UserController extends Controller
+class EstudianteController extends Controller
 {
+    ...
     public function store(Request $request): RedirectResponse
     {
         $name = $request->input('name');
  
         // Store the user...
+        return redirect()->route(action([self::class, 'getIndex']));
     }
 }
 ```
 
-En este ejemplo, como se puede ver, se ha añadido la clase `Request` como parámetro al método `store`. _Laravel_ automáticamente se encarga de inyectar estas dependencias, por lo que podemos usar la variable `$request` para obtener los datos de entrada.
+En este ejemplo, como se puede ver, se ha añadido la clase `Request` como parámetro al método `store()`. _Laravel_ automáticamente se encarga de inyectar estas dependencias, por lo que podemos usar la variable `$request` para obtener los datos de entrada.
 
 Si el método del controlador tuviera más parámetros simplemente los tendremos que añadir a continuación de las dependencias, por ejemplo:
 
 ```php
-public function edit(Request $request, $id)
-{
-    //...
-}
+    public function putEdit(Request $request, $id): RedirectResponse
+    {
+        $estudiante = Estudiante::findOrFail($id);
+        //
+    }
 ```
+
+> Puedes ver un ejemplo completo de creación y modificación de un `Estudiante` en la sección [Crear y Modificar registro de `Estudiante`](./0511_crearModificarEstudiante.md).
 
 A continuación veremos los métodos y datos que podemos obtener a partir de la variable `$request`.
 

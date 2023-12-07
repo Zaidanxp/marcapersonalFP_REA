@@ -16,7 +16,7 @@ php artisan migrate
 
 Ahora vamos a crear la tabla que utilizaremos para almacenar los docentes. Ejecuta el [comando de _Artisan_ para crear la migración](./042_migraciones.md#crear-una-nueva-migración) llamada `create_docentes_table` para la tabla `docentes`.
 
-> Renombra el archivo como `2023_11_29_000001_create_docentes_table.php`
+> Renombra el archivo como _`[año_actual]`_`_11_29_000001_create_docentes_table.php`
 
 Una vez creado, edita este fichero para añadir todos los campos necesarios, estos son:
 

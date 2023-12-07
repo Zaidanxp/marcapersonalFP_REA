@@ -18,7 +18,7 @@ Si todo va bien podremos actualizar desde _PHPMyAdmin_ y comprobar que se ha cre
 
 Ahora vamos a crear la tabla que utilizaremos para almacenar los proyectos. Ejecuta el [comando de _Artisan_ para crear la migración](./042_migraciones.md#crear-una-nueva-migración) llamada `create_proyectos_table` para la tabla `proyectos`.
 
-> Renombra el archivo como `2023_11_29_000000_create_proyectos_table.php`
+> Renombra el archivo como _`[año_actual]`_`_11_29_000000_create_proyectos_table.php`
 
 Una vez creado, edita este fichero para añadir todos los campos necesarios, estos son:
 
