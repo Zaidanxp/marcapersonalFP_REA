@@ -79,8 +79,6 @@ En la carpeta `app/Models` se encuentra el modelo de datos (llamado `User.php`) 
 
 _Laravel_ también incluye varios controladores para la autenticación de usuarios, que puedes encontrar en `App/Http/Controllers/Auth`. `AuthenticatedSessionController` y `RegisteredUserController` incluyen métodos para ayudarnos en el proceso de autenticación, registro y cierre de sesión; mientras que `PasswordResetLinkController` contienen la lógica para ayudarnos en el proceso de restaurar una contraseña. Para la mayoría de aplicaciones con estos métodos será suficiente y no tendremos que añadir nada más.
 
-> Si añadimos
-
 ## Rutas
 
 Por defecto, _Laravel_ no incluye las rutas para el control de usuarios. No obstante, al instalar _Laravel/Breeze_, podemos observar que se modifica el contenido del fichero `routes/web.php`. Entre otros cambios, el fichero incluye la siguiente línea:
@@ -113,6 +111,12 @@ Como la instalación de _Laravel/Breeze_ ha regenerado el fichero `routes/web.ph
 ## Vistas
 
 Al instalar _Laravel/Breeze_, también se generarán todas las vistas necesarias para realizar el _login_, _registro_ y para _recuperar la contraseña_. Todas estas vistas las podremos encontrar en la carpeta `resources/views/auth` con los nombres `login.blade.php` para el formulario de login, `register.blade.php` , etcétera. Estos nombres y rutas son obligatorios ya que los controladores que incluye _Laravel_ accederán a ellos, por lo que no deberemos cambiarlos.
+
+> Aprovecha para incluir el logo de MarcaPersonalFP en las vistas de autenticación. Para ello, modifica el archivo `resources/views/components/application-logo.blade.php` con el siguiente código:
+>
+>```html
+><img src="/images/mp-logo.png" width="64px">
+>```
 
 ## Autenticación de un usuario
 
@@ -152,6 +156,8 @@ Si no hemos añadido ningún campo más en la migración no tendremos que config
         return redirect(RouteServiceProvider::HOME);
     }
 ```
+
+> También habrá que modificar el _array_ que devuelve el método `rules()` de `app/Http/Requests/ProfileUpdateRequest.php` si queremos poder modificar esos datos en el perfil del usuario.
 
 Como podemos ver, utiliza el modelo de datos `User` para crear el usuario y almacenar las variables que recibe en el array de datos `$request`. En este _array_ de datos nos llegarán todos los valores de los campos del formulario, por lo tanto, si añadimos más campos al formulario y a la tabla de usuarios simplemente tendremos que añadirlos también en este método.
 

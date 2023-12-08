@@ -2,9 +2,13 @@
 
 En los ejercicios de esta sección vamos a completar la gestión de proyectos, terminando el procesamiento de los formularios y añadiendo el sistema de autenticación de usuarios.
 
-## Ejercicio 1 - Migración de la tabla usuarios (0.5 puntos)
+## Instalación de Breeze
 
-En primer lugar vamos a comprobar la existencia de la tabla de la base de datos para almacenar los usuarios que tendrán acceso a la plataforma de gestión de proyectos.
+En este momento, deberíamos tener instalado el _**Starter Kit de Laravel Breeze**_, que incluye el sistema de autenticación de usuarios. En caso contrario, regresa al capítulo [Control de usuarios](./052_Autenticacion.md) y sigue las instrucciones para instalarlo.
+
+## Migración de la tabla usuarios
+
+En primer lugar, vamos a comprobar la existencia de la tabla de la base de datos para almacenar los usuarios que tendrán acceso a la plataforma de gestión de proyectos.
 
 Como hemos visto en la teoría, _Laravel_ ya incluye una migración con el nombre `create_users_table` para la tabla `users` con todos los campos necesarios. Vamos a abrir esta migración y a comprobar que los campos incluidos coinciden con los de la siguiente tabla, añadiendo los que no existan:
 
@@ -18,12 +22,12 @@ password | String |
 remember_token | Campo remember_token | 
 timestamps | Timestamps de Eloquent |  
 
-Vamos a crear una nueva migración para añadir los campos nombre y apellidos, que son comunes tanto para los estudiantes como para los docentes:
+Crearemos una nueva migración para añadir los campos `nombre` y `apellidos`, que son comunes tanto para los `estudiantes` como para los `docentes`:
 
 Campo | Tipo | Modificador
 --|--|--
-nombre | String | 50 
-apellidos | String | 100
+nombre | String | 50 nullable
+apellidos | String | 100 nullable
 
 Para esto usamos el comando de _Artisan_ que crea las migraciones y editamos el fichero creado en `database/migrations`.
 
@@ -37,8 +41,8 @@ php artisan make:migration add_nombre_apellidos_to_users_table --table=users
 public function up()
 {
     Schema::table('users', function (Blueprint $table) {
-        $table->string('nombre', 50)->after('name');
-        $table->string('apellidos', 100)->after('nombre');
+        $table->string('nombre', 50)->after('name')->nullable();
+        $table->string('apellidos', 100)->after('nombre')->nullable();
     });
 }
 ```
@@ -61,9 +65,36 @@ Por último, usamos el comando de Artisan que añade las nuevas migraciones y co
 php artisan migrate
 ```
 
-## Ejercicio 2 - Seeder de usuarios (0.5 puntos)
+## Registro de `users`
 
-Ahora vamos a proceder a rellenar la tabla users con los datos iniciales. Para esto editamos el fichero de semillas situado en database/seeds/DatabaseSeeder.php y seguiremos los siguientes pasos:
+Como hemos añadido los campos `nombre` y `apellidos` a la tabla de `users`, tendremos que actualizar el controlador `RegisteredUserController`: `validate` y `create`. En la llamada a `validate()` simplemente tendremos que añadir `nombre` y `apellidos` al _array_ de validaciones como campos requeridos, mientras que en la invocación del método `create()` tendremos que añadir esos campos para almacenarlos. También habrá que modificar el _array_ que devuelve el método `rules()` de `app/Http/Requests/ProfileUpdateRequest.php`.
+
+También tendremos que modificar el formulario de registro para añadir los campos `nombre` y `apellidos`:
+
+```php
+        <!-- Nombre -->
+        <div>
+            <x-input-label for="nombre" :value="__('Nombre')" />
+            <x-text-input id="nombre" class="block mt-1 w-full" type="text" name="nombre" :value="old('nombre')" required autofocus autocomplete="nombre" />
+            <x-input-error :messages="$errors->get('nombre')" class="mt-2" />
+        </div>
+        <!-- Apellidos -->
+        <div>
+            <x-input-label for="apellidos" :value="__('Apellidos')" />
+            <x-text-input id="apellidos" class="block mt-1 w-full" type="text" name="apellidos" :value="old('apellidos')" required autofocus autocomplete="apellidos" />
+            <x-input-error :messages="$errors->get('apellidos')" class="mt-2" />
+        </div>
+
+        <!-- Email Address -->
+```
+
+Añade también esos campos a la propiedad `$fillable` del modelo `User`.
+
+> Trata de modificar también el formulario de edición de un usuario.
+
+## Seeder de usuarios
+
+Ahora vamos a proceder a rellenar la tabla `users` con los datos iniciales. Para esto editamos el fichero de semillas situado en database/seeds/DatabaseSeeder.php y seguiremos los siguientes pasos:
 
     Creamos un método privado (dentro de la misma clase) llamado seedUsers() que se tendrá que llamar desde el método run de la forma:
 
@@ -79,7 +110,8 @@ public function run() {
         Y a continuación creamos un par de usuarios de prueba. Recuerda que para guardar el password es necesario encriptarlo manualmente usando el método bcrypt (Revisa la sección "Registro de un usuario").
 
 Por último tendremos que ejecutar el comando de Artisan que procesa las semillas. Una vez realizado esto comprobamos en PHPMyAdmin que se han añadido los usuarios a la tabla users.
-Ejercicio 3 - Sistema de autenticación (1 punto)
+
+## Sistema de autenticación
 
 En este ejercicio vamos a completar el sistema de autenticación. En primer lugar ejecuta los comandos de Artisan para generar todas las rutas y vistas necesarias para el control de usuarios con Laravel/Breeze.
 
@@ -93,7 +125,8 @@ A continuación edita el fichero routes/web.php y realiza las siguientes accione
     Revisa mediante el comando de Artisan php artisan route:list las nuevas rutas y que el filtro auth se aplique correctamente.
 
 Modifica la redirección que se realiza tras el login o el registro de un usuario para que redirija a la ruta /catalog. Para esto tienes que modificar la constante HOME en el fichero app/Providers/RouteServiceProvider.php, (revisa el apartado "Autenticación de un usuario" de la teoría).
-Ejercicio 4 - Adaptar el layout (1 punto)
+
+## Adaptar el layout
 
 Con el cambio a la versión 8 de Laravel, vamos a utilizar dicho layout para las vistas del catálogo, lo que nos permitirá, posteriormente, utilizar las pantallas para VueJS.
 navbar
@@ -114,7 +147,8 @@ Borra el ficheroresources/views/layouts/master.blade.php.
 Para cambiar el título de la página y el que aparece en el navbar, lo mejor es configurar el nombre de la aplicación. Esto se puede hacer en 2 ficheros: .env o config/app.php. En nuestro caso, lo haremos en .env, sabiendo que si alguien se descarga nuestra aplicación, tendrá que volver a configurar ese nombre de la aplicación. Si lo hubiéramos configurado en config/app.php, aquel que se descargue nuestra aplicación, ya tendrá configurado el nombre.
 
 Comprueba en este punto que el sistema de autenticación funciona correctamente: no te permite entrar a la rutas protegidas si no estás autenticado, puedes acceder con los usuarios definidos en el fichero de semillas y funciona el botón de cerrar sesión.
-Ejercicio 5 - Añadir y editar películas (1 punto)
+
+## Añadir y editar proyectos
 
 En primer lugar vamos a añadir las rutas que nos van a hacer falta para recoger los datos al enviar los formularios. Para esto editamos el fichero de rutas y añadimos dos rutas (también protegidas por el filtro auth):
 
@@ -132,4 +166,3 @@ Por último tenemos que actualizar el controlador CatalogController con los dos 
     En el método putEdit buscamos la película con el identificador pasado por parámetro, actualizamos sus campos y los guardamos. Por último realizamos una redirección a la pantalla con la vista detalle de la película editada.
 
     Nota: de momento en caso de error no se mostrará nada.
-
