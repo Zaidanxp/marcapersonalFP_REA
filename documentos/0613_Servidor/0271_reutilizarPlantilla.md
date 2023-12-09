@@ -80,9 +80,16 @@ En cada uno de estos archivos, vamos a mover el contenido de la sección corresp
 Desde el archivo `dopetrope/master.blade.php` referenciaremos a cada partial creado con el `@include` correspondiente, por lo que todo el código desplazado a esos archivos será sustituido por:
 
 ```
-@include('dopetrope.partials.header')
-@include('dopetrope.partials.main')
-@include('dopetrope.partials.footer')
+            @include('partials.navbar')
+			<!-- Header -->
+            @include('dopetrope.partials.header')
+
+			<!-- Main -->
+            @include('dopetrope.partials.main')
+
+			<!-- Footer -->
+            @include('dopetrope.partials.footer')
+
 ```
 
 ## Incluir la sección `content`
@@ -107,19 +114,19 @@ Esto se hacía incorporando `@yield('content')` a la plantilla. En este caso, in
 
 ## incluir el `navbar`
 
-En el _partial_ `header.blade.php` vamos a sustituir los códigos que hay bajo los comentarios `<!-- Logo -->` y `<!-- Nav -->` por `@include('partials.navbar')`.
+En el _partial_ `header.blade.php` vamos a eliminar los códigos que hay bajo los comentarios `<!-- Logo -->` y `<!-- Nav -->`, sustituyéndolos por `@include('partials.navbar')`.
 
-Para que se vea correctamente, vamos a incluir en `resources/views/dopetrope/layouts/master.blade.php` las referencias a los archivos _css_ y _javascript_ que utiliza el _navbar_ y que estaban en `resources/views/layouts/master.blade.php`:
+Para que se vea correctamente, vamos a incluir en `resources/views/dopetrope/layouts/master.blade.php` las referencias a los archivos _css_ y _javascript_ que utiliza el _navbar_ y que podemos extraer del propio archivo del [navbar](./materiales/ejercicios-laravel/navbar.blade.php). Con los estilos del fichero navbar crearemos el archivo  `/public/css/navbar.css` y con el _javascript_ crearemos el archivo `/public/js/navbar.js`.
 
 - En la línea 12 vamos a incluir la referencia a la hoja de estilos del _navbar_ (_desplazando la línea que comienza por `<link rel="stylesheet" href="{{ asset('/d...`_ a la línea 13):
 
 ```
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <link href="/css/navbar.css" rel="stylesheet">
 ```
 
 - En la línea 37 (_tras las referencias a los scripts `<script src="{{ asset('/d...`_) vamos a incluir la referencia al _javascript_ del _navbar_:
 
 ```
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        <script src="/js/navbar.js"></script>
 ```
 
