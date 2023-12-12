@@ -6,6 +6,8 @@ En internet, podemos encontrar sitios que ofrecen plantillas gratuitas para util
 
 De entre las muchas plantillas existentes, vamos a utilizar la plantilla [Dopetrope](https://html5up.net/dopetrope). Para descargarla, vamos a la página de la plantilla y pulsamos el botón de descarga o hacemos click en el siguiente enlace directo: [Dopetrope](https://html5up.net/dopetrope/download).
 
+> Si no funciona la descarga, se puede descargar también desde los [materiales](./materiales/front/html5up-dopetrope.zip).
+
 Crearemos una carpeta llamada `dopetrope` dentro de la carpeta `public` y descomprimiremos el contenido de la plantilla dentro de esta carpeta.
 
 ## Crear el layout principal con el index de _dopetrope_
