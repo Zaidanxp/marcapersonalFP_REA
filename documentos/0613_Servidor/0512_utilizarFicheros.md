@@ -60,7 +60,7 @@ Vamos a modificar el formulario de edición de un `Estudiante` para que permita 
 
 ## Elección del destino de los ficheros.
 
-Vamos a utilizar el **driver local** para almacenar los ficheros en el disco `public`, para posibilitar el acceso público a los ficheros. Por defecto, el disco `public` almacena sus ficheros en `storage/app/public`.
+Vamos a utilizar el **driver public** para almacenar los ficheros en el disco `public`, para posibilitar el acceso público a los ficheros. Por defecto, el disco `public` almacena sus ficheros en `storage/app/public`.
 
 Para hacer que estos ficheros sean accesibles desde la web, deberíamos crear un _enlace simbólico_ desde `public/storage` hasta `storage/app/public`. Para ello, podríamos utilizar el siguiente comando _Artisan_:
 
