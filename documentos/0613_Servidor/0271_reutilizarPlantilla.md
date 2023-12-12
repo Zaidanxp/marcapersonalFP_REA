@@ -80,7 +80,6 @@ En cada uno de estos archivos, vamos a mover el contenido de la sección corresp
 Desde el archivo `dopetrope/master.blade.php` referenciaremos a cada partial creado con el `@include` correspondiente, por lo que todo el código desplazado a esos archivos será sustituido por:
 
 ```
-            @include('partials.navbar')
 			<!-- Header -->
             @include('dopetrope.partials.header')
 
@@ -116,17 +115,4 @@ Esto se hacía incorporando `@yield('content')` a la plantilla. En este caso, in
 
 En el _partial_ `header.blade.php` vamos a eliminar los códigos que hay bajo los comentarios `<!-- Logo -->` y `<!-- Nav -->`, sustituyéndolos por `@include('partials.navbar')`.
 
-Para que se vea correctamente, vamos a incluir en `resources/views/dopetrope/layouts/master.blade.php` las referencias a los archivos _css_ y _javascript_ que utiliza el _navbar_ y que podemos extraer del propio archivo del [navbar](./materiales/ejercicios-laravel/navbar.blade.php). Con los estilos del fichero navbar crearemos el archivo  `/public/css/navbar.css` y con el _javascript_ crearemos el archivo `/public/js/navbar.js`.
-
-- En la línea 12 vamos a incluir la referencia a la hoja de estilos del _navbar_ (_desplazando la línea que comienza por `<link rel="stylesheet" href="{{ asset('/d...`_ a la línea 13):
-
-```
-        <link href="/css/navbar.css" rel="stylesheet">
-```
-
-- En la línea 37 (_tras las referencias a los scripts `<script src="{{ asset('/d...`_) vamos a incluir la referencia al _javascript_ del _navbar_:
-
-```
-        <script src="/js/navbar.js"></script>
-```
-
+Para que se vea correctamente, debemos asegurarnos de incluir el archivo del [navbar](./materiales/ejercicios-laravel/navbar.blade.php) en la carpeta `resources/views/partials/`.
