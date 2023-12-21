@@ -1,6 +1,6 @@
 # REA marcapersonalFP.es
 
-Este repositorio se ha creado para el desarrollo del REA multimodular [marcapersonalFP.es](https://marcapersonalfp.es).
+Este repositorio se ha creado para el desarrollo del REA multimodular [marcapersonalFP.es](https://marcapersonalfp.cifpcarlos3.es/).
 
 Desarrollado en el [C.I.F.P. Carlos III](https://cifpcarlos3.es) por los docentes del ciclo formativo **Desarrollo de Aplicaciones Web**.
 
@@ -13,7 +13,7 @@ Desarrollado en el [C.I.F.P. Carlos III](https://cifpcarlos3.es) por los docente
 
 ## Definición del proyecto
 
-El objetivo de este proyecto es la creación de una página web [marcaPersonalFP.es](https://marcaPersonalFP.es) en la que los estudiantes de Formación Profesional puedan publicar su currículo y los logros conseguidos a lo largo de su estancia en el centro.
+El objetivo de este proyecto es la creación de una página web [marcapersonalFP.es](https://marcapersonalfp.cifpcarlos3.es/) en la que los estudiantes de Formación Profesional puedan publicar su currículo y los logros conseguidos a lo largo de su estancia en el centro.
 
 El diagrama de casos de uso inicial que se plantea es el que se puede ver en la siguiente imagen:
 
