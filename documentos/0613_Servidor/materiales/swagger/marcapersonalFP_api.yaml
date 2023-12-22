@@ -51,11 +51,11 @@ servers:
     description: Servidor localhost
   - url: https://marcapersonalFP.test/api/v1
     variables: {}
-    description: Entorno local de desarrollo
-  - url: https://marcapersonalFP.es/api/v1
+    description: Entorno de producción Carlos III
+  - url: https://marcapersonalFP.cifpcarlos3.es/api/v1
     variables: {}
     description: Entorno de producción
-  - url: https://marcapersonalFP.es/api/records
+  - url: https://marcapersonalFP.test/api/records
     variables: {}
     description: Entorno React
 tags:
