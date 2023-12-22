@@ -55,10 +55,13 @@ servers:
   - url: https://marcapersonalFP.es/api/v1
     variables: {}
     description: Entorno de producción
+  - url: https://marcapersonalFP.es/api/records
+    variables: {}
+    description: Entorno React
 tags:
   - name: user
     description: Operaciones con los usuarios
-  - name: curriculos
+  - name: curriculo
     description: Operaciones con los currículos
   - name: proyecto
     description: Operaciones con los proyectos
@@ -67,7 +70,7 @@ tags:
   - name: actividad
     description: Operaciones con las actividades
 paths:
-  /proyecto:
+  /proyectos:
     get:
       tags:
         - proyecto
@@ -138,7 +141,7 @@ paths:
                 $ref: '#/components/schemas/Proyecto'
         '405':
           description: Invalid input
-  /proyecto/{id}:
+  /proyectos/{id}:
     get:
       tags:
         - proyecto
@@ -214,7 +217,7 @@ paths:
       responses:
         '400':
           description: Invalid proyecto value
-  /actividad:
+  /actividades:
     get:
       tags:
         - actividad
@@ -285,7 +288,7 @@ paths:
                 $ref: '#/components/schemas/Actividad'
         '405':
           description: Invalid input
-  /actividad/{id}:
+  /actividades/{id}:
     get:
       tags:
         - actividad
@@ -361,7 +364,7 @@ paths:
       responses:
         '400':
           description: Invalid actividad value
-  /reconocimiento:
+  /reconocimientos:
     get:
       tags:
         - reconocimiento
@@ -432,7 +435,7 @@ paths:
                 $ref: '#/components/schemas/Reconocimiento'
         '405':
           description: Invalid input
-  /reconocimiento/{id}:
+  /reconocimientos/{id}:
     get:
       tags:
         - reconocimiento
@@ -508,7 +511,7 @@ paths:
       responses:
         '400':
           description: Invalid reconocimiento value
-  /curriculo:
+  /curriculos:
     get:
       tags:
         - curriculo
@@ -579,7 +582,7 @@ paths:
                 $ref: '#/components/schemas/Curriculo'
         '405':
           description: Invalid input
-  /curriculo/{id}:
+  /curriculos/{id}:
     get:
       tags:
         - curriculo
@@ -655,7 +658,7 @@ paths:
       responses:
         '400':
           description: Invalid curriculo value
-  /user:
+  /users:
     get:
       tags:
         - user
@@ -726,7 +729,7 @@ paths:
                 $ref: '#/components/schemas/User'
         '405':
           description: Invalid input
-  /user/{id}:
+  /users/{id}:
     get:
       tags:
         - user
