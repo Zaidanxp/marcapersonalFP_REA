@@ -22,12 +22,12 @@ Pero, en esta ocasión, elegiremos como framework **React with Inertia**:
     └───────────────────────────────────────────────────────┘
 ```
 
-También elegiremos **Inertia SSR** como modo de servir las vistas y gestionar el enrutamiento desde el servidor:
+No elegiremos ninguna de las características opcionales::
 
 ```
  ┌ Would you like any optional features? ───────────────────────┐
- │   ◻ Dark mode                                                    │
- │ › ◼ Inertia SSR                                                  │
+ │ › ◻ Dark mode                                                    │
+ │   ◻ Inertia SSR                                                  │
  │   ◻ TypeScript (experimental)                                    │
  └────────────────────────────────────────────────────────┘
 ```

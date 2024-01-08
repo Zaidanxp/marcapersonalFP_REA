@@ -92,7 +92,7 @@ El paquete _Sanctum_ nos permite gestionar la seguridad de nuestra API. Para ell
 
 Como vemos, por defecto, se permite el acceso desde `http://localhost:3000`, que es el puerto por defecto de _React JS_. Si el dominio desde el que accederemos es diferente a este, debemos modificar el valor de la variable de entorno `FRONTEND_URL` en el fichero `.env`.
 
-El aspecto crucial aquí es que este comando agrega las rutas para el frontend y el backend al archivo .env. La ruta del frontend está relacionada con el archivo ‘config / sanctum.php’, donde se declaran las rutas estatales del backend. Para fines de prueba, no es necesario realizar ningún cambio en el archivo ‘config / sanctum.php’. Sin embargo, si desea implementar su aplicación en un entorno de producción, debemos agregar las variables ‘SANCTUM_STATEFUL_DOMAINS’ en el archivo ‘.env’ y en el `.env.example`.
+El aspecto crucial aquí es que este comando agrega las rutas para el frontend y el backend al archivo .env. La ruta del frontend está relacionada con el archivo ‘config / sanctum.php’, donde se declaran las rutas estatales del backend. Para fines de prueba, no es necesario realizar ningún cambio en el archivo ‘config / sanctum.php’. Sin embargo, si desea implementar su aplicación en un entorno de producción, debemos agregar las variables `SANCTUM_STATEFUL_DOMAINS` en el archivo `.env` y en el `.env.example`.
 
 ```bash
 APP_URL=http://marcapersonalfp.test
