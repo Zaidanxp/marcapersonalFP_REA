@@ -38,3 +38,7 @@ Los contenidos que se presentan a continuación constituyen un desarrollo que, i
         2. [Asociar fichero de currículo](./0512_utilizarFicheros.md)
     2. [Control de usuarios](./052_Autenticacion.md)
     3. [Ejercicios](./053_ejerciciosRequestUsers.md)
+6. [Creación de una API](./06_crearAPI.md)
+    1. [Introducción a API y REST](./061_api_y_rest.md)
+    2. [Esqueleto de nuestra API](./062_esqueleto_API.md)
+    3. [PHP_CRUD_API](./063_PHP_CRUD_API.md)

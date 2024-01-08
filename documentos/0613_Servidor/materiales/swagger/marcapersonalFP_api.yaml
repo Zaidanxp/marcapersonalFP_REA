@@ -78,14 +78,14 @@ paths:
       description: Devuelve todos los proyectos
       operationId: getProyectos
       parameters:
-        - name: limit
+        - name: size
           in: query
           description: Número máximo de proyectos a devolver
           required: false
           schema:
             type: integer
             format: int32
-        - name: offset
+        - name: page
           in: query
           description: Número de proyectos a saltar
           required: false
@@ -225,14 +225,14 @@ paths:
       description: Devuelve todas las actividades
       operationId: getActividades
       parameters:
-        - name: limit
+        - name: size
           in: query
           description: Número máximo de actividades a devolver
           required: false
           schema:
             type: integer
             format: int32
-        - name: offset
+        - name: page
           in: query
           description: Número de actividades a saltar
           required: false
@@ -372,14 +372,14 @@ paths:
       description: Devuelve todos los reconocimientos
       operationId: getReconocimientos
       parameters:
-        - name: limit
+        - name: size
           in: query
           description: Número máximo de reconocimientos a devolver
           required: false
           schema:
             type: integer
             format: int32
-        - name: offset
+        - name: page
           in: query
           description: Número de reconocimientos a saltar
           required: false
@@ -519,14 +519,14 @@ paths:
       description: Devuelve todos los curriculos
       operationId: getCurriculos
       parameters:
-        - name: limit
+        - name: size
           in: query
           description: Número máximo de curriculos a devolver
           required: false
           schema:
             type: integer
             format: int32
-        - name: offset
+        - name: page
           in: query
           description: Número de curriculos a saltar
           required: false
@@ -666,14 +666,14 @@ paths:
       description: Devuelve todos los usuarios
       operationId: getUsers
       parameters:
-        - name: limit
+        - name: size
           in: query
           description: Número máximo de usuarios a devolver
           required: false
           schema:
             type: integer
             format: int32
-        - name: offset
+        - name: page
           in: query
           description: Número de usuarios a saltar
           required: false
