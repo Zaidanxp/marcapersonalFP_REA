@@ -1,6 +1,6 @@
 # Breeze API
 
-En el capítulo dedicado a la [autenticación](./052_Autenticacion.md) ya instalamos el paquete `[laravel/breeze]`(https://laravel.com/docs/10.x/starter-kits#laravel-breeze), que nos facilitó la gestión de usuarios.
+En el capítulo dedicado a la [autenticación](./052_Autenticacion.md) ya instalamos el paquete [`laravel/breeze`](https://laravel.com/docs/10.x/starter-kits#laravel-breeze), que nos facilitó la gestión de usuarios.
 
 En este capítulo, vamos a reinstalar `laravel/breeze` pero desechando el código referente a las vistas, ya que nuestro objetivo es crear una _API_ que que envíe y reciba datos sin ningún código referente a las vistas.
 
@@ -12,7 +12,7 @@ Como `laravel/breeze` ya lo habíamos instalado, tan solo es necesaria la ejecuc
 php artisan breeze:install api
 ```
 
-La posteerior ejecución de un `git status` nos devolvera numerosos cambios en el código:
+La posterior ejecución de un `git status` nos devolvera numerosos cambios en el código:
     
 ```bash
 Cambios no rastreados para el commit:
@@ -92,11 +92,15 @@ El paquete _Sanctum_ nos permite gestionar la seguridad de nuestra API. Para ell
 
 Como vemos, por defecto, se permite el acceso desde `http://localhost:3000`, que es el puerto por defecto de _React JS_. Si el dominio desde el que accederemos es diferente a este, debemos modificar el valor de la variable de entorno `FRONTEND_URL` en el fichero `.env`.
 
-El aspecto crucial aquí es que este comando agrega las rutas para el frontend y el backend al archivo .env. La ruta del frontend está relacionada con el archivo ‘config / sanctum.php’, donde se declaran las rutas estatales del backend. Para fines de prueba, no es necesario realizar ningún cambio en el archivo ‘config / sanctum.php’. Sin embargo, si desea implementar su aplicación en un entorno de producción, debemos agregar las variables `SANCTUM_STATEFUL_DOMAINS` en el archivo `.env` y en el `.env.example`.
+El aspecto crucial aquí es que este comando agrega las rutas para el _frontend_ y el _backend_ al archivo `.env`. La ruta del _frontend_ está relacionada con el archivo `config/sanctum.php`, donde se declaran las rutas sin estado del _backend_. Para fines de prueba, no es necesario realizar ningún cambio en el archivo `config/sanctum.php`. Sin embargo, si desea implementar su aplicación en un entorno de producción, debemos agregar las variables `SANCTUM_STATEFUL_DOMAINS` en el archivo `.env` y en el `.env.example`.
 
 ```bash
-APP_URL=http://marcapersonalfp.test
 FRONTEND_URL=http://localhost:3000
 SANCTUM_STATEFUL_DOMAINS=localhost:3000,marcaPersonalFP.test
 ```
 
+La variable `APP_URL` ya existe en esos ficheros, pero conviene establecer su valor en el fichero `.env` a:
+
+```bash
+APP_URL=http://marcapersonalfp.test
+```

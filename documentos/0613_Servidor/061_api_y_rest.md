@@ -6,5 +6,5 @@ En la siguiente [presentación](https://docs.google.com/presentation/d/1_SBx21J9
 
 También se facilitan algunos vídeos aclaratorios sobre el tema:
 
-    - [Introducción a REST y RESTful](https://youtu.be/pVAMOielOJQ)
-    - [¿Qué es una API RESTful?](https://youtu.be/Zja932hFCJk)
+- [Introducción a REST y RESTful](https://youtu.be/pVAMOielOJQ)
+- [¿Qué es una API RESTful?](https://youtu.be/Zja932hFCJk)

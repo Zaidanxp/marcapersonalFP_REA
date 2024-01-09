@@ -6,7 +6,7 @@ Existen buenos tutoriales en Internet para crear una _API_ con las operaciones b
 - [Create PHP Laravel 10 CRUD Web App with MySQL](https://www.positronx.io/php-laravel-crud-operations-mysql-tutorial/)
 - [How to create REST API CRUD in Laravel 10](https://medium.com/@miladev95/how-to-create-rest-api-crud-in-laravel-10-8a5d09cd7901)
 
-El principal problema de los anteriores tutoriales es que se restringen a una tabla y deberíamos replicarlos para cada una de las tablas que nosotros vamos a utilizar y nos gustaría poner a disposición del módulo de **Desarrollo Web en Entorno Cliente** los endpoints de gestión de todas las tablas de nuestra base de datos en el menor tiempo posible.
+El principal problema de los anteriores tutoriales es que se restringen a una tabla y deberíamos replicarlos para cada una de las tablas que nosotros vamos a utilizar y nos gustaría poner a disposición del módulo de **Desarrollo Web en Entorno Cliente** los _endpoints_ de gestión de todas las tablas de nuestra base de datos en el menor tiempo posible.
 
 # PHP-CRUD-API
 
@@ -57,9 +57,9 @@ use Tqdev\PhpCrudApi\Config\Config;
 
 Reemplazamos la cadena _php-crud-api_ en el código anterior para que coincida con el nombre de usuario, contraseña y base de datos de nuestra configuración (preferiblemente leyéndolos de las variables de entorno).
 
-Ahora, deberíamos poder lanzar peticiones a la API, utilizando Swuagger UI, que se encuentra en la dirección [http://localhost:5555](http://localhost:5555). Para ello, deberemos elegir el archivo [`marcapersonalFP_api.yaml`](https://raw.githubusercontent.com/2DAW-CarlosIII/marcapersonalFP_REA/master/documentos/0613_Servidor/materiales/swagger/marcapersonalFP_api.yaml), como fuente para Explorar y _http://marcapersonalFP.test/api/records - Entorno React_ como servidor.
+Ahora, deberíamos poder lanzar peticiones a la API, utilizando _Swuagger UI_, que se encuentra en la dirección [http://localhost:5555](http://localhost:5555). Para ello, deberemos elegir el archivo [`marcapersonalFP_api.yaml`](https://raw.githubusercontent.com/2DAW-CarlosIII/marcapersonalFP_REA/master/documentos/0613_Servidor/materiales/swagger/marcapersonalFP_api.yaml), como fuente para Explorar y _http://marcapersonalFP.test/api/records - Entorno React_ como servidor.
 
-Para no tener problemas con _CORS_, debemos asignar a la variable de entorno `FRONTEND_URL` la dirección de Swagger UI:
+Para no tener problemas con _CORS_, debemos asignar a la variable de entorno `FRONTEND_URL` la dirección de _Swagger UI_:
 
 ```bash
 FRONTEND_URL=http://localhost:5555
