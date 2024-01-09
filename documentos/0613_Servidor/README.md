@@ -43,3 +43,4 @@ Los contenidos que se presentan a continuación constituyen un desarrollo que, i
     2. [Esqueleto de nuestra API](./062_esqueleto_API.md)
     3. [PHP_CRUD_API](./063_PHP_CRUD_API.md)
     4. [React-Admin](./064_React_Admin.md)
+    5. [React-Admin sobre Inertia](./065_inertia_reactadmin.md)
