@@ -1,5 +1,7 @@
 # Crear una CRUD API
 
+Al iniciar la aplicación React y acceder a la ruta `Dashboard`, nos encontramos con un mensaje de error, que nos indica que no es posible recuperar los datos de la API, ya que todavía no hemos creado ningún _endpoint_ de esa _API_.
+
 Existen buenos tutoriales en Internet para crear una _API_ con las operaciones básicas de _CRUD_ con _Laravel_:
 
 - [Laravel 8 REST API CRUD Tutorial by Example App with Bootstrap 4 and MySQL](https://www.techiediaries.com/laravel-8-rest-api-crud-mysql/)

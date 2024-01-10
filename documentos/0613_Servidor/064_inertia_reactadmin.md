@@ -1,5 +1,10 @@
 # De Blade a React
-En los capítulos anteriores, hemos utilizado el gestor de plantillas _Blade_ para visualizar las vistas de nuestra página web. A partir de ahora, vamos a integrar contenidos del **módulo de Cliente** y del **módulo de Servidor**, para crear una **API REST** con _Laravel_ y consumirla desde una aplicación _React_.
+En los capítulos anteriores, hemos:
+
+- utilizado el gestor de plantillas _Blade_ para visualizar las vistas de nuestra página web,
+- utilizado `php artisan breeze:install api` para generar un backend sin vistas, que únicamente devuelva datos.
+
+En este capítulo, Vamos a integrar contenidos del **módulo de Cliente** y del **módulo de Servidor**, para crear una **API REST** con _Laravel_ y consumirla desde una aplicación _React_.
 
 ## Reinstalar Breeze
 
@@ -113,7 +118,7 @@ How do you want to install the dependencies?
 
 El traslado del código fuente se realizará en varios pasos:
 
-- Añadir a los archivos .env y .env.example la variable de entorno
+- Añadir a los archivos `.env` y `.env.example` la variable de entorno
     
     ```VITE_JSON_SERVER_URL=http://marcapersonalfp.test/api/records```
 
