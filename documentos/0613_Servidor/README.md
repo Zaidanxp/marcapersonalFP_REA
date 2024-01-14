@@ -44,3 +44,6 @@ Los contenidos que se presentan a continuación constituyen un desarrollo que, i
     3. [React-Admin](./063_React_Admin.md)
     4. [React-Admin sobre Inertia](./064_inertia_reactadmin.md)
     5. [PHP_CRUD_API](./065_PHP_CRUD_API.md)
+7. [Controladores de recursos](./07_resourceController.md)
+    1. [Controlador de Recursos de ciclos](./071_resourceControlerCiclos.md)
+    2. [Middleware para adaptar la respuesta al cliente](./072_middlewareReactAdmin.md)

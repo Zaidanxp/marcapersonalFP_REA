@@ -59,164 +59,21 @@ servers:
     variables: {}
     description: Entorno React
 tags:
-  - name: user
-    description: Operaciones con los usuarios
+  - name: actividad
+    description: Operaciones con las actividades
+  - name: ciclo
+    description: Operaciones con los ciclos
   - name: curriculo
     description: Operaciones con los currículos
+  - name: familia_profesionale
+    description: Operaciones con las familias profesionales
   - name: proyecto
     description: Operaciones con los proyectos
   - name: reconocimiento
     description: Operaciones con los reconocimiento
-  - name: actividad
-    description: Operaciones con las actividades
+  - name: user
+    description: Operaciones con los usuarios
 paths:
-  /proyectos:
-    get:
-      tags:
-        - proyecto
-      summary: Devuelve todos los proyectos
-      description: Devuelve todos los proyectos
-      operationId: getProyectos
-      parameters:
-        - name: size
-          in: query
-          description: Número máximo de proyectos a devolver
-          required: false
-          schema:
-            type: integer
-            format: int32
-        - name: page
-          in: query
-          description: Número de proyectos a saltar
-          required: false
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: Operación exitosa
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Proyecto'
-            application/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Proyecto'
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: proyecto not found
-    post:
-      tags:
-        - proyecto
-      summary: Añade un nuevo proyecto
-      description: Añade un nuevo proyecto
-      operationId: addProyecto
-      requestBody:
-        description: Crea un nuevo Proyecto
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Proyecto'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Proyecto'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Proyecto'
-        required: true
-      responses:
-        '200':
-          description: Operación exitosa
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Proyecto'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Proyecto'
-        '405':
-          description: Invalid input
-  /proyectos/{id}:
-    get:
-      tags:
-        - proyecto
-      summary: Encuentra un proyecto según su ID
-      description: Devuelve un único proyecto
-      operationId: getProyectoById
-      parameters:
-        - name: id
-          in: path
-          description: ID del proyecto a devolver
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: Operación exitosa
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Proyecto'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Proyecto'
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: proyecto not found
-    put:
-      tags:
-        - proyecto
-      summary: Actualiza un proyecto con los datos del formulario
-      description: ''
-      operationId: updateProyectoWithForm
-      parameters:
-        - name: id
-          in: path
-          description: ID del proyecto a actualizar
-          required: true
-          schema:
-            type: integer
-            format: int64
-      requestBody:
-        description: Crea un nuevo Proyecto
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Proyecto'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Proyecto'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Proyecto'
-        required: true
-      responses:
-        '405':
-          description: Invalid input
-    delete:
-      tags:
-        - proyecto
-      summary: Borra un proyecto
-      description: Borra un proyecto
-      operationId: deleteProyecto
-      parameters:
-        - name: id
-          in: path
-          description: id del proyecto a borrar
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '400':
-          description: Invalid proyecto value
   /actividades:
     get:
       tags:
@@ -364,24 +221,24 @@ paths:
       responses:
         '400':
           description: Invalid actividad value
-  /reconocimientos:
+  /ciclos:
     get:
       tags:
-        - reconocimiento
-      summary: Devuelve todos los reconocimientos
-      description: Devuelve todos los reconocimientos
-      operationId: getReconocimientos
+        - ciclo
+      summary: Devuelve todos los ciclos
+      description: Devuelve todos los ciclos
+      operationId: getCiclos
       parameters:
         - name: size
           in: query
-          description: Número máximo de reconocimientos a devolver
+          description: Número máximo de ciclos a devolver
           required: false
           schema:
             type: integer
             format: int32
         - name: page
           in: query
-          description: Número de reconocimientos a saltar
+          description: Número de ciclos a saltar
           required: false
           schema:
             type: integer
@@ -394,34 +251,34 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Reconocimiento'
+                  $ref: '#/components/schemas/Ciclo'
             application/xml:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Reconocimiento'
+                  $ref: '#/components/schemas/Ciclo'
         '400':
           description: Invalid ID supplied
         '404':
-          description: reconocimiento not found
+          description: ciclo not found
     post:
       tags:
-        - reconocimiento
-      summary: Añade un nuevo reconocimiento
-      description: Añade un nuevo reconocimiento
-      operationId: addReconocimiento
+        - ciclo
+      summary: Añade un nuevo ciclo
+      description: Añade un nuevo ciclo
+      operationId: addCiclo
       requestBody:
-        description: Crea un nuevo Reconocimiento
+        description: Crea un nuevo Ciclo
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Reconocimiento'
+              $ref: '#/components/schemas/Ciclo'
           application/xml:
             schema:
-              $ref: '#/components/schemas/Reconocimiento'
+              $ref: '#/components/schemas/Ciclo'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Reconocimiento'
+              $ref: '#/components/schemas/Ciclo'
         required: true
       responses:
         '200':
@@ -429,23 +286,23 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Reconocimiento'
+                $ref: '#/components/schemas/Ciclo'
             application/xml:
               schema:
-                $ref: '#/components/schemas/Reconocimiento'
+                $ref: '#/components/schemas/Ciclo'
         '405':
           description: Invalid input
-  /reconocimientos/{id}:
+  /ciclos/{id}:
     get:
       tags:
-        - reconocimiento
-      summary: Encuentra un reconocimiento según su ID
-      description: Devuelve un único reconocimiento
-      operationId: getReconocimientoById
+        - ciclo
+      summary: Encuentra un ciclo según su ID
+      description: Devuelve un único ciclo
+      operationId: getCicloById
       parameters:
         - name: id
           in: path
-          description: ID del reconocimiento a devolver
+          description: ID del ciclo a devolver
           required: true
           schema:
             type: integer
@@ -456,61 +313,61 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Reconocimiento'
+                $ref: '#/components/schemas/Ciclo'
             application/xml:
               schema:
-                $ref: '#/components/schemas/Reconocimiento'
+                $ref: '#/components/schemas/Ciclo'
         '400':
           description: Invalid ID supplied
         '404':
-          description: reconocimiento not found
+          description: ciclo not found
     put:
       tags:
-        - reconocimiento
-      summary: Actualiza un reconocimiento con los datos del formulario
+        - ciclo
+      summary: Actualiza un ciclo con los datos del formulario
       description: ''
-      operationId: updateReconocimientoWithForm
+      operationId: updateCicloWithForm
       parameters:
         - name: id
           in: path
-          description: ID del reconocimiento a actualizar
+          description: ID del ciclo a actualizar
           required: true
           schema:
             type: integer
             format: int64
       requestBody:
-        description: Crea un nuevo Reconocimiento
+        description: Crea un nuev Ciclo
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Reconocimiento'
+              $ref: '#/components/schemas/Ciclo'
           application/xml:
             schema:
-              $ref: '#/components/schemas/Reconocimiento'
+              $ref: '#/components/schemas/Ciclo'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Reconocimiento'
+              $ref: '#/components/schemas/Ciclo'
         required: true
       responses:
         '405':
           description: Invalid input
     delete:
       tags:
-        - reconocimiento
-      summary: Borra un reconocimiento
-      description: Borra un reconocimiento
-      operationId: deleteReconocimiento
+        - ciclo
+      summary: Borra una ciclo
+      description: Borra una ciclo
+      operationId: deleteCiclo
       parameters:
         - name: id
           in: path
-          description: id del reconocimiento a borrar
+          description: id del ciclo a borrar
           required: true
           schema:
             type: integer
             format: int64
       responses:
         '400':
-          description: Invalid reconocimiento value
+          description: Invalid ciclo value
   /curriculos:
     get:
       tags:
@@ -658,6 +515,447 @@ paths:
       responses:
         '400':
           description: Invalid curriculo value
+  /familias_profesionales:
+    get:
+      tags:
+        - actividad
+      summary: Devuelve todas las familias profesionales
+      description: Devuelve todas las familias profesionales
+      operationId: getFamiliasProfesionales
+      parameters:
+        - name: size
+          in: query
+          description: Número máximo de familias profesionales a devolver
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: page
+          in: query
+          description: Número de familias profesionales a saltar
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FamiliaProfesional'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FamiliaProfesional'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: actividad not found
+    post:
+      tags:
+        - actividad
+      summary: Añade una nueva actividad
+      description: Añade una nueva actividad
+      operationId: addFamiliaProfesional
+      requestBody:
+        description: Crea una nueva Familia Profesional
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FamiliaProfesional'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/FamiliaProfesional'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FamiliaProfesional'
+        required: true
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FamiliaProfesional'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/FamiliaProfesional'
+        '405':
+          description: Invalid input
+  /familias_profesionales/{id}:
+    get:
+      tags:
+        - actividad
+      summary: Encuentra una actividad según su ID
+      description: Devuelve una única actividad
+      operationId: getFamiliaProfesionalById
+      parameters:
+        - name: id
+          in: path
+          description: ID de la actividad a devolver
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FamiliaProfesional'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/FamiliaProfesional'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: actividad not found
+    put:
+      tags:
+        - actividad
+      summary: Actualiza una actividad con los datos del formulario
+      description: ''
+      operationId: updateFamiliaProfesionalWithForm
+      parameters:
+        - name: id
+          in: path
+          description: ID de la actividad a actualizar
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Crea una nueva Familia Profesional
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FamiliaProfesional'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/FamiliaProfesional'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FamiliaProfesional'
+        required: true
+      responses:
+        '405':
+          description: Invalid input
+    delete:
+      tags:
+        - actividad
+      summary: Borra una actividad
+      description: Borra una actividad
+      operationId: deleteFamiliaProfesional
+      parameters:
+        - name: id
+          in: path
+          description: id de la actividad a borrar
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '400':
+          description: Invalid actividad value
+  /proyectos:
+    get:
+      tags:
+        - proyecto
+      summary: Devuelve todos los proyectos
+      description: Devuelve todos los proyectos
+      operationId: getProyectos
+      parameters:
+        - name: size
+          in: query
+          description: Número máximo de proyectos a devolver
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: page
+          in: query
+          description: Número de proyectos a saltar
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Proyecto'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Proyecto'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: proyecto not found
+    post:
+      tags:
+        - proyecto
+      summary: Añade un nuevo proyecto
+      description: Añade un nuevo proyecto
+      operationId: addProyecto
+      requestBody:
+        description: Crea un nuevo Proyecto
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Proyecto'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Proyecto'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Proyecto'
+        required: true
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Proyecto'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Proyecto'
+        '405':
+          description: Invalid input
+  /proyectos/{id}:
+    get:
+      tags:
+        - proyecto
+      summary: Encuentra un proyecto según su ID
+      description: Devuelve un único proyecto
+      operationId: getProyectoById
+      parameters:
+        - name: id
+          in: path
+          description: ID del proyecto a devolver
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Proyecto'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Proyecto'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: proyecto not found
+    put:
+      tags:
+        - proyecto
+      summary: Actualiza un proyecto con los datos del formulario
+      description: ''
+      operationId: updateProyectoWithForm
+      parameters:
+        - name: id
+          in: path
+          description: ID del proyecto a actualizar
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Crea un nuevo Proyecto
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Proyecto'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Proyecto'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Proyecto'
+        required: true
+      responses:
+        '405':
+          description: Invalid input
+    delete:
+      tags:
+        - proyecto
+      summary: Borra un proyecto
+      description: Borra un proyecto
+      operationId: deleteProyecto
+      parameters:
+        - name: id
+          in: path
+          description: id del proyecto a borrar
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '400':
+          description: Invalid proyecto value
+  /reconocimientos:
+    get:
+      tags:
+        - reconocimiento
+      summary: Devuelve todos los reconocimientos
+      description: Devuelve todos los reconocimientos
+      operationId: getReconocimientos
+      parameters:
+        - name: size
+          in: query
+          description: Número máximo de reconocimientos a devolver
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: page
+          in: query
+          description: Número de reconocimientos a saltar
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Reconocimiento'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Reconocimiento'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: reconocimiento not found
+    post:
+      tags:
+        - reconocimiento
+      summary: Añade un nuevo reconocimiento
+      description: Añade un nuevo reconocimiento
+      operationId: addReconocimiento
+      requestBody:
+        description: Crea un nuevo Reconocimiento
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Reconocimiento'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Reconocimiento'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Reconocimiento'
+        required: true
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reconocimiento'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Reconocimiento'
+        '405':
+          description: Invalid input
+  /reconocimientos/{id}:
+    get:
+      tags:
+        - reconocimiento
+      summary: Encuentra un reconocimiento según su ID
+      description: Devuelve un único reconocimiento
+      operationId: getReconocimientoById
+      parameters:
+        - name: id
+          in: path
+          description: ID del reconocimiento a devolver
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reconocimiento'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Reconocimiento'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: reconocimiento not found
+    put:
+      tags:
+        - reconocimiento
+      summary: Actualiza un reconocimiento con los datos del formulario
+      description: ''
+      operationId: updateReconocimientoWithForm
+      parameters:
+        - name: id
+          in: path
+          description: ID del reconocimiento a actualizar
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Crea un nuevo Reconocimiento
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Reconocimiento'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Reconocimiento'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Reconocimiento'
+        required: true
+      responses:
+        '405':
+          description: Invalid input
+    delete:
+      tags:
+        - reconocimiento
+      summary: Borra un reconocimiento
+      description: Borra un reconocimiento
+      operationId: deleteReconocimiento
+      parameters:
+        - name: id
+          in: path
+          description: id del reconocimiento a borrar
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '400':
+          description: Invalid reconocimiento value
   /users:
     get:
       tags:
@@ -914,6 +1212,125 @@ paths:
           description: User not found
 components:
   schemas:
+    Actividad:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        docente_id:
+          $ref: '#/components/schemas/User'
+        insignia:
+          type: string
+          format: image
+      xml:
+        name: actividad
+    Ciclo:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        codCiclo:
+          type: string
+          example: DAW
+        codFamilia:
+          type: string
+          example: INF
+        familia_id:
+          $ref: '#/components/schemas/FamiliaProfesional'
+        grado:
+          type: string
+          example: Medio/Superior
+        nombre:
+          type: string
+          example: Desarrollo de Aplicaciones Web
+      xml:
+        name: ciclo
+    Curriculo:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        user_id:
+          $ref: '#/components/schemas/User'
+        video_curriculum:
+          type: string
+          description: URL al videocurrículo
+          example: https://youtu.be/2in5XMTlSWg
+        texto_curriculum:
+          type: string
+          description: fichero con el currículo
+          example: miCurriculo.pdf
+      xml:
+        name: curriculum
+    FamiliaProfesional:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        coddigo:
+          type: string
+          example: INF
+        nombre:
+          type: string
+          example: Informática y Comunicaciones
+      xml:
+        name: familia_profesional
+    Proyecto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        docente_id:
+          $ref: '#/components/schemas/User'
+        nombre:
+          type: string
+          description: Nombre del proyecto
+          example: Marca Personal FP
+        dominio:
+          type: string
+          description: slug del nombre del proyecto
+          example: marcapersonalfp
+        metadatos:
+          type: object
+          format: json
+          description: datos de interés del proyecto
+          example: {
+                fecha_inicio: '2023-01-15',
+                fecha_fin: '2023-05-30',
+                calificacion: 9.5
+            }
+      xml:
+        name: proyecto
+    Reconocimiento:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        estudiante_id:
+          $ref: '#/components/schemas/User'
+        actividad_id:
+          $ref: '#/components/schemas/Actividad'
+        documento:
+          type: integer
+          format: int64
+          description: Documento que evidencia la participación
+          example: 10
+        docente_validador:
+          $ref: '#/components/schemas/User'
+      xml:
+        name: reconocimiento
     User:
       type: object
       properties:
@@ -938,98 +1355,6 @@ components:
           example: linkedinProfile
       xml:
         name: user
-    Proyecto:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-          example: 10
-        docente_id:
-          $ref: '#/components/schemas/User'
-          description: Tutor del proyecto
-          example: 10
-        nombre:
-          type: string
-          description: Nombre del proyecto
-          example: Marca Personal FP
-        dominio:
-          type: string
-          description: slug del nombre del proyecto
-          example: marcapersonalfp
-        metadatos:
-          type: object
-          format: json
-          description: datos de interés del proyecto
-          example: {
-                fecha_inicio: '2023-01-15',
-                fecha_fin: '2023-05-30',
-                calificacion: 9.5
-            }
-      xml:
-        name: proyecto
-    Actividad:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-          example: 10
-        docente_id:
-          $ref: '#/components/schemas/User'
-          description: Tutor del proyecto
-          example: 10
-        insignia:
-          type: string
-          format: image
-      xml:
-        name: actividad
-    Curriculo:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-          example: 10
-        user_id:
-          $ref: '#/components/schemas/User'
-          example: 10
-        video_curriculum:
-          type: string
-          description: URL al videocurrículo
-          example: https://youtu.be/2in5XMTlSWg
-        texto_curriculum:
-          type: string
-          description: fichero con el currículo
-          example: miCurriculo.pdf
-      xml:
-        name: curriculum
-    Reconocimiento:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-          example: 10
-        estudiante_id:
-          $ref: '#/components/schemas/User'
-          description: Estudiante que solicita el reconocimiento
-          example: 10
-        actividad_id:
-          $ref: '#/components/schemas/Actividad'
-          description: Actividad para la que solicita el reconocimiento
-          example: 10
-        documento:
-          type: integer
-          format: int64
-          description: Documento que evidencia la participación
-          example: 10
-        docente_validador:
-          $ref: '#/components/schemas/User'
-          description: Docente que reconoce la participación en la actividad
-          example: 10
-      xml:
-        name: reconocimiento
     ApiResponse:
       type: object
       properties:
@@ -1079,6 +1404,24 @@ components:
         application/xml:
           schema:
             $ref: '#/components/schemas/Actividad'
+    Ciclo:
+      description: Ciclo object that needs to be added to the store
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Ciclo'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Ciclo'
+    FamiliaProfesional:
+      description: FamiliaProfesional object that needs to be added to the store
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/FamiliaProfesional'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/FamiliaProfesional'
     Proyecto:
       description: Proyecto object that needs to be added to the store
       content:
