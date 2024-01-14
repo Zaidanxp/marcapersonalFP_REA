@@ -47,3 +47,4 @@ Los contenidos que se presentan a continuación constituyen un desarrollo que, i
 7. [Controladores de recursos](./07_resourceController.md)
     1. [Controlador de Recursos de ciclos](./071_resourceControlerCiclos.md)
     2. [Middleware para adaptar la respuesta al cliente](./072_middlewareReactAdmin.md)
+8. [Autenticación](./08_autenticacion.md)

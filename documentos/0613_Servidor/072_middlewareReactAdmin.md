@@ -92,12 +92,14 @@ A partir de esa línea, ya podremos desarrollar código que modifique la respues
             $modelClassName = $request->route()->controller->modelclass;
             $response->header('X-Total-Count',$modelClassName::count());
         }
-        if(is_callable([$response, 'getData'])) {
-            $responseData = $response->getData();
-            if(isset($responseData->data)) {
-                $response->setData($responseData->data);
+        try {
+            if(is_callable([$response, 'getData'])) {
+                $responseData = $response->getData();
+                if(isset($responseData->data)) {
+                    $response->setData($responseData->data);
+                }
             }
-        }
+        } catch (\Throwable $th) { }
         return $response;
 ```
 
