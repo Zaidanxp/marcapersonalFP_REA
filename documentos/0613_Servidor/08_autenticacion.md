@@ -2,212 +2,67 @@
 
 ## Configuración
 
-En `config/auth.php`
+El archivo de configuración de autenticación de su aplicación se encuentra en config/auth.php. Este archivo contiene varias opciones bien documentadas para modificar el comportamiento de los servicios de autenticación de Laravel.
+
+
+En ese archivo se puede observar la diferente configuración entre el guard `web` y `api`
 
 ```php
+    'guards' => [
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
             'hash' => false,
         ],
+    ],
 ```
 
-## Rutas
+## Consideraciones de la base de datos
 
-```php
-// in routes/api.php
-Route::prefix('v1')->group(function () {
-    Route::middleware('auth:sanctum')->group(function () {
-        Route::get('/user', function (Request $request) {
-            $user = $request->user();
-            $user->fullName = $user->nombre . ' ' . $user->apellidos;
-            return $user;
-        });
+De forma predeterminada, _Laravel_ incluye el modelo _Eloquent_ `App\Models\User`  en su directorio `app/Models`. Este modelo se puede utilizar con el controlador de autenticación predeterminado de _Eloquent_.
 
-        Route::apiResource('ciclos', CicloController::class);
-    });
+## Tipos de autenticación
 
-    // emite un nuevo token
-    Route::post('tokens', [TokenController::class, 'store']);
-    // elimina el token del usuario autenticado
-    Route::delete('tokens', [TokenController::class, 'destroy'])->middleware('auth:sanctum');
+- Cookie/Sesión:
+    - Uso de formulario web para envío de credenciales (nombre de usuario y contraseña).
+    - Almacenamiento del usuario autenticado en la sesión (servidor).
+    - El servidor envía una cookie con la ID de sesión.
+    - Con cada petición, el cliente envía la cookie con el ID de sesión.
+    - El servidor recupera la sesión según ese ID y el usuario asociado a la sesión.
+- Token: Cuando un cliente necesita autenticarse para acceder a una API, las cookies no se utilizan normalmente para la autenticación porque no hay un navegador web:
+    - El cliente envía un token de API a la API en cada solicitud.
+    - El servidor valida el token entrante contra una tabla de tokens API válidos
+    - Autentica la solicitud como realizada por el usuario asociado con ese token API.
 
-});
+## Kits de autenticación.
 
-```
+_Laravel_ facilita paquetes gratuitos para incorporar la mayoría de los requisitos de autenticación a nuestras aplicaciones:
 
-## TokenController
+- [Laravel Breeze](https://laravel.com/docs/starter-kits#laravel-breeze)
+- [Laravel Jetstream](https://jetstream.laravel.com/)
+- [Laravel Fortify](https://laravel.com/docs/fortify)
 
-```php
-<?php
-// in app/Http/Controllers/API/TokenController.php
-namespace App\Http\Controllers\API;
+No obstante, el uso de los paquetes anteriores, no entra dentro del alcance de este módulo.
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+## Servicios de autenticación de API
 
-class TokenController extends Controller
-{
-    /**
-     * Store a newly created personal access token.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
+Para gestionar los _tokens_ que se transmitirán entre **cliente** y **servidor**, Laravel proporciona dos paquetes:
 
-        $user = User::where('email', $request->email)->first();
+- _Passport_: utiliza _OAuth2_, para autenticar al usuario a través de servidores de autenticación externos (_Google_, _Facebook_, _Twitter_,...)
+- _Sanctum_: un paquete de **autenticación híbrido web / API**, que puede administrar todo el proceso de autenticación de su aplicación.
 
-        if (! $user || ! Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
-        }
+Por su mayor sencillez, utilizaremos _Sanctum_ para nuestro desarrollo y dejaremos _Passport_ como **ampliación**.
 
-        return response()->json([
-            'token_type' => 'Bearer',
-            'access_token' => $user->createToken('token_name')->plainTextToken // token name you can choose for your self or leave blank if you like to
-        ]);
-    }
+## Resumen y elección de su pila
 
-    /**
-     * Delete the user's personal access token.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request)
-    {
-        $request->user()->currentAccessToken()->delete();
-    }
+En resumen, si vamos a acceder a la aplicación utilizando un navegador y vamos a crear una aplicación Laravel monolítica, su aplicación utilizará los servicios de autenticación integrados de Laravel.
 
-}
-```
+En cambio, si nuestra aplicación ofrece una API que será consumida por terceros, elegiremos entre _Passport_ o _Sanctum_ para proporcionar autenticación de _token API_ para la aplicación.
 
+En general, se debe preferir _Sanctum_ cuando sea posible, ya que es una solución simple y completa para la **autenticación de API**, **autenticación de SPA** y **autenticación móvil**. Al usar _Sanctum_, deberá implementar manualmente sus propias rutas de autenticación de backend o utilizar _Laravel Breeze_ como un servicio de backend de autenticación que proporciona rutas y controladores para funciones como registro, restablecimiento de contraseña, verificación de correo electrónico y más.
 
-## AuthProvider
-
-```php
-// in resources/js/react_admin/authProvider.js
-
-import { dataProvider } from "./dataProvider";
-
-export const authProvider = {
-    login: ({ username, password }) => {
-        return dataProvider.createToken( username, password )
-        .then(response => {
-            if (response.status < 200 || response.status >= 300) {
-              throw new Error(response.statusText);
-            }
-            localStorage.setItem('auth', JSON.stringify(response.json));
-        })
-        .catch((e) => {
-                throw new Error('Network error')
-        });
-    },
-    logout: () => {
-        let token = localStorage.getItem('auth')
-        if (token) {
-            token = JSON.parse(localStorage.getItem('auth'))
-            localStorage.removeItem('auth');
-            return dataProvider.deleteToken
-                .then(() => ('login'))
-                .catch((error) => {
-                    throw error
-                });
-        } else {
-            return Promise.resolve()
-        }
-    },
-    checkAuth: () =>
-        (localStorage.getItem('auth') ? Promise.resolve() : Promise.reject()),
-    checkError: (error) => {
-        const status = error.status;
-        if (status === 401 || status === 403) {
-            localStorage.removeItem('auth');
-            return Promise.reject();
-        }
-        // other error code (404, 500, etc): no need to log out
-        return Promise.resolve();
-    },
-    getIdentity: () => {
-        const token = localStorage.getItem('auth') ? JSON.parse(localStorage.getItem('auth')) : undefined
-        if (!token) {
-            throw new Error('No auth token');
-        }
-
-        return dataProvider.getIdentity()
-            .then(( data ) => {
-                return data.json
-            })
-            .catch(() => {
-                throw new Error('Network error')
-            });
-    },
-    getPermissions: () => Promise.resolve('')
-};
-
-```
-
-## DataProvider
-
-Nuestro _authProvider_ utiliza un _dataProvider_ basado en [JSON-Server](https://github.com/typicode/json-server), al que le añadiremos el **token de autenticación** en las cabeceras de las peticiones, siempre y cuando este _token_ exista en el `localStorage` del cliente, y funciones para solicitar a la API las peticiones relacionadas con el `login()`, `logout()` y `getIdentity()`.
-
-El código para el dataProvider es el siguiente:
-
-```php
-// in resources/js/react-admin/dataProvider.ts
-import { fetchUtils } from 'react-admin';
-import jsonServerProvider from "ra-data-json-server";
-
-const httpClient = (url, options = {}) => {
-    if (!options.headers) {
-        options.headers = new Headers({ Accept: 'application/json' });
-    }
-    const token = localStorage.getItem('auth') ? JSON.parse(localStorage.getItem('auth')) : undefined
-    if (token) {
-        options.headers.set('Authorization', `${token.token_type} ${token.access_token}`);
-    }
-    return fetchUtils.fetchJson(url, options);
-};
-
-const dataProvider = jsonServerProvider(
-    import.meta.env.VITE_JSON_SERVER_URL,
-    httpClient
-);
-
-const url = `${import.meta.env.VITE_JSON_SERVER_URL}`;
-
-dataProvider.createToken = (email, password) => {
-    return httpClient(url + '/tokens', {
-        method: 'POST',
-        body: JSON.stringify({ email, password }),
-        headers: new Headers({ 'Content-Type': 'application/json' }),
-    });
-};
-
-dataProvider.deleteToken = () => {
-    return httpClient(url + '/tokens', {
-        method: 'DELETE',
-        headers: new Headers({ 'Content-Type': 'application/json' }),
-    });
-};
-
-dataProvider.getIdentity = () => {
-    return httpClient(url + '/user', {
-        method: 'GET',
-        headers: new Headers({ 'Content-Type': 'application/json' }),
-    });
-};
-
-export { dataProvider };
-
-```
+Se puede elegir _Passport_ cuando su aplicación necesita absolutamente todas las características proporcionadas por la especificación **OAuth2**.
