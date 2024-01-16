@@ -12,6 +12,7 @@ php artisan make:model Ciclo
 
 Para poder utilizar posteriormente el método `create()` del modelo, deberemos, previamente, incluir el siguiente código en dicho modelo :
 
+```php
     protected $fillable = [
         'id',
         'codCiclo',
@@ -20,6 +21,7 @@ Para poder utilizar posteriormente el método `create()` del modelo, deberemos, 
         'grado',
         'nombre'
     ];
+```
 
 ## Controlador
 
@@ -78,6 +80,13 @@ Para poder utilizar la clase `CicloController`, deberemos añadir el use corresp
 use App\Http\Controllers\API\CustomerController;
 ```
 
+> En el caso de modelos, como `FamiliaProfesional`, cuya tabla no se forma con el plural del nombre del modelo, hay que recordar que hay que definir la propiedad `protected $table = 'familias_profesionales';`. Además, en estos casos, el nombre del modelo que se va a enviar como parámetro a los métodos del controlador hay que especificarlo en el `Route::apiResource`. El `Route::apiResource` correspondiente a `familias_profesionales` quedaría así:
+```php
+    Route::apiResource('familias_profesionales', FamiliaProfesionalController::class)->parameters([
+        'familias_profesionales' => 'familiaProfesional'
+    ]);
+``` 
+
 ## Funcionalidad
 
 Como hemos definido previamente `CicloResource` como un recurso para el modelo `Ciclo`:
@@ -114,7 +123,7 @@ class CicloController extends Controller
     {
         $ciclo = json_decode($request->getContent(), true);
 
-        $ciclo = Ciclo::create($ciclo['data']['attributes']);
+        $ciclo = Ciclo::create($ciclo);
 
         return new CicloResource($ciclo);
     }
@@ -133,7 +142,7 @@ class CicloController extends Controller
     public function update(Request $request, Ciclo $ciclo)
     {
         $cicloData = json_decode($request->getContent(), true);
-        $ciclo->update($cicloData['data']['attributes']);
+        $ciclo->update($cicloData);
 
         return new CicloResource($ciclo);
     }
