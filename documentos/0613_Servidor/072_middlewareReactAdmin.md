@@ -134,9 +134,58 @@ La utilización de este _Middleware_ va a requerir la creación de una propiedad
     public $modelclass = Ciclo::class;
 ```
 
+## Registro del Middleware
+
+Para que este middleware sea utilizado en las respuestas, debemos elegir para qué tipo de peticiones se debe utilizar. Este registro lo debemos hacer en el elemento `api` de la propiedad `middlewareGroups` del fichero `app/Http/Kernel.php`, indicando con ello, que el middleware se utilizará para las peticiones dirigidas a la _API_:
+
+```php
+    protected $middlewareGroups = [
+        'web' => [
+            \App\Http\Middleware\EncryptCookies::class,
+            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+            \Illuminate\Session\Middleware\StartSession::class,
+            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+            \App\Http\Middleware\VerifyCsrfToken::class,
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\HandleInertiaRequests::class,
+            \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
+        ],
+
+        'api' => [
+            // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+            \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\ReactAdminResponse::class,
+        ],
+    ];
+```
+
 ## Ventajas de la utilización del Middleware
 
 Las ventajas de haber modificado la respuesta con un _middleware_ en lugar de haberlo hecho directamente en el controlador son:
 
 - Cuando desarrollamos el código del controlador no debemos estar pendiente del formato de la respuesta.
 - **Si cambiamos o añadimos otros clientes con otros requisitos en las respuestas únicamente necesitaremos desarrollar otro middleware que cumpla esos requisitos**.
+
+## Extensión al resto de los parámetros de React-admin
+
+Podemos extender nuestra solución al resto de parámetros de React-admin, modificando:
+
+- El código a ejecutar antes de `$response = $next($request);` en el middleware `/app/Http/Middleware/ReactAdminResponse.php`
+    ```php
+        if($request->filled('_start')) {
+            $request->merge(['page' => $request->_start / 10 + 1]);
+            if($request->filled('_end')) {
+                $request->merge(['perPage' => $request->_end - $request->_start]);
+            }
+        }
+    ```
+- El método `index` de `app/Http/Controllers/API/CicloController.php`
+    ```php
+    public function index(Request $request)
+    {
+        return CicloResource::collection(
+            Ciclo::orderBy($request->_sort, $request->_order)
+            ->paginate($request->perPage));
+    }
+    ```
