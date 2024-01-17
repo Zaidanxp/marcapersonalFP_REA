@@ -173,11 +173,12 @@ Podemos extender nuestra solución al resto de parámetros de React-admin, modif
 
 - El código a ejecutar antes de `$response = $next($request);` en el middleware `/app/Http/Middleware/ReactAdminResponse.php`
     ```php
+        $request->merge(['perPage' => 10]);
         if($request->filled('_start')) {
-            $request->merge(['page' => $request->_start / 10 + 1]);
             if($request->filled('_end')) {
                 $request->merge(['perPage' => $request->_end - $request->_start]);
             }
+            $request->merge(['page' => $request->_start / $request->perPage + 1]);
         }
     ```
 - El método `index` de `app/Http/Controllers/API/CicloController.php`
