@@ -2,25 +2,9 @@
 
 ## Backend
 
-## Configuración
-
-Como hemos comentado anteriormente, para utilizar tokens en las peticiones a la API, debemos asegurarnos de que el archivo de configuración `config/auth.php` contiene la siguiente configuración:
-
-```php
-        'api' => [
-            'driver' => 'token',
-            'provider' => 'users',
-            'hash' => false,
-        ],
-```
-
 ## Instalación
 
-**No es necesario instalar nada más**, ya que todo lo necesario lo instalamos al instalar Laravel Breeze, cueando ejecutamos el siguiente comando:
-
-```bash
-php artisan breeze:install api
-```
+**No es necesario instalar nada más**, ya que todo lo necesario lo instalamos al instalar _Laravel Breeze_, cueando ejecutamos `php artisan breeze:install api`
 
 ## Generando tokens de API
 
@@ -76,14 +60,17 @@ class TokenController extends Controller
             'password' => 'required'
         ]);
 
+        // comprobamos si existe un usuario con ese email
         $user = User::where('email', $request->email)->first();
 
+        // si no existe o la contraseña no es correcta, devolvemos un error
         if (! $user || ! Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
             ]);
         }
 
+        // si el usuario existe y la contraseña es correcta, generamos un token
         return response()->json([
             'token_type' => 'Bearer',
             'access_token' => $user->createToken('token_name')->plainTextToken // token name you can choose for your self or leave blank if you like to
@@ -147,6 +134,13 @@ Por ejemplo:
 
 ```http
 Authorization                   Bearer 6|i5q80n6dtqP4QFdbvfz110myF8LhyeuNB00wUwK6
+```
+
+> Debemos eliminar la protección que teníamos sobre la ruta `dashboard` en el fichero `routes/web.php`. Una vez que en esa ruta se cargue la aplicación de React-admin, será a través de esta aplicación desde donde se gestionará la autenticación, incluida la pantalla de _login_.
+```php
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->name('dashboard');
 ```
 
 ## Frontend
@@ -273,3 +267,24 @@ dataProvider.getIdentity = () => {
 export { dataProvider };
 
 ```
+
+## Pruebas
+
+### Rutas de las peticiones y variables de entorno.
+
+Las rutas configuradas  en el fichero `routes/api.php` en el apartado [Rutas de tokens](#rutas-de-tokens) las hemos configurado para que se utilice la versión `v1` de la API. Por tanto, las peticiones deberán dirigirse a `http://marcapersonalfp.test/api/v1/...` y, para ello, debemos modificar la variable de entorno `VITE_JSON_SERVER_URL` en el fichero `.env`:
+
+```bash
+VITE_JSON_SERVER_URL=http://marcapersonalfp.test/api/v1
+```
+
+### Prueba de la autenticación
+
+Antes de realizar una prueba debemos asegurarnos que no tenemos ninguna cookie de sesión activa ni ningún token. Para ello, accedemos a las herramientas de desarrollador del navegador (_F12_ o _Ctrl+Shift+I_) y **borramos las cookies y el almacenamiento local** (`localStorage`).
+
+A continuación:
+
+- Accedemos a la _URL_ [http://marcapersonalfp.test/dashboard](http://marcapersonalfp.test/dashboard)
+- Como la ruta está protegida, nos redirige a la ruta `/login`. El formulario de _login_ que nos presenta es el que se instaló con _breeze_ y sirve para autenticarnos con el guard `web` y, por lo tanto, para autenticarnos en todas las rutas definidas en el fichero `routes/web.php`.
+- Si volvemos a intentar acceder a la _URL_ [http://marcapersonalfp.test/dashboard](http://marcapersonalfp.test/dashboard), en esta ocasión comienza a presentarnos el _Dashboard_ pero, casi inmediatamente nos muestra el formulario de _login_ de _React-admin_. Esto ocurre porque _React-admin_ realiza peticiones a la API, en las que tenemos definido el guard `sanctum`, es decir, por tokens.
+- Si nos autenticamos con el formulario de _login_ de _React-admin_, almacenará el token el `localStorage` y se nos presentará el _Dashboard_ de _React-admin_.
