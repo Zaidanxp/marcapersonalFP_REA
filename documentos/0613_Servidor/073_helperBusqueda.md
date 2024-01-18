@@ -4,116 +4,150 @@
 
 El _frontend_ dispone de un cuadro de búsqueda con el que poder filtrar los registros que deben mostrarse. Hasta ahora, no hemos hecho uso de ese parámetro de la petición en el _backend_.
 
-Para poder utilizarlo, debemos inyectar el objeto `Request` en el método `index()` del controlador. Esto nos permitirá acceder a todos los parámetros de la petición.
+El _frontend_ de React-admin lo tenemos configurado para que envíe el contenido de los cuadros de búsqueda en el parámetro `q`.
 
-```php
-    public function index(Request $request)
-```
+## Buscando a usuarios
 
-El _frontend_ envía el contenido de los cuadros de búsqueda en el parámetro `filter`. Este parámetro es un **array asociativo**, en el _backend_ sustituiremos la búsqueda inicial por el valor de ese parámetro:
-
-```php
-        $busqueda = $request->input('filter');
-```
-
-Por defecto, el _frontend_ nos envía el primer cuadro de búsqueda en el elemento `q` del _array_ anterior, por lo que si queremos hacer una búsqueda de los `ciclos` cuyo `nombre` contiene la clave de búsqueda, deberemos codificar el método `index()` como se muestra a continuación:
-
-```php
-    public function index(Request $request)
-     {
-        $busqueda = $request->input('filter');
-        $registrosCiclos =
-        ($busqueda && array_key_exists('q', $busqueda))
-            ? Ciclo::where('nombre', 'like', '%' .$busqueda['q'] . '%')->get()
-            : Ciclo::all();
-
-            return CicloResource::collection($registrosCiclos);
-        }
-```
-
-La búsqueda que hemos implementado en `CicloController` también la podemos implementar en `UserController`. Vamos, además, a permitir que la búsqueda se realice en una serie de atributos seleccionados y almacenados en un _array_. El código del método `index()` de `UserController` quedaría como el siguiente:
+Vamos a modificar el método `index()` de `UserController` para que, si se recibe el parámetro `q`, se busquen los usuarios cuyo nombre, apellidos, name o email contengan el valor de ese parámetro. Para ello, debemos modificar el método `index()` de `UserController` de la siguiente forma:
 
 ```php
     public function index(Request $request)
     {
-        $busquedaArray = [
-            'nombre',
-            'apellidos',
-            'email',
-        ];
-        $busquedaFiltroQ = $request->input('q');
-        $registrosUsuario = User::query();
-        if($busquedaFiltroQ) {
-            foreach ($busquedaArray as $fieldName) {
-                $registrosUsuario = $registrosUsuario
-                    ->orWhere($fieldName, 'like', '%' .$busquedaFiltroQ . '%');
-            }
+        $query = User::query();
+        if($busqueda) {
+            $query->orWhere('name', 'like', '%' .$request->q . '%');
+            $query->orWhere('nombre', 'like', '%' .$request->q . '%')
+            $query->orWhere('apellidos', 'like', '%' .$request->q . '%')
+            $query->orWhere('email', 'like', '%' .$request->q . '%');
         }
 
         return UserResource::collection(
-            $registrosUsuario->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
+            $query->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
+            ->paginate($request->perPage)
+        );
+    }
+```
+Para no tener que repetir 4 veces el método `orWhere`, podemos crear un _array_ con los campos que queramos consultar y recorrerlos con un `foreach`:
+```php
+    public function index(Request $request)
+    {
+        $campos = ['apellidos', 'nombre', 'name', 'email'];
+        $query = User::query();
+        foreach($campos as $campo) {
+            $query->orWhere($campo, 'like', '%' . $request->q . '%');
+        }
+        return UserResource::collection(
+            $query->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
+            ->paginate($request->perPage));
+    }
+```
+
+## Refactorizando con un helper
+
+Como la búsqueda que hemos implementado en `UserController` también la debemos implementar en el resto de controladores de la aplicación de forma parecida, utilizaremos un helper para que todos los controladores lo usen para filtrar. De este modo, podemos adaptar fácilmente el resultado de las búsquedas, en el caso de que los parámetros enviados por el _frontend_ cambien.
+
+Para crear el _helper_ crearemos el fichero `app/Helpers/FilterHelper.php` con el siguiente contenido:
+
+```php
+<?php
+namespace App\Helpers;
+
+class FilterHelper
+{
+    public static function applyFilter($query, $filterValue, $filterColumns)
+    {
+        if ($filterValue) {
+            $query->where(function ($query) use ($filterValue, $filterColumns) {
+                foreach ($filterColumns as $column) {
+                    $query->orWhere($column, 'like', '%' . $filterValue . '%');
+                }
+            });
+        }
+    }
+}
+```
+
+En el método `index()` de `UserController` podemos utilizar el _helper_ de la siguiente forma:
+
+```php
+    public function index(Request $request)
+    {
+        $query = User::query();
+        FilterHelper::applyFilter($query, $request->q, ['nombre', 'apellidos', 'name', 'email']);
+
+        return UserResource::collection(
+            $query->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
             ->paginate($request->perPage)
         );
     }
 ```
 
-## Refactorizando en un helper
+Como podemos observar a continuación, el método `index()` de `CicloController` será muy parecido al anterior:
 
-Tras haber utilizado Query Builder para generar consultas con el parámetro filter enviado desde el frontend, nos damos cuenta de que podemos extender esta funcionalidad a todos los controladores. Para ello, sería conveniente crear un helper de Laravel para generar esas consultas, al que le deberíamos enviar, como parámetros, el array de atributos sobre los que buscar y la clase del modelo que debemos utilizar para generar ese Query Builder.
+```php
+    public function index(Request $request)
+    {
+        $query = Ciclo::query();
+        FilterHelper::applyFilter($query, $request->q, ['nombre']);
 
-Para crear un helper en Laravel, realizaremos los siguientes pasos
+        return CicloResource::collection(
+            $query->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
+            ->paginate($request->perPage)
+        );
+    }
+```
 
-    Crear un directorio Helpers en la carpeta app.
+Evidentemente, los métodos `index()` del resto de controladores tan solo se diferenciarán en el **modelo** y el **recurso** que se utiliza para devolver los datos y en el _array_ de campos que se utiliza para filtrar.
 
-    mkdir app/Helpers
+## Obteniendo el objeto `$query` en el helper
 
-    En el directorio Helpers vamos a crear un archivo searchByFields.php con el siguiente contenido:
+Todavía podemos refactorizar un poco más:
 
-    <?php
+- obteniendo el objeto `$query` en el helper, utilizando la propiedad $modelClassName que hemos definido en cada controlador.
+- pasando el objeto `$request` completo al helper por si se modificara el nombre del parámetro que envía el _frontend_, de forma que pudiéramos modificarlo en un único lugar.
 
-    function searchByField($fieldsArray, $modelClass){
-        $busquedaFiltroQ = request()->input('filter');
-        $query = $modelClass::query();
-        if($busquedaFiltroQ && array_key_exists('q', $busquedaFiltroQ)) {
-            foreach ($fieldsArray as $fieldName) {
-                $query = $query
-                    ->orWhere($fieldName, 'like', '%' .$busquedaFiltroQ['q'] . '%');
+El código del helper quedaría de la siguiente forma:
+
+```php
+<?php
+namespace App\Helpers;
+
+class FilterHelper
+{
+    public static function applyFilter($request, $filterColumns)
+    {
+        $modelClassName = $request->route()->controller->modelclass;
+        $query = $modelClassName::query();
+
+        $filterValue = $request->q;
+        if ($filterValue) {
+            foreach ($filterColumns as $column) {
+                    $query->orWhere($column, 'like', '%' . $filterValue . '%');
             }
         }
         return $query;
     }
+}
+```
 
-    En el fichero composer.json añadiremos el fichero searchByFields.php al atributo files de la propiedad autoload para que Composer sea automáticamente cargada cuando arranque la aplicación. Esto es realizado por Composer usando el estándar PSR-4 auto-loading.
+mientras que el método `index()` de `CicloController` quedaría de la siguiente forma:
 
-        "autoload": {
-            "psr-4": {
-                "App\\": "app/",
-                "Database\\Factories\\": "database/factories/",
-                "Database\\Seeders\\": "database/seeders/"
-            },
-            "files": [
-               "app/Helpers/searchByFields.php"
-            ]
-        },
-
-    Por último, ejecutaremos composer dump-autoload para refrescar la cache de autoload.
-
-Tras crear el helper searchByField() el código del método index de UserController quedaría de la siguiente forma:
+```php
     public function index(Request $request)
     {
-        $numElementos = $request->input('numElements');
+        $query = FilterHelper::applyFilter($request, ['nombre']);
 
-        $registros = searchByField(array('name', 'email'), User::class);
-
-        return UserResource::collection($registros->paginate($numElementos));
+        return CicloResource::collection(
+            $query->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
+            ->paginate($request->perPage)
+        );
     }
+```
 
-Mientras que el de CustomerController quedaría:
-    public function index(Request $request)
-    {
-        $numElementos = $request->input('numElements');
+## Ejercicios 
 
-        $registros = searchByField(array('first_name', 'last_name', 'job_title', 'city', 'country'), Customer::class);
+Se propone como ejercicios:
 
-        return CustomerResource::collection($registros->paginate($numElementos));
-    }
+1.- Utilizar el _helper_ desde todos los controladores.
+2.- Crear un nuevo método en la clase `FilterHelper` en la que se centralice la utilización de los parámetros `_sort` y `_order`.
+3.- Desarrollar otro método para obtener el valor que se debe asignar a la cabecera `X-Total-Count` de las respuestas, que contabilice únicamente los registros filtrados.
