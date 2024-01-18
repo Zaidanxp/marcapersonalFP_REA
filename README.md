@@ -25,7 +25,7 @@ Por su parte, la base de datos que dará soporte a la web seguirá el siguiente 
 
 ## Máquina Virtual
 
-Para el desarrollo de la aplicación, se facilita una máquina virtual de VirtualBox con los siguientes componentes:
+Para el desarrollo de la aplicación, se facilita una [máquina virtual de VirtualBox](https://drive.google.com/file/d/1nDgiQgA3Zsemt0OQuTug_iMkQTkR8TzK) con los siguientes componentes:
 
 - Debian 11 - Openbox
 - Docker
