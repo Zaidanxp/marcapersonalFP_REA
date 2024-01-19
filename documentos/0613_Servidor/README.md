@@ -49,6 +49,7 @@ Los contenidos que se presentan a continuación constituyen un desarrollo que, i
     1. [Controlador de Recursos de ciclos](./071_resourceControlerCiclos.md)
     2. [Middleware para adaptar la respuesta al cliente](./072_middlewareReactAdmin.md)
     3. [Helper para la búsqueda](./073_helperBusqueda.md)
+    4. [Ejercicios de controladores de recursos](./074_ejerciciosControladoresRecursos.md)
 8. [Autenticación](./08_autenticacion.md)
     1. [Autenticación por tokens](./081_autenticacionTokens.md)
     2. [Autenticación por sesiones](./082_autenticacionSesionAPI.md)
