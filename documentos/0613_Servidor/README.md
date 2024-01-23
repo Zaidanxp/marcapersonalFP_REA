@@ -53,3 +53,9 @@ Los contenidos que se presentan a continuación constituyen un desarrollo que, i
 8. [Autenticación](./08_autenticacion.md)
     1. [Autenticación por tokens](./081_autenticacionTokens.md)
     2. [Autenticación por sesiones](./082_autenticacionSesionAPI.md)
+9. [Relaciones entre modelos](./09_relaciones.md)
+    1. [Relaciones uno a uno](./091_relaciones_unoAuno.md)
+    2. [Relaciones uno a muchos](./092_relaciones_unoAmuchos.md)
+    3. [Relaciones muchos a muchos](./093_relaciones_muchosAmuchos.md)
+    4. [Ejercicios](./094_ejerciciosRelaciones.md)
+    
