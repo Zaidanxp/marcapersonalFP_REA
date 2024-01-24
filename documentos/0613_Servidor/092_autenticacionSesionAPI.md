@@ -137,10 +137,18 @@ const dataProvider = jsonServerProvider(
     httpClient
 );
 
-const url = `${import.meta.env.VITE_JSON_SERVER_URL}`;
+const apiUrl = `${import.meta.env.VITE_JSON_SERVER_URL}`;
+
+dataProvider.getMany = (resource, params) => {
+    const query = {
+        id: params.ids,
+    };
+    const url = `${apiUrl}/${resource}?${stringify(query, {arrayFormat: 'bracket'})}`;
+    return httpClient(url).then(({ json }) => ({ data: json }));
+};
 
 dataProvider.createToken = (email, password) => {
-    return httpClient(url + '/tokens', {
+    return httpClient(`${apiUrl}/tokens`, {
         method: 'POST',
         body: JSON.stringify({ email, password }),
         headers: new Headers({ 'Content-Type': 'application/json' }),
@@ -148,21 +156,21 @@ dataProvider.createToken = (email, password) => {
 };
 
 dataProvider.deleteToken = () => {
-    return httpClient(url + '/tokens', {
+    return httpClient(`${apiUrl}/tokens`, {
         method: 'DELETE',
         headers: new Headers({ 'Content-Type': 'application/json' }),
     });
 };
 
 dataProvider.getIdentity = () => {
-    return httpClient(url + '/user', {
+    return httpClient(`${apiUrl}/user`, {
         method: 'GET',
         headers: new Headers({ 'Content-Type': 'application/json' }),
     });
 };
 
 dataProvider.postLogin = (email, password) => {
-    return httpClient(url + '/login', {
+    return httpClient(`${apiUrl}/login`, {
         method: 'POST',
         body: JSON.stringify({ email, password }),
         headers: new Headers({ 'Content-Type': 'application/json' }),
@@ -170,7 +178,7 @@ dataProvider.postLogin = (email, password) => {
 };
 
 dataProvider.postLogout = () => {
-    return httpClient(url + '../../../logout', {
+    return httpClient(`${apiUrl}../../../logout`, {
         method: 'POST',
         headers: new Headers({ 'Content-Type': 'application/json' }),
     });
