@@ -42,7 +42,7 @@ use App\Models\FamiliaProfesional;
  
 $ciclos = FamiliaProfesional::find(1)->ciclos;
  
-foreach ($ciclos as $comment) {
+foreach ($ciclos as $ciclo) {
     // ...
 }
 ```
@@ -50,7 +50,7 @@ foreach ($ciclos as $comment) {
 Dado que todas las relaciones también sirven como **constructores de consultas**, también puedes agregar restricciones adicionales a las consultas de relación:
 
 ```php
-$comment = FamiliaProfesional::find(1)->ciclos()
+$ciclo = FamiliaProfesional::find(1)->ciclos()
                     ->where('title', 'foo')
                     ->first();
 ```
