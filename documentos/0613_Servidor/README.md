@@ -59,3 +59,4 @@ Los contenidos que se presentan a continuación constituyen un desarrollo que, i
 9. [Autenticación](./09_autenticacion.md)
     1. [Autenticación por tokens](./091_autenticacionTokens.md)
     2. [Autenticación por sesiones](./092_autenticacionSesionAPI.md)
+10. [Manejo de Ficheros en la API](./10_manejarFicheros.md)
