@@ -88,3 +88,16 @@ actividades - reconocimientos
 proyectos - ciclos
 
 A continuación, modifica la definición del recurso correspondiente a la primera de las dos tablas para que incluya los registros relacionados de la otra tabla.
+
+![Esquema relacional](https://raw.githubusercontent.com/2DAW-CarlosIII/marcapersonalFP_REA/master/documentos/marcapersonalFP.drawio.png)
+
+# Insertar en tablas intermedias
+
+Actualmente, cuando realizamos el _seed_ de las tablas intermedias, elegimos valores `id` relacionados aleatoriamente de entre los que existen en cada una de las tablas. Ahora que conocemos como añadir relaciones entre dos registros utilizando las relaciones, vamos a modificar los seed existentes de las tablas intermedias. Para ello, vamos a coger todos los registros de cada una de las tablas y, por cada uno de ellos, vamos a relacionarle registros aleatorios de la tabla relacionada. El número de registros relacionados serán 0, 1 o 2.
+
+- competencias_actividades
+- users_competencias
+- users_idiomas
+- users_ciclos
+- participantes_proyectos
+- proyectos_ciclos
