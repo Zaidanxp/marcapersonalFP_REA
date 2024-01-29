@@ -59,21 +59,91 @@ servers:
     variables: {}
     description: Entorno React
 tags:
+  - name: tokens
+    description: Operaciones con los tokens
   - name: actividad
     description: Operaciones con las actividades
   - name: ciclo
     description: Operaciones con los ciclos
+  - name: competencia
+    description: Operaciones con las competencias
   - name: curriculo
     description: Operaciones con los currículos
-  - name: familia_profesionale
+  - name: empresa
+    description: Operaciones con las empresas
+  - name: familia_profesional
     description: Operaciones con las familias profesionales
+  - name: idioma
+    description: Operaciones con los idiomas
   - name: proyecto
     description: Operaciones con los proyectos
   - name: reconocimiento
-    description: Operaciones con los reconocimiento
+    description: Operaciones con los reconocimientos
   - name: user
     description: Operaciones con los usuarios
 paths:
+  /tokens:
+    post:
+      tags:
+        - tokens
+      summary: Asocia un nuevo token al usuario
+      description: Asocia un nuevo token al usuario con su email y password
+      operationId: createToken
+      requestBody:
+        description: Email y password
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Credenciales'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Credenciales'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Credenciales'
+        required: true
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  token: 
+                    Bearer
+                    4_qr0e87r890e7r9n8qewr7b98qe7rb9q8ew7rbq980e7rbqfdsuyb
+        '403':
+          description: Invalid credentials
+    delete:
+      tags:
+        - tokens
+      summary: Elimina el token asociado al usuario
+      description: Elimina el token asociado al usuario
+      operationId: deleteToken
+      responses:
+        '200':
+          description: Operación exitosa
+  /{tabla}/count:
+    get:
+      summary: Número de registros de una determinada tabla.
+      description: Número de registros de una determinada tabla.
+      parameters:
+        - name: tabla
+          in: path
+          description: nombre de la tabla
+          required: true
+          schema:
+            type: string
+      responses:
+        '200': 
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  count: 23
   /actividades:
     get:
       tags:
@@ -368,6 +438,153 @@ paths:
       responses:
         '400':
           description: Invalid ciclo value
+  /competencias:
+    get:
+      tags:
+        - competencia
+      summary: Devuelve todas los competencias
+      description: Devuelve todas los competencias
+      operationId: getCompetencias
+      parameters:
+        - name: size
+          in: query
+          description: Número máximo de competencias a devolver
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: page
+          in: query
+          description: Número de competencias a saltar
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Competencia'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Competencia'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: competencia not found
+    post:
+      tags:
+        - competencia
+      summary: Añade una nueva competencia
+      description: Añade una nueva competencia
+      operationId: addCompetencia
+      requestBody:
+        description: Crea una nueva Competencia
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Competencia'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Competencia'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Competencia'
+        required: true
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Competencia'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Competencia'
+        '405':
+          description: Invalid input
+  /competencias/{id}:
+    get:
+      tags:
+        - competencia
+      summary: Encuentra una competencia según su ID
+      description: Devuelve una única competencia
+      operationId: getCompetenciaById
+      parameters:
+        - name: id
+          in: path
+          description: ID de la competencia a devolver
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Competencia'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Competencia'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: competencia not found
+    put:
+      tags:
+        - competencia
+      summary: Actualiza una competencia con los datos del formulario
+      description: ''
+      operationId: updateCompetenciaWithForm
+      parameters:
+        - name: id
+          in: path
+          description: ID de la competencia a actualizar
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Crea una nueva Competencia
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Competencia'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Competencia'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Competencia'
+        required: true
+      responses:
+        '405':
+          description: Invalid input
+    delete:
+      tags:
+        - competencia
+      summary: Borra una competencia
+      description: Borra una competencia
+      operationId: deleteCompetencia
+      parameters:
+        - name: id
+          in: path
+          description: id de la competencia a borrar
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '400':
+          description: Invalid competencia value
   /curriculos:
     get:
       tags:
@@ -515,10 +732,157 @@ paths:
       responses:
         '400':
           description: Invalid curriculo value
+  /empresas:
+    get:
+      tags:
+        - empresa
+      summary: Devuelve todas los empresas
+      description: Devuelve todas los empresas
+      operationId: getEmpresas
+      parameters:
+        - name: size
+          in: query
+          description: Número máximo de empresas a devolver
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: page
+          in: query
+          description: Número de empresas a saltar
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Empresa'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Empresa'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: empresa not found
+    post:
+      tags:
+        - empresa
+      summary: Añade una nueva empresa
+      description: Añade una nueva empresa
+      operationId: addEmpresa
+      requestBody:
+        description: Crea una nueva Empresa
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Empresa'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Empresa'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Empresa'
+        required: true
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empresa'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Empresa'
+        '405':
+          description: Invalid input
+  /empresas/{id}:
+    get:
+      tags:
+        - empresa
+      summary: Encuentra una empresa según su ID
+      description: Devuelve una única empresa
+      operationId: getEmpresaById
+      parameters:
+        - name: id
+          in: path
+          description: ID de la empresa a devolver
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empresa'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Empresa'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: empresa not found
+    put:
+      tags:
+        - empresa
+      summary: Actualiza una empresa con los datos del formulario
+      description: ''
+      operationId: updateEmpresaWithForm
+      parameters:
+        - name: id
+          in: path
+          description: ID de la empresa a actualizar
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Crea una nueva Empresa
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Empresa'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Empresa'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Empresa'
+        required: true
+      responses:
+        '405':
+          description: Invalid input
+    delete:
+      tags:
+        - empresa
+      summary: Borra una empresa
+      description: Borra una empresa
+      operationId: deleteEmpresa
+      parameters:
+        - name: id
+          in: path
+          description: id de la empresa a borrar
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '400':
+          description: Invalid empresa value
   /familias_profesionales:
     get:
       tags:
-        - actividad
+        - familia_profesional
       summary: Devuelve todas las familias profesionales
       description: Devuelve todas las familias profesionales
       operationId: getFamiliasProfesionales
@@ -554,12 +918,12 @@ paths:
         '400':
           description: Invalid ID supplied
         '404':
-          description: actividad not found
+          description: familia_profesional not found
     post:
       tags:
-        - actividad
-      summary: Añade una nueva actividad
-      description: Añade una nueva actividad
+        - familia_profesional
+      summary: Añade una nueva familia_profesional
+      description: Añade una nueva familia_profesional
       operationId: addFamiliaProfesional
       requestBody:
         description: Crea una nueva Familia Profesional
@@ -589,14 +953,14 @@ paths:
   /familias_profesionales/{id}:
     get:
       tags:
-        - actividad
-      summary: Encuentra una actividad según su ID
-      description: Devuelve una única actividad
+        - familia_profesional
+      summary: Encuentra una familia_profesional según su ID
+      description: Devuelve una única familia_profesional
       operationId: getFamiliaProfesionalById
       parameters:
         - name: id
           in: path
-          description: ID de la actividad a devolver
+          description: ID de la familia_profesional a devolver
           required: true
           schema:
             type: integer
@@ -614,17 +978,17 @@ paths:
         '400':
           description: Invalid ID supplied
         '404':
-          description: actividad not found
+          description: familia_profesional not found
     put:
       tags:
-        - actividad
-      summary: Actualiza una actividad con los datos del formulario
+        - familia_profesional
+      summary: Actualiza una familia_profesional con los datos del formulario
       description: ''
       operationId: updateFamiliaProfesionalWithForm
       parameters:
         - name: id
           in: path
-          description: ID de la actividad a actualizar
+          description: ID de la familia_profesional a actualizar
           required: true
           schema:
             type: integer
@@ -647,21 +1011,168 @@ paths:
           description: Invalid input
     delete:
       tags:
-        - actividad
-      summary: Borra una actividad
-      description: Borra una actividad
+        - familia_profesional
+      summary: Borra una familia_profesional
+      description: Borra una familia_profesional
       operationId: deleteFamiliaProfesional
       parameters:
         - name: id
           in: path
-          description: id de la actividad a borrar
+          description: id de la familia_profesional a borrar
           required: true
           schema:
             type: integer
             format: int64
       responses:
         '400':
-          description: Invalid actividad value
+          description: Invalid familia_profesional value
+  /idiomas:
+    get:
+      tags:
+        - idioma
+      summary: Devuelve todas los idiomas
+      description: Devuelve todas los idiomas
+      operationId: getIdiomas
+      parameters:
+        - name: size
+          in: query
+          description: Número máximo de idiomas a devolver
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: page
+          in: query
+          description: Número de idiomas a saltar
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Idioma'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Idioma'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: idioma not found
+    post:
+      tags:
+        - idioma
+      summary: Añade una nueva idioma
+      description: Añade una nueva idioma
+      operationId: addIdioma
+      requestBody:
+        description: Crea una nueva Idioma
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Idioma'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Idioma'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Idioma'
+        required: true
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Idioma'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Idioma'
+        '405':
+          description: Invalid input
+  /idiomas/{id}:
+    get:
+      tags:
+        - idioma
+      summary: Encuentra una idioma según su ID
+      description: Devuelve una única idioma
+      operationId: getIdiomaById
+      parameters:
+        - name: id
+          in: path
+          description: ID de la idioma a devolver
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Idioma'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Idioma'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: idioma not found
+    put:
+      tags:
+        - idioma
+      summary: Actualiza una idioma con los datos del formulario
+      description: ''
+      operationId: updateIdiomaWithForm
+      parameters:
+        - name: id
+          in: path
+          description: ID de la idioma a actualizar
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Crea una nueva Idioma
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Idioma'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Idioma'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Idioma'
+        required: true
+      responses:
+        '405':
+          description: Invalid input
+    delete:
+      tags:
+        - idioma
+      summary: Borra una idioma
+      description: Borra una idioma
+      operationId: deleteIdioma
+      parameters:
+        - name: id
+          in: path
+          description: id de la idioma a borrar
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '400':
+          description: Invalid idioma value
   /proyectos:
     get:
       tags:
@@ -1174,10 +1685,10 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/User'
-        '400':
-          description: Invalid username supplied
         '302':
           description: User not authenticated
+        '400':
+          description: Invalid username supplied
     patch:
       tags:
         - user
@@ -1249,6 +1760,32 @@ components:
           example: Desarrollo de Aplicaciones Web
       xml:
         name: ciclo
+    Competencia:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        nombre:
+          type: string
+          example: autonomía personal
+        color:
+          type: string
+          example: red
+      xml:
+        name: competencia
+    Credenciales:
+      type: object
+      properties:
+        email:
+          type: string
+          example: user@marcapersonalfp.es
+        password:
+          type: string
+          example: mi_password
+      xml:
+        name: credenciales
     Curriculo:
       type: object
       properties:
@@ -1268,6 +1805,48 @@ components:
           example: miCurriculo.pdf
       xml:
         name: curriculum
+    Empresa:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        nif:
+          type: string
+          example: B-123123
+        email:
+          type: string
+          example: empresa@marcapersonalfp.es
+        token:
+          type: string
+          example: 43l2jkh2l4jk3hrjkllqk
+      xml:
+        name: empresa
+    Idioma:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        alpha2:
+          type: string
+          example: ES
+        alpha3t:
+          type: string
+          example: ESP
+        alpha3b:
+          type: string
+          example: ESP
+        english_name:
+          type: string
+          example: Spanish
+        native_name:
+          type: string
+          example: Español
+      xml:
+        name: competencia
     FamiliaProfesional:
       type: object
       properties:
@@ -1304,11 +1883,10 @@ components:
           type: object
           format: json
           description: datos de interés del proyecto
-          example: {
-                fecha_inicio: '2023-01-15',
-                fecha_fin: '2023-05-30',
-                calificacion: 9.5
-            }
+          example:
+            fecha_inicio: '2023-01-15'
+            fecha_fin: '2023-05-30'
+            calificacion: 9.5
       xml:
         name: proyecto
     Reconocimiento:
@@ -1346,7 +1924,7 @@ components:
           example: James
         email:
           type: string
-          example: john@email.com
+          example: user@marcapersonalfp.es
         password:
           type: string
           example: '12345'
@@ -1413,6 +1991,15 @@ components:
         application/xml:
           schema:
             $ref: '#/components/schemas/Ciclo'
+    Credenciales:
+      description: Credenciales para autenticar al usuario
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Credenciales'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Credenciales'
     FamiliaProfesional:
       description: FamiliaProfesional object that needs to be added to the store
       content:
@@ -1435,4 +2022,3 @@ components:
     basic_auth:
       type: http
       scheme: basic
-      
