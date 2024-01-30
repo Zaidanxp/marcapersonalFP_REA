@@ -223,6 +223,7 @@ El código para el dataProvider es el siguiente:
 // in resources/js/react-admin/dataProvider.ts
 import { fetchUtils } from 'react-admin';
 import jsonServerProvider from "ra-data-json-server";
+import { stringify } from 'query-string';
 
 const httpClient = (url, options = {}) => {
     if (!options.headers) {
