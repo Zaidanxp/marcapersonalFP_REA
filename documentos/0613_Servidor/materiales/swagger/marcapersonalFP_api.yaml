@@ -1614,7 +1614,7 @@ paths:
       responses:
         '400':
           description: Invalid user value
-  /login:
+  /../../login:
     post:
       tags:
         - user
@@ -1657,7 +1657,7 @@ paths:
                 type: string
         '400':
           description: Invalid username/password supplied
-  /logout:
+  /../../logout:
     post:
       tags:
         - user
@@ -1735,6 +1735,14 @@ components:
         insignia:
           type: string
           format: image
+        reconocimientos:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reconocimiento'
+        competencias:
+          type: array
+          items:
+            $ref: '#/components/schemas/Competencia'
       xml:
         name: actividad
     Ciclo:
@@ -1799,7 +1807,7 @@ components:
           type: string
           description: URL al videocurrículo
           example: https://youtu.be/2in5XMTlSWg
-        texto_curriculum:
+        pdf_curriculum:
           type: string
           description: fichero con el currículo
           example: miCurriculo.pdf
@@ -1869,8 +1877,6 @@ components:
           type: integer
           format: int64
           example: 10
-        docente_id:
-          $ref: '#/components/schemas/User'
         nombre:
           type: string
           description: Nombre del proyecto
@@ -1887,6 +1893,16 @@ components:
             fecha_inicio: '2023-01-15'
             fecha_fin: '2023-05-30'
             calificacion: 9.5
+        tutor:
+          $ref: '#/components/schemas/User'
+        ciclos:
+          type: array
+          items:
+            $ref: '#/components/schemas/Ciclo'
+        estudiantes:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
       xml:
         name: proyecto
     Reconocimiento:
@@ -1916,10 +1932,13 @@ components:
           type: integer
           format: int64
           example: 10
-        firstName:
+        name:
           type: string
           example: John
-        lastName:
+        nombre:
+          type: string
+          example: John
+        apellidos:
           type: string
           example: James
         email:
@@ -1928,51 +1947,42 @@ components:
         password:
           type: string
           example: '12345'
-        linkedIn:
+        email_verified_at:
           type: string
-          example: linkedinProfile
+          example: '2024-01-25T10:53:02.000000Z'
+        created_at:
+          type: string
+          example: '2024-01-25T10:53:02.000000Z'
+        updated_at:
+          type: string
+          example: '2024-01-25T10:53:02.000000Z'
+        avatar:
+          type: string
+        curriculo:
+          $ref: '#/components/schemas/User'
+        idiomas:
+          type: array
+          items:
+            $ref: '#/components/schemas/Idioma'
+        actividades:
+          type: array
+          items:
+            $ref: '#/components/schemas/Actividad'
+        proyectos:
+          type: array
+          items:
+            $ref: '#/components/schemas/Proyecto'
+        competencias:
+          type: array
+          items:
+            $ref: '#/components/schemas/Competencia'
+        ciclos:
+          type: array
+          items:
+            $ref: '#/components/schemas/Ciclo'
       xml:
         name: user
-    ApiResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        type:
-          type: string
-        message:
-          type: string
-      xml:
-        name: '##default'
   requestBodies:
-    User:
-      description: User object that needs to be added to the store
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/User'
-        application/xml:
-          schema:
-            $ref: '#/components/schemas/User'
-    Reconocimiento:
-      description: Reconocimiento object that needs to be added to the store
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Reconocimiento'
-        application/xml:
-          schema:
-            $ref: '#/components/schemas/Reconocimiento'
-    Curriculo:
-      description: Curriculo object that needs to be added to the store
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Curriculo'
-        application/xml:
-          schema:
-            $ref: '#/components/schemas/Curriculo'
     Actividad:
       description: Actividad object that needs to be added to the store
       content:
@@ -1991,6 +2001,15 @@ components:
         application/xml:
           schema:
             $ref: '#/components/schemas/Ciclo'
+    Competencia:
+      description: Competencia object that needs to be added to the store
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Competencia'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Competencia'
     Credenciales:
       description: Credenciales para autenticar al usuario
       content:
@@ -2000,6 +2019,15 @@ components:
         application/xml:
           schema:
             $ref: '#/components/schemas/Credenciales'
+    Curriculo:
+      description: Curriculo object that needs to be added to the store
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Curriculo'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Curriculo'
     FamiliaProfesional:
       description: FamiliaProfesional object that needs to be added to the store
       content:
@@ -2018,7 +2046,21 @@ components:
         application/xml:
           schema:
             $ref: '#/components/schemas/Proyecto'
-  securitySchemes:
-    basic_auth:
-      type: http
-      scheme: basic
+    Reconocimiento:
+      description: Reconocimiento object that needs to be added to the store
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Reconocimiento'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Reconocimiento'
+    User:
+      description: User object that needs to be added to the store
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/User'
