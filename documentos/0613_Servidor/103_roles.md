@@ -142,17 +142,15 @@ Actividad | anónimo | anónimo | docente | propietario | propietario
 Ciclo | anónimo | anónimo | admin | admin | admin
 Competencia | anónimo | anónimo | admin | admin | admin
 Competencias_Actividades | anónimo | anónimo | docente | propietario | propietario
-Curriculo | anónimo | anónimo | docente | propietario | propietario
-Docente | anónimo | anónimo | docente | propietario | propietario
-Empresa | anónimo | anónimo | docente | propietario | propietario
-Estudiante | anónimo | anónimo | docente | propietario | propietario
+Curriculo | anónimo | anónimo | estudiante | propietario | propietario
+Empresa | anónimo | anónimo | docente | docente | docente
 FamiliaProfesional | anónimo | anónimo | admin | admin | admin
 Idioma | anónimo | anónimo | admin | admin | admin
-ParticipanteProyecto | anónimo | anónimo | docente | propietario | propietario
-ProyectoCiclo | anónimo | anónimo | docente | propietario | propietario
-Proyecto | anónimo | anónimo | docente | propietario | propietario
+ParticipanteProyecto | anónimo | anónimo | docente | propietario (tutor) | propietario (tutor)
+ProyectoCiclo | anónimo | anónimo | docente | propietario (tutor) | propietario (tutor)
+Proyecto | anónimo | anónimo | docente | propietario (tutor) | propietario (tutor)
 Reconocimiento | anónimo | anónimo | docente | propietario | propietario
-User_ciclo | anónimo | anónimo | docente | propietario | propietario
-UserCompetencia | anónimo | anónimo | docente | propietario | propietario
-User | anónimo | anónimo | docente | propietario | propietario
-UsersIdioma | anónimo | anónimo | docente | propietario | propietario
+User_ciclo | anónimo | anónimo | estudiante | propietario | propietario
+UserCompetencia | anónimo | anónimo | estudiante | propietario | propietario
+User | anónimo | anónimo | anonimo | propietario | propietario
+UsersIdioma | anónimo | anónimo | estudiante | propietario | propietario
