@@ -101,7 +101,7 @@ Hay ocasiones, como ocurre con la acción `create` en el que no se recibe ningun
      */
     public function create(User $user)
     {
-        return $user->id === 1;
+        return $user->email === env(ADMIN_EMAIL);
     }
 ```
 
@@ -121,7 +121,7 @@ use App\Models\User;
  */
 public function before(User $user, $ability)
 {
-    if($user->id === 1) return true;
+    if($user->email === env(ADMIN_EMAIL)) return true;
 }
 ```
 

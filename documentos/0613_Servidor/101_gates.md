@@ -31,17 +31,16 @@ Una vez definido, modificaremos el método `update()` del controlador `Curriculo
  
  class CurriculoController extends Controller
  {
-@@ -46,8 +47,10 @@ public function show(Curriculo $Curriculo)
+@@ -46,8 +47,10 @@ public function show(Curriculo $curriculo)
       */
-     public function update(Request $request, Curriculo $Curriculo)
+     public function update(Request $request, Curriculo $curriculo)
      {
-+        abort_if (! Gate::allows('update-curriculo', $Curriculo), 403);
++        abort_if (! Gate::allows('update-curriculo', $curriculo), 403);
 +
-         $CurriculoData = json_decode($request->getContent(), true);
--        $Curriculo->update($CurriculoData['data']['attributes']);
-+        $Curriculo->update($CurriculoData);
+         $curriculoData = json_decode($request->getContent(), true);
+         $curriculo->update($curriculoData);
  
-         return new CurriculoResource($Curriculo);
+         return new CurriculoResource($curriculo);
 
 ```
 
