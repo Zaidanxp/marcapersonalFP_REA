@@ -63,4 +63,5 @@ Los contenidos que se presentan a continuación constituyen un desarrollo que, i
     1. [Autorización con `gates`](./101_gates.md)
     2. [Autorización con `policies`](./102_policies.md)
     3. [Roles y permisos](./103_roles.md)
+    4. [Ejercicios](./104_ejerciciosAutorizacion.md)
 11. [Manejo de Ficheros en la API](./11_manejarFicheros.md)

@@ -133,25 +133,116 @@ Después de los cambios anteriores, podríamos modificar el fichero de _polític
 +        return $user->esPropietario($curriculo);
      } 
 ```
-## Ejercicios
 
-Debemos crear políticas para cada uno de los modelos que manejamos, de acuerdo a la siguiente tabla:
+## Permitir el acceso a algunos métodos a usuarios anónimos
 
-Modelo| index | show | store | update | destroy
--|-|-|-|-|-
-Actividad | anónimo | anónimo | docente | propietario | propietario
-Ciclo | anónimo | anónimo | admin | admin | admin
-Competencia | anónimo | anónimo | admin | admin | admin
-Competencias_Actividades | anónimo | anónimo | docente | propietario | propietario
-Curriculo | anónimo | anónimo | estudiante | propietario | propietario
-Empresa | anónimo | anónimo | docente | docente | docente
-FamiliaProfesional | anónimo | anónimo | admin | admin | admin
-Idioma | anónimo | anónimo | admin | admin | admin
-ParticipanteProyecto | anónimo | anónimo | docente | propietario (tutor) | propietario (tutor)
-ProyectoCiclo | anónimo | anónimo | docente | propietario (tutor) | propietario (tutor)
-Proyecto | anónimo | anónimo | docente | propietario (tutor) | propietario (tutor)
-Reconocimiento | anónimo | anónimo | docente | propietario | propietario
-User_ciclo | anónimo | anónimo | estudiante | propietario | propietario
-UserCompetencia | anónimo | anónimo | estudiante | propietario | propietario
-User | anónimo | anónimo | anónimo | propietario | propietario
-UsersIdioma | anónimo | anónimo | estudiante | propietario | propietario
+Existen varias soluciones para permitir el acceso a usuarios anónimos a algunos métodos de la API. Las que vamos a ver a continuación pasan, en cualquier caso, por indicar al fichero de _policy_ que algunos de esos métodos se ejecutarán sin la existencia de un usuario autenticado. Para ello, vamos a declarar que el argumento `$user` será opcional para aquellos métodos que permitan el acceso anónimo.
+
+```diff
+     /**
+      * Determine whether the user can view any models.
+      */
+-    public function viewAny(User $user): bool
++    public function viewAny(?User $user): bool
+     {
+-        //
++        return true;
+     }
+ 
+     /**
+      * Determine whether the user can view the model.
+      */
+-    public function view(User $user, Curriculo $curriculo): bool
++    public function view(?User $user, Curriculo $curriculo): bool
+     {
+-        //
++        return true;
+     }
+
+```
+
+### Sacar las rutas index y show fuera del middleware de autenticación
+
+Una solución es sacar las rutas `index` y `show` fuera del middleware de autenticación, de forma que no se compruebe la existencia de un usuario autenticado. Para ello, debemos modificar el fichero `routes/api.php` de la siguiente forma:
+
+```diff
+// en routes/api.php
+ Route::prefix('v1')->group(function () {
++    Route::get('curriculos', [CurriculoController::class, 'index']);
++    Route::get('curriculos/{curriculo}', [CurriculoController::class, 'show']);
+     Route::middleware('auth:sanctum')->group(function () {
+         Route::get('/user', function (Request $request) {
+             $user = $request->user();
+@@ -45,7 +47,8 @@
+         Route::apiResource('familias_profesionales', FamiliaProfesionalController::class)->parameters([
+             'familias_profesionales' => 'familiaProfesional'
+         ]);
+-        Route::apiResource('curriculos', CurriculoController::class);
++        Route::apiResource('curriculos', CurriculoController::class)
++            ->except(['index', 'show']);
+         Route::apiResource('actividades', ActividadController::class)->parameters([
+             'actividades' => 'actividad'
+         ]);
+```
+
+El problema de esta solución es que, como habría que aplicarla a todos los controladores, el fichero de rutas perdería legibilidad.
+
+### Trasladar el _middleware_ de autenticación a los controladores
+
+Otra solución es trasladar el _middleware_ de autenticación a los controladores, de forma que se pueda aplicar a todos los métodos excepto a los que queramos que sean accesibles a usuarios anónimos. Para ello, debemos
+
+- sacar todas las rutas `apiResource` fuera del middleware de autenticación,
+```diff
+// en routes/api.php
+ Route::prefix('v1')->group(function () {
+     Route::middleware('auth:sanctum')->group(function () {
+         Route::get('/user', function (Request $request) {
+             $user = $request->user();
+             $user->fullName = $user->nombre . ' ' . $user->apellidos;
+             return $user;
+         });
+-
+-        Route::apiResource('ciclos', CicloController::class);
+-        Route::apiResource('reconocimientos', ReconocimientoController::class);
+-        Route::apiResource('users', UserController::class);
+-        Route::apiResource('proyectos', ProyectoController::class);
+-        Route::apiResource('empresas', EmpresaController::class);
+-        Route::apiResource('familias_profesionales', FamiliaProfesionalController::class)->parameters([
+-            'familias_profesionales' => 'familiaProfesional'
+-        ]);
+-        Route::apiResource('curriculos', CurriculoController::class)
+-            ->except(['index', 'show']);
+-        Route::apiResource('actividades', ActividadController::class)->parameters([
+-            'actividades' => 'actividad'
+-        ]);
+-        Route::apiResource('competencias', CompetenciaController::class);
+-        Route::apiResource('idiomas', IdiomaController::class);
+     });
+ 
++    Route::apiResource('ciclos', CicloController::class);
++    Route::apiResource('reconocimientos', ReconocimientoController::class);
++    Route::apiResource('users', UserController::class);
++    Route::apiResource('proyectos', ProyectoController::class);
++    Route::apiResource('empresas', EmpresaController::class);
++    Route::apiResource('familias_profesionales', FamiliaProfesionalController::class)->parameters([
++        'familias_profesionales' => 'familiaProfesional'
++    ]);
++    Route::apiResource('curriculos', CurriculoController::class);
++    Route::apiResource('actividades', ActividadController::class)->parameters([
++        'actividades' => 'actividad'
++    ]);
++    Route::apiResource('competencias', CompetenciaController::class);
++    Route::apiResource('idiomas', IdiomaController::class);
++
+     Route::get('{tabla}/count', [CountController::class, 'count']);
+```
+- añadir el _middleware_ de autenticación al constructor de cada controlador:
+```diff
+// en app/Http/Controllers/API/CurriculoController.php
+     public function __construct()
+     {
++        $this->middleware('auth:sanctum')->except(['index', 'show']);
+         $this->authorizeResource(Curriculo::class, 'curriculo');
+     }
+
+```
