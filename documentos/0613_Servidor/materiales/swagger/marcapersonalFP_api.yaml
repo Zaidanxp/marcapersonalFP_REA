@@ -46,7 +46,7 @@ externalDocs:
   url: >-
     https://github.com/2DAW-CarlosIII/marcapersonalFP_REA/blob/master/documentos/Proyecto%20Marca%20Personal%20FP.pdf
 servers:
-  - url: https://localhost/api/v1
+  - url: http://localhost/api/v1
     variables: {}
     description: Servidor localhost
   - url: http://marcapersonalFP.test/api/v1
@@ -59,7 +59,7 @@ servers:
     variables: {}
     description: Entorno React
 tags:
-  - name: tokens
+  - name: authentication
     description: Operaciones con los tokens
   - name: actividad
     description: Operaciones con las actividades
@@ -81,11 +81,13 @@ tags:
     description: Operaciones con los reconocimientos
   - name: user
     description: Operaciones con los usuarios
+security:
+  - bearerAuth: [] 
 paths:
   /tokens:
     post:
       tags:
-        - tokens
+        - authentication
       summary: Asocia un nuevo token al usuario
       description: Asocia un nuevo token al usuario con su email y password
       operationId: createToken
@@ -117,13 +119,67 @@ paths:
           description: Invalid credentials
     delete:
       tags:
-        - tokens
+        - authentication
       summary: Elimina el token asociado al usuario
       description: Elimina el token asociado al usuario
       operationId: deleteToken
       responses:
         '200':
           description: Operación exitosa
+  /login:
+    post:
+      tags:
+        - authentication
+      summary: Logs user into the system
+      description: ''
+      operationId: loginUser
+      parameters:
+        - name: email
+          in: query
+          description: The user email for login
+          required: false
+          schema:
+            type: string
+        - name: password
+          in: query
+          description: The password for login in clear text
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          headers:
+            X-Rate-Limit:
+              description: calls per hour allowed by the user
+              schema:
+                type: integer
+                format: int32
+            X-Expires-After:
+              description: date in UTC when token expires
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/xml:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Invalid username/password supplied
+  /logout:
+    post:
+      tags:
+        - authentication
+      summary: Logs out current logged in user session
+      description: ''
+      operationId: logoutUser
+      parameters: []
+      responses:
+        default:
+          description: successful operation
   /{tabla}/count:
     get:
       summary: Número de registros de una determinada tabla.
@@ -152,16 +208,37 @@ paths:
       description: Devuelve todas las actividades
       operationId: getActividades
       parameters:
-        - name: size
+        - name: q
           in: query
-          description: Número máximo de actividades a devolver
+          description: texto a buscar
           required: false
           schema:
             type: integer
             format: int32
-        - name: page
+        - name: _start
           in: query
-          description: Número de actividades a saltar
+          description: posición del registro inicial a mostrar
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: _end
+          in: query
+          description: posición del registro final a mostrar
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: _sort
+          in: query
+          description: columna por la que ordenar
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: _order
+          in: query
+          description: dirección de la ordenación
           required: false
           schema:
             type: integer
@@ -299,16 +376,37 @@ paths:
       description: Devuelve todos los ciclos
       operationId: getCiclos
       parameters:
-        - name: size
+        - name: q
           in: query
-          description: Número máximo de ciclos a devolver
+          description: texto a buscar
           required: false
           schema:
             type: integer
             format: int32
-        - name: page
+        - name: _start
           in: query
-          description: Número de ciclos a saltar
+          description: posición del registro inicial a mostrar
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: _end
+          in: query
+          description: posición del registro final a mostrar
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: _sort
+          in: query
+          description: columna por la que ordenar
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: _order
+          in: query
+          description: dirección de la ordenación
           required: false
           schema:
             type: integer
@@ -446,16 +544,37 @@ paths:
       description: Devuelve todas los competencias
       operationId: getCompetencias
       parameters:
-        - name: size
+        - name: q
           in: query
-          description: Número máximo de competencias a devolver
+          description: texto a buscar
           required: false
           schema:
             type: integer
             format: int32
-        - name: page
+        - name: _start
           in: query
-          description: Número de competencias a saltar
+          description: posición del registro inicial a mostrar
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: _end
+          in: query
+          description: posición del registro final a mostrar
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: _sort
+          in: query
+          description: columna por la que ordenar
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: _order
+          in: query
+          description: dirección de la ordenación
           required: false
           schema:
             type: integer
@@ -593,16 +712,37 @@ paths:
       description: Devuelve todos los curriculos
       operationId: getCurriculos
       parameters:
-        - name: size
+        - name: q
           in: query
-          description: Número máximo de curriculos a devolver
+          description: texto a buscar
           required: false
           schema:
             type: integer
             format: int32
-        - name: page
+        - name: _start
           in: query
-          description: Número de curriculos a saltar
+          description: posición del registro inicial a mostrar
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: _end
+          in: query
+          description: posición del registro final a mostrar
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: _sort
+          in: query
+          description: columna por la que ordenar
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: _order
+          in: query
+          description: dirección de la ordenación
           required: false
           schema:
             type: integer
@@ -740,16 +880,37 @@ paths:
       description: Devuelve todas los empresas
       operationId: getEmpresas
       parameters:
-        - name: size
+        - name: q
           in: query
-          description: Número máximo de empresas a devolver
+          description: texto a buscar
           required: false
           schema:
             type: integer
             format: int32
-        - name: page
+        - name: _start
           in: query
-          description: Número de empresas a saltar
+          description: posición del registro inicial a mostrar
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: _end
+          in: query
+          description: posición del registro final a mostrar
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: _sort
+          in: query
+          description: columna por la que ordenar
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: _order
+          in: query
+          description: dirección de la ordenación
           required: false
           schema:
             type: integer
@@ -887,16 +1048,37 @@ paths:
       description: Devuelve todas las familias profesionales
       operationId: getFamiliasProfesionales
       parameters:
-        - name: size
+        - name: q
           in: query
-          description: Número máximo de familias profesionales a devolver
+          description: texto a buscar
           required: false
           schema:
             type: integer
             format: int32
-        - name: page
+        - name: _start
           in: query
-          description: Número de familias profesionales a saltar
+          description: posición del registro inicial a mostrar
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: _end
+          in: query
+          description: posición del registro final a mostrar
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: _sort
+          in: query
+          description: columna por la que ordenar
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: _order
+          in: query
+          description: dirección de la ordenación
           required: false
           schema:
             type: integer
@@ -1034,16 +1216,37 @@ paths:
       description: Devuelve todas los idiomas
       operationId: getIdiomas
       parameters:
-        - name: size
+        - name: q
           in: query
-          description: Número máximo de idiomas a devolver
+          description: texto a buscar
           required: false
           schema:
             type: integer
             format: int32
-        - name: page
+        - name: _start
           in: query
-          description: Número de idiomas a saltar
+          description: posición del registro inicial a mostrar
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: _end
+          in: query
+          description: posición del registro final a mostrar
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: _sort
+          in: query
+          description: columna por la que ordenar
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: _order
+          in: query
+          description: dirección de la ordenación
           required: false
           schema:
             type: integer
@@ -1181,16 +1384,37 @@ paths:
       description: Devuelve todos los proyectos
       operationId: getProyectos
       parameters:
-        - name: size
+        - name: q
           in: query
-          description: Número máximo de proyectos a devolver
+          description: texto a buscar
           required: false
           schema:
             type: integer
             format: int32
-        - name: page
+        - name: _start
           in: query
-          description: Número de proyectos a saltar
+          description: posición del registro inicial a mostrar
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: _end
+          in: query
+          description: posición del registro final a mostrar
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: _sort
+          in: query
+          description: columna por la que ordenar
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: _order
+          in: query
+          description: dirección de la ordenación
           required: false
           schema:
             type: integer
@@ -1328,16 +1552,37 @@ paths:
       description: Devuelve todos los reconocimientos
       operationId: getReconocimientos
       parameters:
-        - name: size
+        - name: q
           in: query
-          description: Número máximo de reconocimientos a devolver
+          description: texto a buscar
           required: false
           schema:
             type: integer
             format: int32
-        - name: page
+        - name: _start
           in: query
-          description: Número de reconocimientos a saltar
+          description: posición del registro inicial a mostrar
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: _end
+          in: query
+          description: posición del registro final a mostrar
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: _sort
+          in: query
+          description: columna por la que ordenar
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: _order
+          in: query
+          description: dirección de la ordenación
           required: false
           schema:
             type: integer
@@ -1475,16 +1720,37 @@ paths:
       description: Devuelve todos los usuarios
       operationId: getUsers
       parameters:
-        - name: size
+        - name: q
           in: query
-          description: Número máximo de usuarios a devolver
+          description: texto a buscar
           required: false
           schema:
             type: integer
             format: int32
-        - name: page
+        - name: _start
           in: query
-          description: Número de usuarios a saltar
+          description: posición del registro inicial a mostrar
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: _end
+          in: query
+          description: posición del registro final a mostrar
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: _sort
+          in: query
+          description: columna por la que ordenar
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: _order
+          in: query
+          description: dirección de la ordenación
           required: false
           schema:
             type: integer
@@ -1614,60 +1880,27 @@ paths:
       responses:
         '400':
           description: Invalid user value
-  /../../login:
-    post:
+  /user:
+    get:
       tags:
         - user
-      summary: Logs user into the system
+      summary: Show profile of authenticated user
       description: ''
-      operationId: loginUser
-      parameters:
-        - name: email
-          in: query
-          description: The user email for login
-          required: false
-          schema:
-            type: string
-        - name: password
-          in: query
-          description: The password for login in clear text
-          required: false
-          schema:
-            type: string
+      operationId: getAuthenticatedUser
       responses:
         '200':
           description: successful operation
-          headers:
-            X-Rate-Limit:
-              description: calls per hour allowed by the user
-              schema:
-                type: integer
-                format: int32
-            X-Expires-After:
-              description: date in UTC when token expires
-              schema:
-                type: string
-                format: date-time
           content:
-            application/xml:
-              schema:
-                type: string
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/User'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+        '302':
+          description: User not authenticated
         '400':
-          description: Invalid username/password supplied
-  /../../logout:
-    post:
-      tags:
-        - user
-      summary: Logs out current logged in user session
-      description: ''
-      operationId: logoutUser
-      parameters: []
-      responses:
-        default:
-          description: successful operation
+          description: Invalid username supplied
   /profile:
     get:
       tags:
@@ -1735,14 +1968,6 @@ components:
         insignia:
           type: string
           format: image
-        reconocimientos:
-          type: array
-          items:
-            $ref: '#/components/schemas/Reconocimiento'
-        competencias:
-          type: array
-          items:
-            $ref: '#/components/schemas/Competencia'
       xml:
         name: actividad
     Ciclo:
@@ -1807,7 +2032,7 @@ components:
           type: string
           description: URL al videocurrículo
           example: https://youtu.be/2in5XMTlSWg
-        pdf_curriculum:
+        texto_curriculum:
           type: string
           description: fichero con el currículo
           example: miCurriculo.pdf
@@ -1877,6 +2102,8 @@ components:
           type: integer
           format: int64
           example: 10
+        docente_id:
+          $ref: '#/components/schemas/User'
         nombre:
           type: string
           description: Nombre del proyecto
@@ -1893,16 +2120,6 @@ components:
             fecha_inicio: '2023-01-15'
             fecha_fin: '2023-05-30'
             calificacion: 9.5
-        tutor:
-          $ref: '#/components/schemas/User'
-        ciclos:
-          type: array
-          items:
-            $ref: '#/components/schemas/Ciclo'
-        estudiantes:
-          type: array
-          items:
-            $ref: '#/components/schemas/User'
       xml:
         name: proyecto
     Reconocimiento:
@@ -1932,13 +2149,10 @@ components:
           type: integer
           format: int64
           example: 10
-        name:
+        firstName:
           type: string
           example: John
-        nombre:
-          type: string
-          example: John
-        apellidos:
+        lastName:
           type: string
           example: James
         email:
@@ -1947,42 +2161,51 @@ components:
         password:
           type: string
           example: '12345'
-        email_verified_at:
+        linkedIn:
           type: string
-          example: '2024-01-25T10:53:02.000000Z'
-        created_at:
-          type: string
-          example: '2024-01-25T10:53:02.000000Z'
-        updated_at:
-          type: string
-          example: '2024-01-25T10:53:02.000000Z'
-        avatar:
-          type: string
-        curriculo:
-          $ref: '#/components/schemas/User'
-        idiomas:
-          type: array
-          items:
-            $ref: '#/components/schemas/Idioma'
-        actividades:
-          type: array
-          items:
-            $ref: '#/components/schemas/Actividad'
-        proyectos:
-          type: array
-          items:
-            $ref: '#/components/schemas/Proyecto'
-        competencias:
-          type: array
-          items:
-            $ref: '#/components/schemas/Competencia'
-        ciclos:
-          type: array
-          items:
-            $ref: '#/components/schemas/Ciclo'
+          example: linkedinProfile
       xml:
         name: user
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+      xml:
+        name: '##default'
   requestBodies:
+    User:
+      description: User object that needs to be added to the store
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/User'
+    Reconocimiento:
+      description: Reconocimiento object that needs to be added to the store
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Reconocimiento'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Reconocimiento'
+    Curriculo:
+      description: Curriculo object that needs to be added to the store
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Curriculo'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Curriculo'
     Actividad:
       description: Actividad object that needs to be added to the store
       content:
@@ -2001,15 +2224,6 @@ components:
         application/xml:
           schema:
             $ref: '#/components/schemas/Ciclo'
-    Competencia:
-      description: Competencia object that needs to be added to the store
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Competencia'
-        application/xml:
-          schema:
-            $ref: '#/components/schemas/Competencia'
     Credenciales:
       description: Credenciales para autenticar al usuario
       content:
@@ -2019,15 +2233,6 @@ components:
         application/xml:
           schema:
             $ref: '#/components/schemas/Credenciales'
-    Curriculo:
-      description: Curriculo object that needs to be added to the store
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Curriculo'
-        application/xml:
-          schema:
-            $ref: '#/components/schemas/Curriculo'
     FamiliaProfesional:
       description: FamiliaProfesional object that needs to be added to the store
       content:
@@ -2046,21 +2251,8 @@ components:
         application/xml:
           schema:
             $ref: '#/components/schemas/Proyecto'
-    Reconocimiento:
-      description: Reconocimiento object that needs to be added to the store
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Reconocimiento'
-        application/xml:
-          schema:
-            $ref: '#/components/schemas/Reconocimiento'
-    User:
-      description: User object that needs to be added to the store
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/User'
-        application/xml:
-          schema:
-            $ref: '#/components/schemas/User'
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT    # optional, arbitrary value for documentation purposes
