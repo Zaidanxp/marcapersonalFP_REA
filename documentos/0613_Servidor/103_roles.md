@@ -57,6 +57,7 @@ Además, queremos modificar la inicialización de los usuarios para tener 10 doc
 -        User::factory(10)->create();
 +        // Crear 10 usuarios con el estado docente
 +        User::factory(10)->docente()->create();
++        // Crear 30 usuarios con el estado estudiante
 +        User::factory(30)->estudiante()->create();
  
  
@@ -69,8 +70,8 @@ Además, queremos modificar la inicialización de los usuarios para tener 10 doc
      {
          return [
 -            'name' => fake()->name(),
--            'email' => fake()->unique()->safeEmail(),
 +            'name' => fake()->unique()->userName(),
+             'email' => fake()->unique()->safeEmail(),
              'email_verified_at' => now(),
              'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
              'remember_token' => Str::random(10),
@@ -120,7 +121,7 @@ Después de los cambios anteriores, podríamos modificar el fichero de _polític
      public function create(User $user): bool
      {
 -        return $user->email === env('ADMIN_EMAIL');
-+        return $user->esDocente();
++        return $user->esEstudiante();
      }
  
      /**
@@ -152,5 +153,5 @@ Proyecto | anónimo | anónimo | docente | propietario (tutor) | propietario (tu
 Reconocimiento | anónimo | anónimo | docente | propietario | propietario
 User_ciclo | anónimo | anónimo | estudiante | propietario | propietario
 UserCompetencia | anónimo | anónimo | estudiante | propietario | propietario
-User | anónimo | anónimo | anonimo | propietario | propietario
+User | anónimo | anónimo | anónimo | propietario | propietario
 UsersIdioma | anónimo | anónimo | estudiante | propietario | propietario
