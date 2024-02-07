@@ -95,9 +95,9 @@ El atributo recién creado `url_github` lo incluiremos también entre los campos
 ```diff
          'metadatos',
          'calificacion',
--         'fichero'
-+         'fichero',
-+         'url_github',
+-        'fichero'
++        'fichero',
++        'url_github',
      ];
 ```
 
@@ -198,6 +198,7 @@ Para crear un nuevo repositorio en GitHub, vamos a utilizar el servicio que hemo
 +        if($githubResponse->getStatusCode() === 201) {
 +            $githubResponse = $this->client->get($githubResponse->getHeader('Location')[0]);
 +        }
++
 +        return $githubResponse;
 +    }
 +
@@ -294,7 +295,10 @@ La realización de los anteriores pasos requiere añadir los siguientes métodos
     public function unzipFiles(Proyecto $proyecto, $tmpdir)
     {
         $zip = new ZipArchive;
-        $zipPath = storage_path($proyecto->fichero);
+        $zipPath = storage_path()
+            . DIRECTORY_SEPARATOR . "app"
+            . DIRECTORY_SEPARATOR . "public"
+            . DIRECTORY_SEPARATOR . $proyecto->fichero;
         $zip->open($zipPath);
         $zip->extractTo($tmpdir);
         $zip->close();
@@ -304,8 +308,17 @@ La realización de los anteriores pasos requiere añadir los siguientes métodos
     {
         $owner = env('GITHUB_OWNER');
         $path = $file->getRelativePathname();
-        $response = $this->client->get("/repos/{$owner}/{$repoName}/contents/{$path}");
-        return $response->json()['sha'];
+        try {
+            $response = $this->client->get("/repos/{$owner}/{$repoName}/contents/{$path}");
+        } catch (\Exception $e) {
+        }
+
+        if (isset($response) && $response->getStatusCode() === 200) {
+            $sha = json_decode($response->getBody(), true)['sha'];
+        } else {
+            $sha = null;
+        }
+        return $sha;
     }
 
     public function sendFile(Proyecto $proyecto, $file)
@@ -333,6 +346,69 @@ use Illuminate\Support\Facades\File;
 use ZipArchive;
 ```
 
+También debemos añadir
+
+```diff
+    public function getRepoNameFromURL() {
+        $url = $this->url_github;
+        $repoName = substr($url, strripos($url, '/') + 1);
+        return $repoName;
+    }
++
++    public function urlPerteneceOrganizacion() {
++        return strpos($this->url_github, env('GITHUB_OWNER')) > 0;
++    }
+
+     public function ciclos(): BelongsToMany
+     {
+```
+
 ### Cambios en el controlador
 
-Para poder utilizar el _Service Provider_ que hemos creado, vamos a modificar el controlador `ProyectoController` para que utilice el _Service Provider_, después de la subida del fichero en el método `update`:
+Para poder utilizar el _Service Provider_ que hemos creado, vamos a modificar el controlador `ProyectoController` para que utilice el _Service Provider_, después de la subida del fichero en el método `update`.
+
+En primer lugar, debemos inyectar el _Service Provider_ en el constructor del controlador:
+
+```diff
+class ProyectoController extends Controller
+{
+
+     public $modelclass = Proyecto::class;
++    protected $githubService;
+
+-    public function __construct()
++    public function __construct(GitHubServiceProvider $githubService)
+     {
+         $this->middleware('auth:sanctum')->except(['index', 'show']);
+         $this->authorizeResource(Proyecto::class, 'proyecto');
++        $this->githubService = $githubService;
++
+     }
+```
+
+A continuación, ya podemos utilizar ese _Service Provider_ en el método `update`:
+
+```diff
+             $proyectoData['fichero'] = $proyecto->fichero;
+         }
+
++        if (isset($path) && strlen($proyecto->url_github) == 0) {
++            $githubResponse = $this->githubService->createRepo($proyecto);
++
++            if($githubResponse->getStatusCode() === 200) {
++                $jsonResponse = json_decode($githubResponse->getBody(), true);
++                $proyectoData['url_github'] = $jsonResponse['html_url'];
++            }
++        }
++
+         $proyecto->update($proyectoData);
+
++        if (isset($path) && $proyecto->urlPerteneceOrganizacion()) {
++            $this->githubService->pushZipFiles($proyecto);
++        }
++
++        // $this->githubService->deleteRepo($proyecto);
++
+         return new ProyectoResource($proyecto);
+     }
+```

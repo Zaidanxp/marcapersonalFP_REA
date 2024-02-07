@@ -108,7 +108,7 @@ Para ello, vamos a modficar el fichero `resources/js/react-admin/dataProvider.ts
 const dataProvider = jsonServerProvider(
      httpClient
  );
- 
+
 +const originalDataProvider = jsonServerProvider(
 +    import.meta.env.VITE_JSON_SERVER_URL,
 +    httpClient
@@ -122,7 +122,7 @@ y
 ```diff
      });
  };
- 
+
 +dataProvider.update = (resource, params) => {
 +    if (resource !== 'proyectos' || !params.data.attachments) {
 +        return originalDataProvider.update(resource, params);
