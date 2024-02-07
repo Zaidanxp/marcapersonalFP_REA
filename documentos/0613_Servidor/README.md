@@ -65,3 +65,4 @@ Los contenidos que se presentan a continuación constituyen un desarrollo que, i
     3. [Roles y permisos](./103_roles.md)
     4. [Ejercicios](./104_ejerciciosAutorizacion.md)
 11. [Manejo de Ficheros en la API](./11_manejarFicheros.md)
+12. [Consumiendo API externas](./12_apiExterna.md)
