@@ -66,3 +66,4 @@ Los contenidos que se presentan a continuación constituyen un desarrollo que, i
     4. [Ejercicios](./104_ejerciciosAutorizacion.md)
 11. [Manejo de Ficheros en la API](./11_manejarFicheros.md)
 12. [Consumiendo API externas](./12_apiExterna.md)
+    1. [Ejercicios API externas](./121_ejerciciosAPI.md)
