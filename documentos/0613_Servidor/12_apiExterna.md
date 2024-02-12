@@ -180,7 +180,7 @@ En el código anterior hemos definido los parámetros de la cabecera que se util
 
 #### Crear un nuevo repositorio
 
-Para crear un nuevo repositorio en GitHub, vamos a utilizar el servicio que hemos definido en el Service Provider, al que le vamos a aádir un método `createRepo(Proyecto $proyecto)`, que recibirá una instancia del modelo `Proyecto` y que se encargará de realizar la petición a la API de GitHub para crear un nuevo repositorio.
+Para crear un nuevo repositorio en GitHub, vamos a utilizar el servicio que hemos definido en el Service Provider, al que le vamos a añadir un método `createRepo(Proyecto $proyecto)`, que recibirá una instancia del modelo `Proyecto` y que se encargará de realizar la petición a la API de GitHub para crear un nuevo repositorio.
 
 ```diff
     public function __construct()
@@ -234,7 +234,7 @@ Para que este método funcione, necesitamos que el modelo `Proyecto` tenga un m�
 
 #### Borrar el repositorio
 
-Para borrar un repositorio en GitHub, vamos a utilizar el servicio que hemos definido en el Service Provider, al que le vamos a aádir un método `deleteRepo(Proyecto $proyecto)`, que recibirá una instancia del modelo `Proyecto` y que se encargará de realizar la petición a la API de GitHub para borrar el repositorio.
+Para borrar un repositorio en GitHub, vamos a utilizar el servicio que hemos definido en el Service Provider, al que le vamos a añadir un método `deleteRepo(Proyecto $proyecto)`, que recibirá una instancia del modelo `Proyecto` y que se encargará de realizar la petición a la API de GitHub para borrar el repositorio.
 
 ```diff
          return $githubResponse;
